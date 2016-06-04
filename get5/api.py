@@ -3,14 +3,30 @@ from util import as_int
 from models import Match, MapStats, PlayerStats, GameServer
 
 from flask import Blueprint, request
+import flask_limiter
 
+import re
 import datetime
 
 api_blueprint = Blueprint('api', __name__)
 
 
+_matchid_re = re.compile('/match/(\d*)/.*')
 def rate_limit_key():
-    return request.values.get('key')
+    try:
+        match = _matchid_re.search(request.path)
+        matchid = int(match.group(1))
+        if matchid:
+            # If the key matches, rate limit by the api key
+            api_key = Match.query.get_or_404(matchid).api_key
+            if api_key == request.values.get('key'):
+                return api_key
+
+    except Exception:
+        pass
+
+    # Otherwise, rate limit by IP address
+    return flask_limiter.util.get_remote_address()
 
 
 def match_api_check(request, match):

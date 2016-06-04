@@ -83,6 +83,17 @@ class TeamTests(get5_test.Get5Test):
         self.assertEqual(team.flag, 'ru')
         self.assertEqual(team.logo, 'newlogo')
 
+        # Now delete the team
+        with self.app as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
+
+            response = c.get('/team/3/delete')
+            self.assertEqual(response.status_code, 302)
+        team = Team.query.get(3)
+        self.assertIsNone(team)
+
+
     # Make sure a user can't edit someone else's teams
     def test_edit_team_wronguser(self):
         with self.app as c:

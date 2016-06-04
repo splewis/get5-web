@@ -109,9 +109,17 @@ class Team(db.Model):
             return False
         if self.user_id == user.id:
             return True
-        if user.admin and self.user_id == User.get_public_user().id:
+        if user.admin and self.is_public_team():
             return True
         return False
+
+    def can_delete(self, user):
+        if not self.can_edit(user):
+            return False
+        return self.get_recent_matches().count() == 0
+
+    def is_public_team(self):
+        return self.user_id == User.get_public_user().id
 
     def get_recent_matches(self, limit=10):
         owner = User.query.get(self.user_id)

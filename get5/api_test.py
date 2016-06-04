@@ -154,6 +154,25 @@ class ApiTests(get5_test.Get5Test):
 
         self.assertEqual(response.status_code, 429)  # too many requests
 
+    def test_rate_limiting_different_keys(self):
+        match = Match.query.get(1)
+        data = {
+            'key': match.api_key,
+        }
+
+        # first response should be work
+        response = self.app.post('/match/1/map/0/start', data=data)
+        self.assertEqual(response.status_code, 200)
+
+        # send 500 more requests
+        for i in range(1, 500):
+            data = {
+                'key': str(i),
+            }
+            response = self.app.post('/match/1/map/0/start', data=data)
+
+        self.assertEqual(response.status_code, 429)  # too many requests
+
 
 if __name__ == '__main__':
     unittest.main()

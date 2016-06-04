@@ -130,6 +130,17 @@ def team_edit(teamid):
 
     return render_template('team_create.html', user=g.user, form=form, edit=True)
 
+@team_blueprint.route('/team/<int:teamid>/delete')
+def team_delete(teamid):
+    team = Team.query.get_or_404(teamid)
+    if not team.can_delete(g.user):
+        return 'Cannot delete this team', 400
+
+    if Team.query.filter_by(id=teamid).delete():
+        db.session.commit()
+
+    return redirect('/myteams')
+
 
 @team_blueprint.route('/teams/<int:userid>', methods=['GET'])
 def teams_user(userid):

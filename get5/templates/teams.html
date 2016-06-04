@@ -20,6 +20,12 @@
 
       <a href="{{ team.get_url() }}" class="col-sm-offset-1"> {{team.name}}</a>
 
+      {% if team.can_delete(user) %}
+      <div class="pull-right">
+        <a href="/team/{{team.id}}/delete" class="btn btn-danger btn-xs">Delete</a>
+      </div>
+      {% endif %}
+
       {% if team.can_edit(user) %}
       <div class="pull-right">
         <a href="/team/{{team.id}}/edit" class="btn btn-primary btn-xs">Edit</a>
