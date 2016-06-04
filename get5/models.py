@@ -231,14 +231,19 @@ class Match(db.Model):
             team1_score, team2_score = self.get_current_score()
             return 'Live, {}:{}'.format(team1_score, team2_score)
         elif self.finished():
+            t1score, t2score = self.get_current_score()
+            min_score = min(t1score, t2score)
+            max_score = max(t1score, t2score)
+            score_string = '{}:{}'.format(max_score, min_score)
+
             if not show_winner:
                 return 'Finished'
             elif self.winner == self.team1_id:
-                return 'Won by {}'.format(self.get_team1().name)
+                return 'Won {} by {}'.format(score_string, self.get_team1().name)
             elif self.winner == self.team2_id:
-                return 'Won by {}'.format(self.get_team2().name)
+                return 'Won {} by {}'.format(score_string, self.get_team2().name)
             else:
-                return 'Tied'
+                return 'Tied {}'.format(score_string)
 
         else:
             return 'Cancelled'
