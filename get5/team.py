@@ -9,7 +9,7 @@ from flask import Blueprint, request, render_template, flash, g, redirect
 
 from wtforms import (
     Form, validators,
-    StringField,
+    StringField, BooleanField,
     SelectField, ValidationError)
 
 team_blueprint = Blueprint('team', __name__)
@@ -43,6 +43,7 @@ class TeamForm(Form):
     auth5 = StringField('Player 5', validators=[valid_auth])
     auth6 = StringField('Player 6', validators=[valid_auth])
     auth7 = StringField('Player 7', validators=[valid_auth])
+    public_team = BooleanField('Public Team')
 
     def get_auth_list(self):
         auths = []
@@ -70,7 +71,7 @@ def team_create():
             auths = form.get_auth_list()
 
             team = Team.create(g.user, data['name'],
-                data['country_flag'], data['logo'], auths)
+                data['country_flag'], data['logo'], auths, data['public_team'])
 
             db.session.commit()
             app.logger.info(
@@ -80,7 +81,8 @@ def team_create():
         else:
             get5.flash_errors(form)
 
-    return render_template('team_create.html', user=g.user, form=form, edit=False)
+    return render_template('team_create.html', user=g.user, form=form,
+        edit=False, is_admin=g.user.admin)
 
 
 @team_blueprint.route('/team/<int:teamid>', methods=['GET'])
@@ -92,9 +94,10 @@ def team(teamid):
 @team_blueprint.route('/team/<int:teamid>/edit', methods=['GET', 'POST'])
 def team_edit(teamid):
     team = Team.query.get_or_404(teamid)
-    is_owner = (g.user.id == team.user_id)
-    if not is_owner:
+    if not team.can_edit(g.user):
         return 'Not your team', 400
+
+    public_team = (team.user_id == User.get_public_user().id)
 
     form = TeamForm(
         request.form,
@@ -107,10 +110,12 @@ def team_edit(teamid):
         auth4=team.auths[3],
         auth5=team.auths[4],
         auth6=team.auths[5],
-        auth7=team.auths[6])
+        auth7=team.auths[6],
+        public_team=public_team)
 
     if request.method == 'GET':
-        return render_template('team_create.html', user=g.user, form=form, owner=is_owner, edit=True)
+        return render_template('team_create.html', user=g.user, form=form,
+            edit=True, is_admin=g.user.admin)
 
     elif request.method == 'POST':
         if request.method == 'POST':
@@ -123,7 +128,7 @@ def team_edit(teamid):
             else:
                 flash_errors(form)
 
-    return render_template('team_create.html', user=g.user, form=form, owner=is_owner, edit=True)
+    return render_template('team_create.html', user=g.user, form=form, edit=True)
 
 
 @team_blueprint.route('/teams/<int:userid>', methods=['GET'])

@@ -20,7 +20,7 @@
 
       <a href="{{ team.get_url() }}" class="col-sm-offset-1"> {{team.name}}</a>
 
-      {% if user.id == team.user_id %}
+      {% if team.can_edit(user) %}
       <div class="pull-right">
         <a href="/team/{{team.id}}/edit" class="btn btn-primary btn-xs">Edit</a>
       </div>

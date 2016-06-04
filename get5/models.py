@@ -1,4 +1,4 @@
-from get5 import db
+from get5 import app, db
 import countries
 import util
 
@@ -24,7 +24,15 @@ class User(db.Model):
             rv = User()
             rv.steam_id = steam_id
             db.session.add(rv)
+
+        if 'ADMIN_IDS' in app.config:
+            rv.admin = steam_id in app.config['ADMIN_IDS']
+
         return rv
+
+    @staticmethod
+    def get_public_user():
+        return User.get_or_create(0)
 
     def get_url(userid):
         return url_for('user', userid=userid)
@@ -71,9 +79,13 @@ class Team(db.Model):
     auths = db.Column(db.PickleType)
 
     @staticmethod
-    def create(user, name, flag, logo, auths):
+    def create(user, name, flag, logo, auths, as_admin=False):
         rv = Team()
-        rv.user_id = user.id
+        if as_admin and user.admin:
+            rv.user_id = User.get_public_user().id
+        else:
+            rv.user_id = user.id
+
         rv.set_data(name, flag, logo, auths)
         db.session.add(rv)
         return rv
@@ -82,6 +94,15 @@ class Team(db.Model):
         self.name = name
         self.flag = flag.lower() if flag else ''
         self.auths = auths
+
+    def can_edit(self, user):
+        if not user:
+            return False
+        if self.user_id == user.id:
+            return True
+        if user.admin and self.user_id == User.get_public_user().id:
+            return True
+        return False
 
     def get_recent_matches(self, limit=10):
         owner = User.query.get(self.user_id)

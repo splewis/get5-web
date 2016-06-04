@@ -81,6 +81,15 @@
       </div>
     </div>
 
+    {% if is_admin %}
+    <div class="form-group">
+      {{ form.public_team.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-offset-1">
+        {{ form.public_team() }}
+      </div>
+    </div>
+    {% endif %}
+
     {% if edit %}
     <div class="input submit col-sm-offset-1">
       <input type="submit" class="btn btn-primary" value="Update Team">

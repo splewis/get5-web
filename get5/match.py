@@ -91,14 +91,23 @@ class MatchForm(Form):
                                       )
 
     def add_teams(self, user):
-        team_tuples = [(team.id, team.name) for team in g.user.teams]
-        self.team1_id.choices = team_tuples
-        self.team2_id.choices = team_tuples
+        if self.team1_id.choices is None:
+            self.team1_id.choices = []
+
+        if self.team2_id.choices is None:
+            self.team2_id.choices = []
+
+        team_tuples = [(team.id, team.name) for team in user.teams]
+        self.team1_id.choices += team_tuples
+        self.team2_id.choices += team_tuples
 
     def add_servers(self, user):
+        if self.server_id.choices is None:
+            self.server_id.choices = []
+
         server_tuples = [(server.id, server.get_hostport())
-                         for server in g.user.servers if not server.in_use]
-        self.server_id.choices = server_tuples
+                         for server in user.servers if not server.in_use]
+        self.server_id.choices += server_tuples
 
 
 @match_blueprint.route('/match/create', methods=['GET', 'POST'])
@@ -108,6 +117,7 @@ def match_create():
 
     form = MatchForm(request.form)
     form.add_teams(g.user)
+    form.add_teams(User.get_public_user())
     form.add_servers(g.user)
 
     if request.method == 'POST':

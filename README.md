@@ -21,7 +21,6 @@ pyflakes *.py
 
 Testing:
 ```
-cd get5
 python2.7 -m unittest discover --pattern=*_test.py
 ```
 
