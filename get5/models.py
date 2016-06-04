@@ -101,6 +101,7 @@ class Team(db.Model):
     def set_data(self, name, flag, logo, auths):
         self.name = name
         self.flag = flag.lower() if flag else ''
+        self.logo = logo
         self.auths = auths
 
     def can_edit(self, user):

@@ -36,6 +36,7 @@ class TeamTests(get5_test.Get5Test):
                               data={
                                   'name': 'NiP',
                                   'country_flag': 'se',
+                                  'logo': 'nip',
                                   'auth1': 'STEAM_0:1:52245092'
                               })
             self.assertEqual(response.status_code, 302)
@@ -48,6 +49,7 @@ class TeamTests(get5_test.Get5Test):
         self.assertEqual(team.user_id, 1)
         self.assertEqual(team.name, 'NiP')
         self.assertEqual(team.flag, 'se')
+        self.assertEqual(team.logo, 'nip')
         self.assertEqual(team.auths[0], '76561198064755913')
         self.assertTrue(team in User.query.get(1).teams)
 
@@ -69,6 +71,7 @@ class TeamTests(get5_test.Get5Test):
                               data={
                                   'name': 'NiP2',
                                   'country_flag': 'ru',
+                                  'logo': 'newlogo',
                                   'auth1': 'STEAM_0:1:52245092'
                               })
             self.assertEqual(response.status_code, 302)
@@ -78,6 +81,7 @@ class TeamTests(get5_test.Get5Test):
         team = Team.query.get(3)
         self.assertEqual(team.name, 'NiP2')
         self.assertEqual(team.flag, 'ru')
+        self.assertEqual(team.logo, 'newlogo')
 
     # Make sure a user can't edit someone else's teams
     def test_edit_team_wronguser(self):
