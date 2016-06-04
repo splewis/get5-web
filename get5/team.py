@@ -34,6 +34,8 @@ class TeamForm(Form):
 
     choices = [('', 'None')] + countries.country_choices
     country_flag = SelectField('Country Flag', choices=choices)
+
+    logo = StringField('Logo Name')
     auth1 = StringField('Player 1', validators=[valid_auth])
     auth2 = StringField('Player 2', validators=[valid_auth])
     auth3 = StringField('Player 3', validators=[valid_auth])
@@ -68,7 +70,7 @@ def team_create():
             auths = form.get_auth_list()
 
             team = Team.create(
-                g.user, data['name'], data['country_flag'], auths)
+                g.user, data['name'], data['country_flag'], logo, auths)
 
             db.session.commit()
             app.logger.info(
@@ -98,6 +100,7 @@ def team_edit(teamid):
         request.form,
         name=team.name,
         country_flag=team.flag,
+        logo=team.logo,
         auth1=team.auths[0],
         auth2=team.auths[1],
         auth3=team.auths[2],
@@ -113,8 +116,8 @@ def team_edit(teamid):
         if request.method == 'POST':
             if form.validate():
                 data = form.data
-                team.set_data(
-                    data['name'], data['country_flag'], form.get_auth_list())
+                team.set_data(data['name'], data['country_flag'],
+                              data['logo'], form.get_auth_list())
                 db.session.commit()
                 return redirect('/myteams')
             else:

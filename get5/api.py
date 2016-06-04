@@ -99,6 +99,8 @@ def match_map_finish(matchid, mapnumber):
         elif winner == 'team2':
             map_stats.winner = match.team2_id
             match.team2_score += 1
+        else:
+            map_stats.winner = None
 
         db.session.commit()
     else:

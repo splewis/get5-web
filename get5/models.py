@@ -71,14 +71,14 @@ class Team(db.Model):
     auths = db.Column(db.PickleType)
 
     @staticmethod
-    def create(user, name, flag, auths):
+    def create(user, name, flag, logo, auths):
         rv = Team()
         rv.user_id = user.id
-        rv.set_data(name, flag, auths)
+        rv.set_data(name, flag, logo, auths)
         db.session.add(rv)
         return rv
 
-    def set_data(self, name, flag, auths):
+    def set_data(self, name, flag, logo, auths):
         self.name = name
         self.flag = flag.lower() if flag else ''
         self.auths = auths
@@ -284,8 +284,11 @@ class Match(db.Model):
         add_team_data('team2', self.team2_id)
 
         d['cvars'] = {}
-        d['cvars']['mp_overtime_enabled'] = int(self.overtime_enabled)
-        d['cvars']['mp_match_can_clinch'] = int(not self.playout_enabled)
+
+        d['cvars']['mp_overtime_enabled'] = '1' if (
+            self.overtime_enabled and not self.playout_enabled) else '0'
+
+        d['cvars']['mp_match_can_clinch'] = '0' if self.playout_enabled else '1'
 
         if self.veto_mappool:
             d['maplist'] = []
