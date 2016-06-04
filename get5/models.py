@@ -285,7 +285,9 @@ class Match(db.Model):
 
         d['cvars'] = {}
 
-        d['cvars']['mp_overtime_enabled'] = '1' if (
+        d['cvars']['get5_web_api_url'] = 'http://get5.splewis.net'
+
+        d['cvars']['mp_overtime_enable'] = '1' if (
             self.overtime_enabled and not self.playout_enabled) else '0'
 
         d['cvars']['mp_match_can_clinch'] = '0' if self.playout_enabled else '1'
