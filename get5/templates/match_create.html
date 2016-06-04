@@ -1,0 +1,99 @@
+{% from "macros.html" import show_flashed_messages %}
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+ {{ show_flashed_messages() }}
+
+  <form role="form" action="" method="post" class="form-horizontal">
+
+      {{ form.csrf_token }}
+
+      <div class="form-group">
+        {{ form.server_id.label(class="col-sm-2 control-label") }}
+          <div class="col-sm-3">
+            {{ form.server_id(class="form-control input-sm") }}
+          </div>
+          <a href="/server/create" class="btn btn-primary">Create a server</a>
+      </div>
+
+      <div class="form-group">
+        {{ form.team1_id.label(class="col-sm-2 control-label") }}
+          <div class="col-sm-3">
+            {{ form.team1_id(class="form-control input-sm") }}
+          </div>
+          <a href="/team/create" class="btn btn-primary">Create a team</a>
+      </div>
+
+
+      <div class="form-group">
+        {{ form.team2_id.label(class="col-sm-2 control-label") }}
+          <div class="col-sm-3">
+            {{ form.team2_id(class="form-control input-sm") }}
+          </div>
+      </div>
+
+      <br>
+
+      <div class="form-group">
+      {{ form.match_title.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-7">
+          {{ form.match_title(class="form-control input-sm") }}
+          <p class="help-block">This is displayed to spectators and GOTV clients during freezetime.</p>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form group">
+      {{ form.series_type.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-offset-2">
+          {% for subfield in form.series_type %}
+          <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+            <br>
+          </tr>
+        {% endfor %}
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group">
+        {{ form.veto_mappool.label(class="col-sm-2 control-label", style="height:50px") }}
+        <div class="col-sm-offset-2">
+          {% for subfield in form.veto_mappool %}
+          <tr>
+            <td>{{ subfield }}</td>
+            <td>{{ subfield.label }}</td>
+            <br>
+          </tr>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="input submit col-sm-offset-1">
+        <input type="submit" class="btn btn-primary" value="Create Match">
+      </div>
+
+      <br>
+
+  </form>
+
+</div>
+
+<script>
+$("#server_id").chosen()
+$("#team1_id").chosen()
+$("#team2_id").chosen()
+</script>
+
+<script>
+  $(document).ready(function () {
+  $("#match_create").parent().addClass("active"); })
+</script>
+
+{% endblock %}

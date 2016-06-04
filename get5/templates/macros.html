@@ -1,0 +1,55 @@
+{% macro show_flashed_messages() -%}
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="alert alert-danger" role="alert">
+      <ul>
+        {% for message in messages %}
+        <li><b>{{ message[1] }}</b></li>
+        {% endfor %}
+      </ul>
+    </div>
+    <br>
+    {% endif %}
+  {% endwith %}
+
+{%- endmacro %}
+
+
+
+{% macro pagination_buttons(pageobj) -%}
+
+  {% if pageobj.pages > 1 %}
+  <ul class="pagination">
+    {% for i in range(1, pageobj.pages + 1) %}
+    <li id="page{{i}}"><a href="{{request.path}}?page={{i}}">{{i}}</a></li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+
+{%- endmacro %}
+
+
+
+{% macro pagination_active(pageobj) -%}
+
+  {% if pageobj.pages > 1 %}
+  <script>
+      $(document).ready(function () {
+      $("#page{{page}}").addClass("active"); })
+  </script>
+  {% endif %}
+
+{%- endmacro %}
+
+
+
+{% macro score_symbol(score1, score2) %}
+{% if score1 < score2 %}
+<
+{% elif score1 == score2 %}
+==
+{% else %}
+>
+{% endif %}
+{% endmacro %}

@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+  <div class="container">
+    <h1>
+    {{ team.get_flag_html(1.0) }} {{ team.name }}
+    </h1>
+
+    <br>
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Players</div>
+      <div class="panel-body">
+          {% for auth in team.auths %}
+            {% if (auth|length) >= 1 %}
+            <a href="http://steamcommunity.com/profiles/{{auth}}" class="col-sm-offset-0"> {{auth}}</a>
+            <br>
+            {% endif %}
+          {% endfor %}
+      </div>
+    </div>
+
+
+    <div class="panel panel-default">
+      <div class="panel-heading">Recent Matches</div>
+        <div class="panel-body">
+          {% for match in team.get_recent_matches() %}
+          <!-- <li class="list-group-item"> -->
+            <a href="/match/{{match.id}}">#{{match.id}}</a>: {{ team.get_vs_match_result(match.id) }}
+            <br>
+          <!-- </li> -->
+          {% endfor %}
+      </div>
+    </div>
+
+  </div>
+  <br>
+
+</div>
+
+{% endblock %}

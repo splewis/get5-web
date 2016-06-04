@@ -1,0 +1,198 @@
+{% from "macros.html" import score_symbol %}
+
+{% extends "layout.html" %}
+
+{% macro player_stat_table(team, map_stats) %}
+
+  {% for player in map_stats.player_stats.filter_by(team_id=team.id) %}
+  <td> <b>{{ team.name }}</b> </td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
+
+  {% if player.roundsplayed > 0 %}
+    <tr>
+      <td> <a href="{{player.get_steam_url()}}"> {{ player.name }} </a></td>
+      <td> {{ player.kills }}  </td>
+      <td> {{ player.deaths }} </td>
+      <td> {{ player.assists }} </td>
+      <td> {{ player.flashbang_assists }} </td>
+      <td> {{ player.get_rating() | round(2) }} </td>
+      <td> {{ (player.kills / player.roundsplayed) | round(2) }} </td>
+      <td> {{ (player.damage / player.roundsplayed) | round(1) }} </td>
+
+      {% if player.kills == 0 %}
+      <td> {{ (0.0) | round(2) }} </td>
+      {% else %}
+      <td> {{ (player.headshot_kills / player.kills) | round(2) }} </td>
+      {% endif %}
+    </tr>
+  {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+{% block content %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  <div class="panel panel-primary">
+    <div class="panel-heading">Command response</div>
+
+    <div class="panel-body">
+      {% for message in messages %}
+      <b>{{ message[1] }}</b>
+      <br>
+      {% endfor %}
+    </div>
+
+  </div>
+  <br>
+  {% endif %}
+{% endwith %}
+
+<div id="content">
+
+  <div class="container">
+
+    <h1>
+      {{ team1.get_flag_html() }} <a href="/team/{{team1.id}}"> {{team1.name}}</a>
+      {{ match.team1_score }}
+      {{ score_symbol(match.team1_score, match.team2_score) }}
+      {{ match.team2_score }}
+      {{ team2.get_flag_html() }} <a href="/team/{{team2.id}}"> {{team2.name}}</a>
+
+      {% if is_owner and (match.live() or match.pending()) %}
+      <div class="dropdown dropdown-header pull-right">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          Admin tools
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          {% if match.live() %}
+          <li><a id="pause" href="{{request.path}}/pause">Pause match</a></li>
+          <li><a id="unpause" href="{{request.path}}/unpause">Unpause match</a></li>
+          {% endif %}
+          <li><a id="addplayer_team1" href="#">Add player to team1</a></li>
+          <li><a id="addplayer_team2" href="#">Add player to team2</a></li>
+          <li><a id="addplayer_spec" href="#">Add player to specator list</a></li>
+          <li><a id="rcon_command" href="#">Send rcon command</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a id="backup_manager" href="{{request.path}}/backup">Load a backup file</a></li>
+          <li><a href="{{request.path}}/cancel">Cancel match</a></li>
+        </ul>
+      </div>
+      {% endif %}
+
+    </h1>
+
+
+    <br>
+    {% if match.cancelled %}
+    <div class="alert alert-danger" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span class="sr-only">Error:</span>
+        This match has been cancelled.
+    </div>
+    {% endif %}
+
+
+    {% if match.start_time is not none %}
+    <p>Started at {{ match.start_time.strftime('%Y-%m-%d %H:%M') }}</p>
+    {% else %}
+    <div class="panel panel-default" role="alert">
+      <div class="panel-body">
+        This match is pending start.
+      </div>
+    </div>
+    {% endif %}
+
+
+    {% if match.end_time is not none %}
+    <p>Ended at {{ match.end_time.strftime('%Y-%m-%d %H:%M') }}</p>
+    {% endif %}
+
+    {% for map_stats in map_stat_list %}
+    <br>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Map {{map_stats.map_number + 1}}: {{ map_stats.map_name }},
+        {{team1.name}} {{ score_symbol(map_stats.team1_score, map_stats.team2_score) }} {{team2.name}},
+        {{map_stats.team1_score}}:{{map_stats.team2_score}}
+      </div>
+
+      <div class="panel-body">
+        <p>Started at {{ map_stats.start_time.strftime('%Y-%m-%d %H:%M') }}</p>
+
+        {% if map_stats.end_time is not none %}
+        <p>Ended at {{ map_stats.end_time.strftime('%Y-%m-%d %H:%M') }}</p>
+        {% endif %}
+
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Player</th>
+              <th>Kills</th>
+              <th>Deaths</th>
+              <th>Assists</th>
+              <th>Flash assists</th>
+              <th>Rating</th>
+              <th><acronym title="Frags per round">FPR</acronym></th>
+              <th><acronym title="Average damage per round">ADR</acronym></th>
+              <th><acronym title="Headshot percentage">HSP</acronym></th>
+            </tr>
+          </thead>
+          <tbody>
+          {{ player_stat_table(team1, map_stats) }}
+          {{ player_stat_table(team2, map_stats) }}
+          </tbody>
+
+        </table>
+      </div>
+
+    </div>
+    {% endfor %}
+
+  </div>
+
+
+  <br>
+</div>
+
+<script>
+
+jQuery("#addplayer_team1").click(function(e) {
+    var input = prompt("Please enter a steamid to add to {{team1.name}}", "");
+    if (input != null) {
+      window.location.href = "{{request.path}}/adduser?team=team1&auth=" + encodeURIComponent(input);
+    }
+});
+
+jQuery("#addplayer_team2").click(function(e) {
+    var input = prompt("Please enter a steamid to add to {{team2.name}}", "");
+    if (input != null) {
+      window.location.href = "{{request.path}}/adduser?team=team2&auth=" + encodeURIComponent(input);
+    }
+});
+
+jQuery("#addplayer_spec").click(function(e) {
+    var input = prompt("Please enter a steamid to add to the spectators list", "");
+    if (input != null) {
+      window.location.href = "{{request.path}}/adduser?team=spec&auth=" + encodeURIComponent(input);
+    }
+});
+
+jQuery("#rcon_command").click(function(e) {
+    var input = prompt("Enter a command to send", "");
+    if (input != null) {
+      window.location.href = "{{request.path}}/rcon?command=" + encodeURIComponent(input);
+    }
+});
+</script>
+
+
+{% endblock %}

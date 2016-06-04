@@ -1,0 +1,102 @@
+{% from "macros.html" import show_flashed_messages %}
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+  {{ show_flashed_messages() }}
+
+  <form role="form" action="" method="post" class="form-horizontal">
+
+    {{ form.csrf_token }}
+
+    <div class="form-group">
+    {{ form.name.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.name(class="form-control", placeholder="Team name") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      {{ form.country_flag.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-7">
+          {{ form.country_flag(class="form-control input-sm") }}
+        </div>
+    </div>
+
+    <div class="form-group">
+    {{ form.auth1.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.auth1(class="form-control", placeholder="Any steamid format") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+    {{ form.auth2.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.auth2(class="form-control") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+    {{ form.auth3.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.auth3(class="form-control") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+    {{ form.auth4.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.auth4(class="form-control") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+    {{ form.auth5.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.auth5(class="form-control") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+    {{ form.auth6.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.auth6(class="form-control") }}
+      </div>
+    </div>
+
+    <div class="form-group">
+    {{ form.auth7.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.auth7(class="form-control") }}
+      </div>
+    </div>
+
+    {% if edit %}
+    <div class="input submit col-sm-offset-1">
+      <input type="submit" class="btn btn-primary" value="Update Team">
+    </div>
+    {% else %}
+    <div class="input submit col-sm-offset-1">
+      <input type="submit" class="btn btn-primary" value="Create Team">
+    </div>
+    {% endif %}
+
+    <br>
+
+  </form>
+
+</div>
+
+<script>
+$("#country_flag").chosen()
+</script>
+
+<script>
+  $(document).ready(function () {
+  $("#team_create").parent().addClass("active"); })
+</script>
+
+{% endblock %}

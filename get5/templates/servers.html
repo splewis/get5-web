@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+<ul class="list-group">
+
+  {% if (servers.all() | length) == 0 %}
+  <li class="list-group-item">
+  No servers found.
+  </li>
+
+  {% else %}
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Server ID</th>
+        <th>IP Address</th>
+        <th>Port</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for server in servers %}
+      <tr>
+        <td>{{ server.id }}</td>
+        <td>{{ server.ip_string }}</td>
+        <td>{{ server.port }}</td>
+        <td>
+          {% if server.in_use %}
+          In use
+          {% else %}
+          Free
+          {% endif %}
+        </td>
+
+        <td>
+          <a href="/server/{{server.id}}/edit" class="btn btn-primary btn-xs">Edit</a>
+          {% if not server.in_use %}
+          <a href="/server/{{server.id}}/delete" class="btn btn-danger btn-xs">Delete</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+  {% endif %}
+
+</div>
+
+<script>
+    $(document).ready(function () {
+    $("#myservers").parent().addClass("active"); })
+</script>
+
+{% endblock %}

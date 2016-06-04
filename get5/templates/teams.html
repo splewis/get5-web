@@ -1,0 +1,46 @@
+{% from "macros.html" import pagination_buttons, pagination_active %}
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+  <ul class="list-group">
+
+    {% if (teams.items | length) == 0 %}
+    <li class="list-group-item">
+    No teams found.
+    </li>
+    {% endif %}
+
+    {% for team in teams.items %}
+    <li class="list-group-item">
+
+      {{ team.get_flag_html(0.75) }}
+
+      <a href="{{ team.get_url() }}" class="col-sm-offset-1"> {{team.name}}</a>
+
+      {% if user.id == team.user_id %}
+      <div class="pull-right">
+        <a href="/team/{{team.id}}/edit" class="btn btn-primary btn-xs">Edit</a>
+      </div>
+      {% endif %}
+
+    </li>
+    {% endfor %}
+  </ul>
+
+  {{ pagination_buttons(teams) }}
+
+</div>
+
+{{ pagination_active(teams) }}
+
+{% if my_teams %}
+<script>
+    $(document).ready(function () {
+    $("#myteams").parent().addClass("active"); })
+</script>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,30 @@
+{% from "macros.html" import show_flashed_messages %}
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+  {{ show_flashed_messages() }}
+  <div class="container">
+
+    <ul class="list-group">
+
+	    {% if (backup_files | length) == 0 %}
+	    <li class="list-group-item">
+		    No backup files found.
+	    </li>
+	    {% endif %}
+
+	    {% for file in backup_files %}
+	    <li class="list-group-item">
+	      <a href="{{request.path}}?file={{file}}"> {{file}} </a>
+	    </li>
+	    {% endfor %}
+
+    </ul>
+
+
+  </div>
+</div>
+
+{% endblock %}

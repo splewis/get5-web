@@ -1,0 +1,58 @@
+{% from "macros.html" import show_flashed_messages %}
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+ {{ show_flashed_messages() }}
+
+  <form role="form" action="" method="post" class="form-horizontal">
+
+      {{ form.csrf_token }}
+
+      <div class="form-group">
+      {{ form.ip_string.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-7">
+          {{ form.ip_string(class="form-control", placeholder="Server IP") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+      {{ form.port.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-7">
+          {{ form.port(class="form-control") }}
+        </div>
+      </div>
+
+      <div class="form-group">
+      {{ form.rcon_password.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-7">
+          {{ form.rcon_password(class="form-control", placeholder="RCON password") }}
+          <p class="help-block">Your server information will never be exposed to anyone but you.</p>
+        </div>
+      </div>
+
+      {% if edit %}
+      <div class="input submit col-sm-offset-1">
+        <input type="submit" class="btn btn-primary" value="Update Server">
+      </div>
+      {% else %}
+      <div class="input submit col-sm-offset-1">
+        <input type="submit" class="btn btn-primary" value="Create Server">
+      </div>
+      {% endif %}
+
+      <br>
+
+  </form>
+
+
+</div>
+
+<script>
+  $(document).ready(function () {
+  $("#server_create").parent().addClass("active"); })
+</script>
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% from "macros.html" import pagination_buttons, pagination_active %}
+
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+  <h1>
+  {% if my_matches %}
+  Your matches
+  {% elif all_matches %}
+  All matches
+  {% else %}
+  Matches for <a href="/user/{{ match_owner.id }}"> {{ match_owner.name }}</a>
+  {% endif%}
+  </h1>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Match ID</th>
+        <th>Team 1</th>
+        <th>Team 2</th>
+        <th>Status</th>
+        {% if my_matches %}
+        <th>Server</th>
+        <th></th>
+        {% else %}
+        <th>Owner</th>
+        {% endif %}
+      </tr>
+    </thead>
+    <tbody>
+
+    {% for match in matches.items %}
+      <tr>
+        <td><a href="/match/{{match.id}}"> {{match.id}}</a></td>
+
+        <td>
+          {{ match.get_team1().get_flag_html(0.75) }}
+          <a href="/team/{{match.get_team1().id}}"> {{match.get_team1().name}}</a>
+        </td>
+
+        <td>
+          {{ match.get_team2().get_flag_html(0.75) }}
+          <a href="/team/{{ match.get_team2().id }}"> {{match.get_team2().name}}</a>
+        </td>
+
+        <td>
+          {{ match.status_string(True) }}
+        </td>
+
+        {% if my_matches %}
+        <td>{% if match.get_server() is not none   %} {{ match.get_server().get_hostport() }} {% endif %}</td>
+        <td>
+          {% if match.pending() or match.live() %}
+          <a href="/match/{{match.id}}/cancel" class="btn btn-danger btn-xs align-right">Cancel</a>
+          {% endif %}
+        </td>
+        {% else %}
+        <td> <a href="/user/{{ match.get_user().id }}"> {{ match.get_user().name }} </a> </td>
+        {% endif %}
+
+      </tr>
+    {% endfor %}
+
+    </tbody>
+  </table>
+
+  {{ pagination_buttons(matches) }}
+
+</div>
+
+{{ pagination_active(matches) }}
+
+{% if my_matches %}
+<script>
+    $(document).ready(function () {
+    $("#mymatches").parent().addClass("active"); })
+</script>
+{% endif %}
+
+{% if all_matches %}
+<script>
+    $(document).ready(function () {
+    $("#matches").parent().addClass("active"); })
+</script>
+{% endif %}
+
+{% endblock %}
