@@ -32,7 +32,15 @@ class User(db.Model):
 
     @staticmethod
     def get_public_user():
-        return User.get_or_create(0)
+        rv = User.query.filter_by(steam_id=0).first()
+        if rv is None:
+            rv = User()
+            rv.steam_id = 0
+            rv.admin = True
+            db.session.add(rv)
+            db.session.commit()
+
+        return rv
 
     def get_url(userid):
         return url_for('user', userid=userid)
