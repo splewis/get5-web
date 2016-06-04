@@ -1,8 +1,3 @@
-import os
-
-location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), '..', 'logs'))
-LOG_PATH = os.path.join(location, 'get5.log')
-
 DEBUG = False
 TESTING = False
 SQLALCHEMY_DATABASE_URI = 'mysql://user:password@host/db'
