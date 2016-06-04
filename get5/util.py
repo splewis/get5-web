@@ -9,20 +9,17 @@ def as_int(val, on_fail=0):
 
 def format_mapname(mapname):
     formatted_names = {
-        'de_cache': 'Cache',
         'de_cbble': 'Cobblestone',
         'de_dust2': 'Dust II',
-        'de_mirage': 'Mirage',
-        'de_nuke': 'Nuke',
-        'de_overpass': 'Overpass',
-        'de_train': 'Train',
-        'de_inferno': 'Inferno',
-        'de_season': 'Season',
     }
     if mapname in formatted_names:
         return formatted_names[mapname]
     else:
-        return mapname
+        de_map = mapname.startswith('de_')
+        if de_map:
+            return mapname[3:].title()
+        else:
+            return mapname
 
 
 def check_server_connection(server):

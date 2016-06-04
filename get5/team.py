@@ -1,4 +1,3 @@
-import get5
 from get5 import app, db, flash_errors
 from models import User, Team
 
@@ -35,7 +34,6 @@ class TeamForm(Form):
 
     choices = [('', 'None')] + countries.country_choices
     country_flag = SelectField('Country Flag', choices=choices)
-
     auth1 = StringField('Player 1', validators=[valid_auth])
     auth2 = StringField('Player 2', validators=[valid_auth])
     auth3 = StringField('Player 3', validators=[valid_auth])
@@ -51,21 +49,6 @@ class TeamForm(Form):
             auths.append(self.data[key])
 
         return auths
-
-
-def clean_auths(data):
-    for i in range(1, 8):
-        key = 'auth' + str(i)
-        if len(data[key]) >= 3:
-            success, newauth = steamid.auth_to_steam64(data[key])
-            if success:
-                data[key] = newauth
-            else:
-                return False, i
-        else:
-            data[key] = ''
-
-    return True, 0
 
 
 @team_blueprint.route('/team/create', methods=['GET', 'POST'])
@@ -138,19 +121,6 @@ def team_edit(teamid):
                 flash_errors(form)
 
     return render_template('team_create.html', user=g.user, form=form, owner=is_owner, edit=True)
-
-# @team_blueprint.route('/team/delete/<int:id>', methods=['GET'])
-# def team_delete(id):
-#     t = Team.query.filter_by(id=id).first()
-#     if t is None:
-#         return 'Team not found', 404
-#     else:
-#         is_owner = (g.user.id == t.user_id)
-#         if is_owner:
-#             Team.query.filter_by(id=id).delete()
-#             db.session.commit()
-
-#     return redirect('/myteams')
 
 
 @team_blueprint.route('/teams/<int:userid>', methods=['GET'])

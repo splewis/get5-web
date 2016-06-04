@@ -277,8 +277,8 @@ class Match(db.Model):
             d[teamkey] = {}
             d[teamkey]['name'] = team.name
             d[teamkey]['flag'] = team.flag.upper()
-            d[teamkey]['logo'] = ''
-            d[teamkey]['players'] = team.auths
+            d[teamkey]['logo'] = team.logo
+            d[teamkey]['players'] = filter(lambda x: x != '', team.auths)
 
         add_team_data('team1', self.team1_id)
         add_team_data('team2', self.team2_id)
