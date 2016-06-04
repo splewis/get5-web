@@ -7,8 +7,6 @@ import get5_test
 class SteamIdTests(get5_test.Get5Test):
 
     def test_auth_to_steam64(self):
-        return
-
         input = 'STEAM_0:1:52245092'
         expected = '76561198064755913'
         suc, actual = steamid.auth_to_steam64(input)
@@ -27,10 +25,10 @@ class SteamIdTests(get5_test.Get5Test):
         self.assertTrue(suc)
         self.assertEqual(actual, expected)
 
-        input = '0:1:52245092'
-        expected = ''
+        input = '1:1:52245092'
+        expected = '76561198064755913'
         suc, actual = steamid.auth_to_steam64(input)
-        self.assertFalse(suc)
+        self.assertTrue(suc)
         self.assertEqual(actual, expected)
 
         input = '[U:1:104490185]'

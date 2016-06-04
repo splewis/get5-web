@@ -69,13 +69,16 @@ def auth_to_steam64(auth):
         except SteamIDError:
             return False, ''
 
-    elif 'STEAM_' in auth:
+    elif auth.startswith('1:0:') or auth.startswith('1:1'):
+        return steam2_to_steam64('STEAM_' + auth)
+
+    elif auth.startswith('STEAM_'):
         return steam2_to_steam64(auth)
 
-    elif '7656119' in auth and not 'steam' in auth:
+    elif auth.startswith('7656119') and not 'steam' in auth:
         return True, auth
 
-    elif '[U:1:' in auth:
+    elif auth.startswith('[U:1:'):
         suc, steam2 = steam3_to_steam2(auth)
         if suc:
             return steam2_to_steam64(steam2)
