@@ -23,8 +23,8 @@ class Get5Test(unittest.TestCase):
         User.get_or_create(12345)
         db.session.commit()
 
-        team1 = Team.create(user, 'EnvyUs', 'fr', ['76561198053858673'])
-        team2 = Team.create(user, 'Fnatic', 'se', ['76561198053858673'])
+        team1 = Team.create(user, 'EnvyUs', 'fr', 'nv', ['76561198053858673'])
+        team2 = Team.create(user, 'Fnatic', 'se', 'fntc', ['76561198053858673'])
         server = GameServer.create(user, '127.0.0.1', '27015', 'password')
         server.in_use = True
 

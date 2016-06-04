@@ -209,7 +209,6 @@ def match_cancel(matchid):
     if server:
         server.in_use = False
 
-    match.server_id = None
     db.session.commit()
 
     try:

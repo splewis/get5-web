@@ -69,8 +69,8 @@ def team_create():
             data = form.data
             auths = form.get_auth_list()
 
-            team = Team.create(
-                g.user, data['name'], data['country_flag'], logo, auths)
+            team = Team.create(g.user, data['name'],
+                data['country_flag'], data['logo'], auths)
 
             db.session.commit()
             app.logger.info(
