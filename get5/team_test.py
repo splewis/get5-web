@@ -41,7 +41,7 @@ class TeamTests(get5_test.Get5Test):
                               })
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, url_for(
-                'team.myteams', _external=True))
+                'team.teams_user', userid=1, _external=True))
 
         # Make sure the team was actually created
         team = Team.query.filter_by(name='NiP').first()
@@ -92,7 +92,6 @@ class TeamTests(get5_test.Get5Test):
             self.assertEqual(response.status_code, 302)
         team = Team.query.get(3)
         self.assertIsNone(team)
-
 
     # Make sure a user can't edit someone else's teams
     def test_edit_team_wronguser(self):

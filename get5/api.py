@@ -1,4 +1,4 @@
-from get5 import limiter, db, BadRequestError
+from get5 import app, limiter, db, BadRequestError
 from util import as_int
 from models import Match, MapStats, PlayerStats, GameServer
 
@@ -12,6 +12,8 @@ api_blueprint = Blueprint('api', __name__)
 
 
 _matchid_re = re.compile('/match/(\d*)/.*')
+
+
 def rate_limit_key():
     try:
         match = _matchid_re.search(request.path)
@@ -56,6 +58,7 @@ def match_finish(matchid):
     server.in_use = False
 
     db.session.commit()
+    app.logger.info('Finish match {}, winner={}', match, winner)
 
     return 'Success'
 

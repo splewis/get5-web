@@ -79,6 +79,8 @@ class GameServer(db.Model):
 
 
 class Team(db.Model):
+    MAXPLAYERS = 7
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(40))
@@ -122,11 +124,17 @@ class Team(db.Model):
         return self.user_id == User.get_public_user().id
 
     def get_recent_matches(self, limit=10):
-        owner = User.query.get(self.user_id)
-        recent_matches = owner.matches.filter(
+        if self.is_public_team():
+            matches = Matches.query.order_by(-Match.id).limit(100)
+        else:
+            owner = User.query.get_or_404(self.user_id)
+            matches = owner.matches
+
+        recent_matches = matches.filter(
             ((Match.team1_id == self.id) | (Match.team2_id == self.id)) & (
-                Match.cancelled == False)
-        ).order_by(-Match.id).limit(10)
+                Match.cancelled == False) & (Match.start_time != None)
+        ).order_by(-Match.id).limit(5)
+
         return recent_matches
 
     def get_vs_match_result(self, match_id):

@@ -68,21 +68,23 @@ def team_create():
 
         elif form.validate():
             data = form.data
+            public_team = data['public_team']
             auths = form.get_auth_list()
 
             team = Team.create(g.user, data['name'],
-                data['country_flag'], data['logo'], auths, data['public_team'])
+                               data['country_flag'], data['logo'], auths, public_team)
 
             db.session.commit()
             app.logger.info(
                 'User {} created team {}'.format(g.user.id, team.id))
-            return redirect('/myteams')
+
+            return redirect('/teams/{}'.format(team.user_id))
 
         else:
             get5.flash_errors(form)
 
     return render_template('team_create.html', user=g.user, form=form,
-        edit=False, is_admin=g.user.admin)
+                           edit=False, is_admin=g.user.admin)
 
 
 @team_blueprint.route('/team/<int:teamid>', methods=['GET'])
@@ -115,7 +117,7 @@ def team_edit(teamid):
 
     if request.method == 'GET':
         return render_template('team_create.html', user=g.user, form=form,
-            edit=True, is_admin=g.user.admin)
+                               edit=True, is_admin=g.user.admin)
 
     elif request.method == 'POST':
         if request.method == 'POST':
@@ -124,11 +126,12 @@ def team_edit(teamid):
                 team.set_data(data['name'], data['country_flag'],
                               data['logo'], form.get_auth_list())
                 db.session.commit()
-                return redirect('/myteams')
+                return redirect('/teams/{}'.format(team.user_id))
             else:
                 flash_errors(form)
 
     return render_template('team_create.html', user=g.user, form=form, edit=True)
+
 
 @team_blueprint.route('/team/<int:teamid>/delete')
 def team_delete(teamid):
