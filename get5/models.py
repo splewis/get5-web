@@ -125,7 +125,7 @@ class Team(db.Model):
 
     def get_recent_matches(self, limit=10):
         if self.is_public_team():
-            matches = Match.query.order_by(-Match.id).limit(100)
+            matches = Match.query.order_by(-Match.id).limit(100).from_self()
         else:
             owner = User.query.get_or_404(self.user_id)
             matches = owner.matches
