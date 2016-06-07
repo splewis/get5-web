@@ -76,7 +76,7 @@ class TeamTests(get5_test.Get5Test):
                               })
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, url_for(
-                'team.myteams', _external=True))
+                'team.teams_user', userid=1, _external=True))
 
         team = Team.query.get(3)
         self.assertEqual(team.name, 'NiP2')
