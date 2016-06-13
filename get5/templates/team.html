@@ -13,11 +13,9 @@
     <div class="panel panel-default">
       <div class="panel-heading">Players</div>
       <div class="panel-body">
-          {% for auth in team.auths %}
-            {% if (auth|length) >= 1 %}
-            <a href="http://steamcommunity.com/profiles/{{auth}}" class="col-sm-offset-0"> {{auth}}</a>
-            <br>
-            {% endif %}
+          {% for auth,name in team.get_players() %}
+          <a href="http://steamcommunity.com/profiles/{{auth}}" class="col-sm-offset-0"> {{auth}}</a>: {{name}}
+          <br>
           {% endfor %}
       </div>
     </div>

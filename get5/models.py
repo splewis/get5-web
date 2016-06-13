@@ -115,6 +115,14 @@ class Team(db.Model):
             return True
         return False
 
+    def get_players(self):
+        from get5 import get_steam_name
+        results = []
+        for steam64 in self.auths:
+            if steam64:
+                results.append((steam64, get_steam_name(steam64)))
+        return results
+
     def can_delete(self, user):
         if not self.can_edit(user):
             return False

@@ -1,4 +1,4 @@
-from get5 import app, db, flash_errors
+from get5 import app, db, flash_errors, get_steam_name
 from models import User, Team
 
 import countries
