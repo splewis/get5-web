@@ -2,7 +2,10 @@ from get5 import app, db
 import countries
 import util
 
+import functools32
 from flask import url_for, Markup
+import requests
+
 import datetime
 import string
 import random
@@ -117,11 +120,10 @@ class Team(db.Model):
         return False
 
     def get_players(self):
-        import get5
         results = []
         for steam64 in self.auths:
             if steam64:
-                name = get5.get_steam_name(steam64)
+                name = get_steam_name(steam64)
                 if not name:
                     name = ''
                 results.append((steam64, name))
@@ -468,3 +470,18 @@ class PlayerStats(db.Model):
             db.session.add(rv)
 
         return rv
+
+
+@functools32.lru_cache(maxsize=2048)
+def get_steam_name(steam64):
+    url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'.format(
+        app.config['STEAM_API_KEY'], steam64)
+    response = requests.get(url)
+    if response.status_code == 200:
+        try:
+            player_list = response.json()['response']['players']
+            return player_list[0]['personaname']
+        except (KeyError, IndexError):
+            return None
+
+    return None

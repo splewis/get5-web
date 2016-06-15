@@ -12,7 +12,6 @@ import flask.ext.sqlalchemy
 import flask.ext.openid
 import flask_limiter
 import requests
-import functools32
 
 # Import the Flask Framework
 app = Flask(__name__, instance_relative_config=True)
@@ -158,17 +157,3 @@ def user(userid):
     user = User.query.get_or_404(userid)
     return render_template('user.html', user=g.user, displaying_user=user)
 
-
-@functools32.lru_cache(maxsize=2048)
-def get_steam_name(steam64):
-    url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'.format(
-        app.config['STEAM_API_KEY'], steam64)
-    response = requests.get(url)
-    if response.status_code == 200:
-        try:
-            player_list = response.json()['response']['players']
-            return player_list[0]['personaname']
-        except (KeyError, IndexError):
-            return None
-
-    return None
