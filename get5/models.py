@@ -24,6 +24,7 @@ class User(db.Model):
             rv = User()
             rv.steam_id = steam_id
             db.session.add(rv)
+            app.logger.info('Creating user for {}'.format(steam_id))
 
         if 'ADMIN_IDS' in app.config:
             rv.admin = steam_id in app.config['ADMIN_IDS']
@@ -116,11 +117,14 @@ class Team(db.Model):
         return False
 
     def get_players(self):
-        from get5 import get_steam_name
+        import get5
         results = []
         for steam64 in self.auths:
             if steam64:
-                results.append((steam64, get_steam_name(steam64)))
+                name = get5.get_steam_name(steam64)
+                if not name:
+                    name = ''
+                results.append((steam64, name))
         return results
 
     def can_delete(self, user):
@@ -143,7 +147,10 @@ class Team(db.Model):
                 Match.cancelled == False) & (Match.start_time != None)
         ).order_by(-Match.id).limit(5)
 
-        return recent_matches
+        if recent_matches is None:
+            return []
+        else:
+            return recent_matches
 
     def get_vs_match_result(self, match_id):
         other_team = None

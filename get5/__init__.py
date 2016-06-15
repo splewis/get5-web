@@ -8,11 +8,11 @@ import steamid
 from flask import (Flask, render_template, flash, jsonify,
                    request, g, session, redirect)
 
-import flask.ext.cache
 import flask.ext.sqlalchemy
 import flask.ext.openid
 import flask_limiter
 import requests
+import functools32
 
 # Import the Flask Framework
 app = Flask(__name__, instance_relative_config=True)
@@ -31,14 +31,6 @@ limiter = flask_limiter.Limiter(
     key_func=flask_limiter.util.get_remote_address,
     global_limits=['250 per minute'],
 )
-
-# Setup cache
-cache = flask.ext.cache.Cache(app,config={
-    'CACHE_TYPE': 'simple',
-    'CACHE_THRESHOLD': 25000,
-    'CACHE_DEFAULT_TIMEOUT': 30,
-})
-
 
 # Setup logging
 formatter = logging.Formatter(
@@ -167,9 +159,8 @@ def user(userid):
     return render_template('user.html', user=g.user, displaying_user=user)
 
 
-@cache.memoize(timeout=60*60*24)
+@functools32.lru_cache(maxsize=2048)
 def get_steam_name(steam64):
-    print('sending name request...')
     url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'.format(
         app.config['STEAM_API_KEY'], steam64)
     response = requests.get(url)
@@ -181,4 +172,3 @@ def get_steam_name(steam64):
             return None
 
     return None
-
