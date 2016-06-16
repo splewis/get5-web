@@ -14,7 +14,7 @@
       <div class="panel-heading">Players</div>
       <div class="panel-body">
           {% for auth,name in team.get_players() %}
-          <a href="http://steamcommunity.com/profiles/{{auth}}" class="col-sm-offset-0"> {{auth}}</a>: {{name}}
+          <a href="http://steamcommunity.com/profiles/{{auth}}" class="col-sm-offset-0"> {{auth}}</a>
           <br>
           {% endfor %}
       </div>

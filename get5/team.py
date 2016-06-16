@@ -1,4 +1,4 @@
-from get5 import app, db, flash_errors
+from get5 import app, db, flash_errors, config_setting
 from models import User, Team
 
 import countries
@@ -62,9 +62,10 @@ def team_create():
     form = TeamForm(request.form)
 
     if request.method == 'POST':
-        teams = g.user.teams.all()
-        if len(teams) >= 100:
-            flash('You already have the maximum number of teams (100) stored')
+        num_teams = g.user.teams.count()
+        max_teams = config_setting('USER_MAX_TEAMS', 0)
+        if max_teams >= 0 and num_teams >= max_teams and not g.user.admin:
+            flash('You already have the maximum number of teams ({}) stored'.format(num_teams))
 
         elif form.validate():
             data = form.data

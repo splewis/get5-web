@@ -1,4 +1,4 @@
-from get5 import app, db, flash_errors
+from get5 import app, db, flash_errors, config_setting
 from models import GameServer
 import util
 
@@ -30,12 +30,13 @@ def server_create():
 
     form = ServerForm(request.form)
     if request.method == 'POST':
-        servers = g.user.servers.all()
-        if len(servers) >= 100:
-            flash('You already have the maximum number of servers (100) stored')
+        num_servers = g.user.servers.count()
+        max_servers = config_setting('USER_MAX_SERVERS', 0)
+        if max_servers >= 0 and num_servers >= max_servers and not g.user.admin:
+            flash('You already have the maximum number of servers ({}) stored'.format(num_servers))
 
         elif form.validate():
-            mock = app.config['TESTING']
+            mock = config_setting('TESTING', False)
 
             data = form.data
             server = GameServer.create(

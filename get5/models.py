@@ -123,7 +123,12 @@ class Team(db.Model):
         results = []
         for steam64 in self.auths:
             if steam64:
-                name = get_steam_name(steam64)
+
+                # TODO: fix the cache for get_steam_name
+                # and put the name back in here. (and update team.html template).
+                name = ''
+                # name = get_steam_name(steam64)
+
                 if not name:
                     name = ''
                 results.append((steam64, name))

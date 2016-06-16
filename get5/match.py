@@ -2,7 +2,7 @@ from flask import Blueprint, request, render_template, flash, g, redirect, jsoni
 
 import steamid
 import get5
-from get5 import app, db, BadRequestError
+from get5 import app, db, BadRequestError, config_setting
 from models import User, Team, Match, GameServer
 import util
 
@@ -121,12 +121,14 @@ def match_create():
     form.add_servers(g.user)
 
     if request.method == 'POST':
-        matches = g.user.matches.all()
-        if len(matches) >= 250:
-            flash('You already have the maximum number of matches (250) created')
+        num_matches = g.user.matches.count()
+        max_matches = config_setting('USER_MAX_MATCHES', 0)
+
+        if max_matches >= 0 and num_matches >= max_matches and not g.user.admin:
+            flash('You already have the maximum number of matches ({}) created'.format(num_matches))
 
         if form.validate():
-            mock = app.config['TESTING']
+            mock = config_setting('TESTING', False)
 
             server = GameServer.query.get_or_404(form.data['server_id'])
 

@@ -157,3 +157,9 @@ def user(userid):
     user = User.query.get_or_404(userid)
     return render_template('user.html', user=g.user, displaying_user=user)
 
+
+def config_setting(key, default_value=None):
+    try:
+        return app.config[key]
+    except KeyError:
+        return default_value
