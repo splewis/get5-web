@@ -5,7 +5,7 @@ import countries
 import util
 import steamid
 
-from flask import Blueprint, request, render_template, flash, g, redirect
+from flask import Blueprint, request, render_template, flash, g, redirect, url_for
 
 from wtforms import (
     Form, validators,
@@ -152,7 +152,12 @@ def teams_user(userid):
     page = util.as_int(request.values.get('page'), on_fail=1)
     my_teams = (g.user is not None and userid == g.user.id)
     teams = user.teams.paginate(page, 20)
-    return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams, page=page)
+    return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams, page=page, owner=user)
+
+
+@team_blueprint.route('/teams/public', methods=['GET'])
+def teams_public():
+    return redirect(url_for('team.teams_user', userid=User.get_public_user().id))
 
 
 @team_blueprint.route('/myteams', methods=['GET'])

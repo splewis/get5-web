@@ -5,6 +5,10 @@
 
 <div id="content">
 
+  {% if not my_teams %}
+  <h2>Teams for {{owner.name}}</h2>
+  {% endif %}
+
   <ul class="list-group">
 
     {% if (teams.items | length) == 0 %}

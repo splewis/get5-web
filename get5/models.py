@@ -39,6 +39,7 @@ class User(db.Model):
         rv = User.query.filter_by(steam_id=0).first()
         if rv is None:
             rv = User()
+            rv.name = 'admin'
             rv.steam_id = 0
             rv.admin = True
             db.session.add(rv)

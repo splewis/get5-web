@@ -141,7 +141,7 @@ def logout():
 
 @app.route('/')
 def home():
-    return render_template('home.html', user=g.user)
+    return redirect(config_setting('DEFAULT_PAGE', '/matches'))
 
 
 def flash_errors(form):
