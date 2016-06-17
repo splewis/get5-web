@@ -19,7 +19,7 @@ install:
   - sed -i -e 's/YOUR_API_KEY/$STEAM_API_KEY/g' instance/test_config.py
 
   # Copy to prod config
-  cp instance/test_config.py instance/prod_config.py
+  - cp instance/test_config.py instance/prod_config.py
 
 before_script:
   - mysql -e 'create database test_db;'
