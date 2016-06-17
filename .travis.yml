@@ -3,9 +3,26 @@ language: python
 python:
   - "2.7"
 
+services:
+  - mysql
+
 install:
-  - "pip install -r requirements.txt"
+  - pip install -r requirements.txt
+  - mv instance/test_config.py.default instance/test_config.py
+
+  # Update mysql connection info
+  - sed -i -e 's/user/travis/g' instance/test_config.py
+  - sed -i -e 's/password//g' instance/test_config.py
+  - sed -i -e 's/host/localhost/g' instance/test_config.py
+
+  # Update steam api key
+  - sed -i -e 's/YOUR_API_KEY/$STEAM_API_KEY/g' instance/test_config.py
+
+  # Copy to prod config
+  cp instance/test_config.py instance/prod_config.py
+
+before_script:
+  - mysql -e 'create database test_db;'
 
 script:
   - "python2.7 -m unittest discover --pattern=*_test.py"
-
