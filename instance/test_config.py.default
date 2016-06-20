@@ -1,5 +1,5 @@
 DEBUG = False
-TESTING = False
+TESTING = True
 SQLALCHEMY_DATABASE_URI = 'mysql://user:password@host/test_db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 STEAM_API_KEY = '???'
