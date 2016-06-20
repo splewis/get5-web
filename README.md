@@ -1,8 +1,9 @@
 get5-web BETA
 ===========================
 
-This is an experimental web panel meant to be used in conjunction with the [get5](https://github.com/splewis/get5) CS:GO server plugin. It provides a more convenient way of managing matches and match servers.
+[![Build status](http://ci.splewis.net/job/get5-web/badge/icon)](http://ci.splewis.net/job/get5-web/)
 
+This is an experimental web panel meant to be used in conjunction with the [get5](https://github.com/splewis/get5) CS:GO server plugin. It provides a more convenient way of managing matches and match servers.
 
 
 Starting virtual env:
