@@ -5,6 +5,8 @@ get5-web BETA
 
 This is an experimental web panel meant to be used in conjunction with the [get5](https://github.com/splewis/get5) CS:GO server plugin. It provides a more convenient way of managing matches and match servers.
 
+Note: when using this web panel, the CS:GO game servers **must** be have both the core get5 plugin and the get5_apistats plugin. They are [released](https://github.com/splewis/get5/releases) together.
+
 ## Requirements:
 - python2.7
 - MySQL (other databases will likely work, but aren't guaranteed to)
