@@ -10,6 +10,7 @@ Note: when using this web panel, the CS:GO game servers **must** be have both th
 ## Requirements:
 - python2.7
 - MySQL (other databases will likely work, but aren't guaranteed to)
+- a web server capable of running Flask applications ([see deployment options](http://flask.pocoo.org/docs/0.11/deploying/))
 
 
 ## Installation
@@ -33,7 +34,10 @@ Now you can edit ``get5-web/instance/prod_config.py``, where you should change:
 - ``SECRET_KEY``
 
 
-### Deployed with Apache2
+### Deployed using Apache2 with mod_wsgi
+
+See the [official flask documentation](http://flask.pocoo.org/docs/0.11/deploying/mod_wsgi/) for installation requirements.
+
 This assumes you cloned the repository inside ``/var/www``.
 ```
 cd /var/www/get5-web
@@ -61,9 +65,32 @@ import get5
 get5.register_blueprints()
 ```
 
+Here is an example apache2 conf for /etc/apache2/sites-avaliable:
+```
+<VirtualHost *:80>
+		ServerName get5.splewis.net
+		ServerAdmin sean@splewis.net
+		WSGIScriptAlias / /var/www/get5/get5.wsgi
+
+		<Directory /var/www/get5>
+			Order deny,allow
+			Allow from all
+		</Directory>
+
+		Alias /static /var/www/get5/get5/static
+		<Directory /var/www/get5/get5/static>
+			Order allow,deny
+			Allow from all
+		</Directory>
+
+		ErrorLog ${APACHE_LOG_DIR}/error.log
+		LogLevel warn
+		CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+
 
 ## Other useful commands:
-
 
 Autoformatting:
 ```
@@ -84,7 +111,7 @@ You must also setup a ``test_config.py`` file in the ``instance`` directory.
 ./test.sh
 ```
 
-Manually running the web server:
+Manually running a test instance: (for development purposes)
 ```
 python2.7 main.py
 ```
