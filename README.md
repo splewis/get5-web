@@ -70,15 +70,15 @@ Here is an example apache2 conf for /etc/apache2/sites-avaliable:
 <VirtualHost *:80>
 		ServerName get5.splewis.net
 		ServerAdmin sean@splewis.net
-		WSGIScriptAlias / /var/www/get5/get5.wsgi
+		WSGIScriptAlias / /var/www/get5-web/get5.wsgi
 
 		<Directory /var/www/get5>
 			Order deny,allow
 			Allow from all
 		</Directory>
 
-		Alias /static /var/www/get5/get5/static
-		<Directory /var/www/get5/get5/static>
+		Alias /static /var/www/get5-web/get5/static
+		<Directory /var/www/get5-web/get5/static>
 			Order allow,deny
 			Allow from all
 		</Directory>
