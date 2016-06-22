@@ -7,6 +7,8 @@ This is an experimental web panel meant to be used in conjunction with the [get5
 
 Note: when using this web panel, the CS:GO game servers **must** be have both the core get5 plugin and the get5_apistats plugin. They are [released](https://github.com/splewis/get5/releases) together.
 
+**WARNING**: This should be considered BETA software - it should not be considered STABLE and will contain BUGS. Changes in the master branch may be incompatible until it is given a 1.0.0 release tag.
+
 ## Requirements:
 - python2.7
 - MySQL (other databases will likely work, but aren't guaranteed to)
