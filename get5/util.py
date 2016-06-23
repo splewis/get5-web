@@ -50,7 +50,7 @@ def check_server_avaliability(server):
         return False, 'Failed to connect to server'
 
     elif 'Unknown command' in str(response):
-        return False, 'get5 server plugin not found on server'
+        return False, 'Either get5 or get5_apistats plugin missing'
 
     elif already_live:
         return False, 'Server already has a get5 match setup'
