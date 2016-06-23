@@ -22,7 +22,7 @@ class ServerForm(Form):
     rcon_password = StringField('RCON password',
                                 validators=[
                                     validators.required(),
-                                    validators.Length(min=-1, max=Team.name.type.length)])
+                                    validators.Length(min=-1, max=GameServer.rcon_password.type.length)])
 
 
 @server_blueprint.route('/server/create', methods=['GET', 'POST'])
