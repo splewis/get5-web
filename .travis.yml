@@ -25,4 +25,4 @@ before_script:
   - mysql -e 'create database test_db;'
 
 script:
-  - "python2.7 -m unittest discover --pattern=*_test.py"
+  - ./test.sh
