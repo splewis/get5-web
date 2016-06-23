@@ -7,6 +7,14 @@
 
  {{ show_flashed_messages() }}
 
+
+  <div class="alert alert-info" role="alert">
+    <p>
+     Make sure your server is running and has the get5 server plugins installed first.
+     See <a href="https://github.com/splewis/get5/wiki/Step-by-step-installation-guide">the get5 wiki</a> for help installing the get5 and get5_apistats plugins.
+    </p>
+  </div>
+
   <form role="form" action="" method="post" class="form-horizontal">
 
       {{ form.csrf_token }}
