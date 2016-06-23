@@ -33,7 +33,8 @@ def server_create():
         num_servers = g.user.servers.count()
         max_servers = config_setting('USER_MAX_SERVERS', 0)
         if max_servers >= 0 and num_servers >= max_servers and not g.user.admin:
-            flash('You already have the maximum number of servers ({}) stored'.format(num_servers))
+            flash('You already have the maximum number of servers ({}) stored'.format(
+                num_servers))
 
         elif form.validate():
             mock = config_setting('TESTING', False)

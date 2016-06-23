@@ -2,8 +2,6 @@
 
 import get5
 from get5 import db
-
-from get5.models import User, Team, GameServer, Match
 import get5.models
 
 import flask_script
