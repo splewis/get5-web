@@ -126,7 +126,8 @@ class Team(db.Model):
             if steam64:
 
                 # TODO: fix the cache for get_steam_name
-                # and put the name back in here. (and update team.html template).
+                # and put the name back in here. (and update team.html
+                # template).
                 name = ''
                 # name = get_steam_name(steam64)
 
@@ -219,6 +220,8 @@ class Match(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey('game_server.id'))
     team1_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team2_id = db.Column(db.Integer, db.ForeignKey('team.id'))
+    team1_string = db.Column(db.String(32))
+    team2_string = db.Column(db.String(32))
     winner = db.Column(db.Integer, db.ForeignKey('team.id'))
 
     cancelled = db.Column(db.Boolean, default=False)
@@ -343,7 +346,7 @@ class Match(db.Model):
         else:
             d['maps_to_win'] = self.max_maps / 2 + 1
 
-        def add_team_data(teamkey, teamid):
+        def add_team_data(teamkey, teamid, matchtext):
             team = Team.query.get(teamid)
             if not team:
                 return
@@ -352,10 +355,11 @@ class Match(db.Model):
             d[teamkey]['name'] = team.name
             d[teamkey]['flag'] = team.flag.upper()
             d[teamkey]['logo'] = team.logo
+            d[teamkey]['matchtext'] = matchtext
             d[teamkey]['players'] = filter(lambda x: x != '', team.auths)
 
-        add_team_data('team1', self.team1_id)
-        add_team_data('team2', self.team2_id)
+        add_team_data('team1', self.team1_id, self.team1_string)
+        add_team_data('team2', self.team2_id, self.team2_string)
 
         d['cvars'] = {}
 
