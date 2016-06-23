@@ -35,6 +35,17 @@ Now you can edit ``get5-web/instance/prod_config.py``, where you should change:
 - ``STEAM_API_KEY``
 - ``SECRET_KEY``
 
+You can also add a login whitelist if you wish (only users on the list will be able to login) and admin users:
+```
+WHITELISTED_IDS = [
+    '76561198064755913',
+]
+
+ADMIN_IDS = [
+    '76561198064755913',
+]
+```
+
 Finally, initialize the database:
 ```
 ./manager.py db upgrade

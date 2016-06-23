@@ -77,7 +77,7 @@ def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
     steam_id = match.group(1)
     if (not steam_id) or ('WHITELISTED_IDS' in app.config and steam_id not in app.config['WHITELISTED_IDS']):
-        return 'Sorry, you don\'t have access yet :)'
+        return 'Sorry, you don\'t have access to this webpanel'
 
     g.user = User.get_or_create(steam_id)
     steamdata = steamid.get_steam_userinfo(
