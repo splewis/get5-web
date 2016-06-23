@@ -30,7 +30,7 @@ def valid_auth(form, field):
 
 class TeamForm(Form):
     name = StringField('Team Name', validators=[
-                       validators.required(), validators.Length(min=-1, max=40)])
+                       validators.required(), validators.Length(min=-1, max=Team.name.type.length)])
 
     choices = [('', 'None')] + countries.country_choices
     country_flag = SelectField('Country Flag', choices=choices)

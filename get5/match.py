@@ -46,7 +46,7 @@ class MatchForm(Form):
 
     match_title = StringField('Match title text',
                               default='Map {MAPNUMBER} of {MAXMAPS}',
-                              validators=[validators.Length(min=-1, max=60)])
+                              validators=[validators.Length(min=-1, max=Match.title.type.length)])
 
     series_type = RadioField('Series type',
                              validators=[validators.required()],
@@ -64,13 +64,15 @@ class MatchForm(Form):
                            validators=[validators.required()])
 
     team1_string = StringField('Team 1 title text',
-                               default='', validators=[validators.Length(min=-1, max=32)])
+                               default='',
+                               validators=[validators.Length(min=-1, max=Match.team1_string.type.length)])
 
     team2_id = SelectField('Team 2', coerce=int,
                            validators=[validators.required(), different_teams_validator])
 
     team2_string = StringField('Team 2 title text',
-                               default='', validators=[validators.Length(min=-1, max=32)])
+                               default='',
+                               validators=[validators.Length(min=-1, max=Match.team2_string.type.length)])
 
     # use_map_veto = CheckBox
     mapchoices = [
