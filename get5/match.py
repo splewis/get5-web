@@ -63,8 +63,14 @@ class MatchForm(Form):
     team1_id = SelectField('Team 1', coerce=int,
                            validators=[validators.required()])
 
+    team1_string = StringField('Team 1 title text',
+                               default='', validators=[validators.Length(min=-1, max=32)])
+
     team2_id = SelectField('Team 2', coerce=int,
                            validators=[validators.required(), different_teams_validator])
+
+    team2_string = StringField('Team 2 title text',
+                               default='', validators=[validators.Length(min=-1, max=32)])
 
     # use_map_veto = CheckBox
     mapchoices = [
@@ -125,7 +131,8 @@ def match_create():
         max_matches = config_setting('USER_MAX_MATCHES', 0)
 
         if max_matches >= 0 and num_matches >= max_matches and not g.user.admin:
-            flash('You already have the maximum number of matches ({}) created'.format(num_matches))
+            flash('You already have the maximum number of matches ({}) created'.format(
+                num_matches))
 
         if form.validate():
             mock = config_setting('TESTING', False)

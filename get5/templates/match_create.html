@@ -13,35 +13,52 @@
 
       <div class="form-group">
         {{ form.server_id.label(class="col-sm-2 control-label") }}
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             {{ form.server_id(class="form-control input-sm") }}
           </div>
           <a href="/server/create" class="btn btn-primary">Create a server</a>
       </div>
 
+      <br>
+
       <div class="form-group">
         {{ form.team1_id.label(class="col-sm-2 control-label") }}
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             {{ form.team1_id(class="form-control input-sm") }}
           </div>
           <a href="/team/create" class="btn btn-primary">Create a team</a>
       </div>
 
+      <div class="form-group">
+      {{ form.team1_string.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-4">
+          {{ form.team1_string(class="form-control input-sm") }}
+          <p class="help-block">The team title texts and match text are shown in freezetime to spectators: <a href="/static/img/matchtext_example.png">example</a> </p>
+        </div>
+      </div>
+
+      <br>
 
       <div class="form-group">
         {{ form.team2_id.label(class="col-sm-2 control-label") }}
-          <div class="col-sm-3">
+          <div class="col-sm-4">
             {{ form.team2_id(class="form-control input-sm") }}
           </div>
+      </div>
+
+      <div class="form-group">
+      {{ form.team2_string.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-4">
+          {{ form.team2_string(class="form-control input-sm") }}
+        </div>
       </div>
 
       <br>
 
       <div class="form-group">
       {{ form.match_title.label(class="col-sm-2 control-label") }}
-        <div class="col-sm-7">
+        <div class="col-sm-4">
           {{ form.match_title(class="form-control input-sm") }}
-          <p class="help-block">This is displayed to spectators and GOTV clients during freezetime.</p>
         </div>
       </div>
 

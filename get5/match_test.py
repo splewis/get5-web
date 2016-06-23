@@ -82,6 +82,7 @@ class MatchTests(get5_test.Get5Test):
                               data={
                                   'server_id': 2,
                                   'team1_id': 1,
+                                  'team1_string': 'Winner of group A',
                                   'team2_id': 2,
                                   'match_title': 'Map {MAPNUMBER} of {MAXMAPS}',
                                   'series_type': 'bo3',

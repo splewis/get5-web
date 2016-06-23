@@ -35,6 +35,11 @@ Now you can edit ``get5-web/instance/prod_config.py``, where you should change:
 - ``STEAM_API_KEY``
 - ``SECRET_KEY``
 
+Finally, initialize the database:
+```
+./manager.py db upgrade
+```
+
 
 ### Deployed using Apache2 with mod_wsgi
 
