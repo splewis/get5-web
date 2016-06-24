@@ -220,15 +220,15 @@ class Match(db.Model):
     server_id = db.Column(db.Integer, db.ForeignKey('game_server.id'))
     team1_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team2_id = db.Column(db.Integer, db.ForeignKey('team.id'))
-    team1_string = db.Column(db.String(32))
-    team2_string = db.Column(db.String(32))
+    team1_string = db.Column(db.String(32), default='')
+    team2_string = db.Column(db.String(32), default='')
     winner = db.Column(db.Integer, db.ForeignKey('team.id'))
 
     cancelled = db.Column(db.Boolean, default=False)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
     max_maps = db.Column(db.Integer)
-    title = db.Column(db.String(60))
+    title = db.Column(db.String(60), default='')
     skip_veto = db.Column(db.Boolean)
     api_key = db.Column(db.String(32))
 
