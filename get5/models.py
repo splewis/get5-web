@@ -243,7 +243,8 @@ class Match(db.Model):
     playout_enabled = db.Column(db.Boolean, default=False)
 
     @staticmethod
-    def create(user, team1_id, team2_id, max_maps, skip_veto, title, veto_mappool, server_id=None):
+    def create(user, team1_id, team2_id, team1_string, team2_string,
+               max_maps, skip_veto, title, veto_mappool, server_id=None):
         rv = Match()
         rv.user_id = user.id
         rv.team1_id = team1_id
@@ -313,8 +314,10 @@ class Match(db.Model):
         if not server:
             return False
 
-        url = url_for('match.match_config', matchid=self.id, _external=True, _scheme='http')
-        # Remove http protocal since the get5 plugin can't parse args with the : in them.
+        url = url_for('match.match_config', matchid=self.id,
+                      _external=True, _scheme='http')
+        # Remove http protocal since the get5 plugin can't parse args with the
+        # : in them.
         url = url.replace("http://", "")
         url = url.replace("https://", "")
 
@@ -366,7 +369,8 @@ class Match(db.Model):
 
         d['cvars'] = {}
 
-        d['cvars']['get5_web_api_url'] = url_for('home', _external=True, _scheme='http')
+        d['cvars']['get5_web_api_url'] = url_for(
+            'home', _external=True, _scheme='http')
 
         d['cvars']['mp_overtime_enable'] = '1' if (
             self.overtime_enabled and not self.playout_enabled) else '0'

@@ -167,6 +167,7 @@ def match_create():
 
                 match = Match.create(
                     g.user, form.data['team1_id'], form.data['team2_id'],
+                    form.data['team1_string'], form.data['team2_string'],
                     max_maps, skip_veto, form.data['match_title'],
                     form.data['veto_mappool'], form.data['server_id'])
                 server.in_use = True

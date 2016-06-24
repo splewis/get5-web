@@ -32,6 +32,6 @@ class Get5Test(unittest.TestCase):
         GameServer.create(user, '127.0.0.1', '27016', 'password')
         db.session.commit()
 
-        Match.create(user, team1.id, team2.id, 1, False,
+        Match.create(user, team1.id, team2.id, '', '', 1, False,
                      'Map {MAPNUMBER}', ['de_dust2', 'de_cache', 'de_mirage'], server.id)
         db.session.commit()
