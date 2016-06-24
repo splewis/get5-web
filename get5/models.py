@@ -366,7 +366,7 @@ class Match(db.Model):
 
         d['cvars'] = {}
 
-        d['cvars']['get5_web_api_url'] = 'http://get5.splewis.net'
+        d['cvars']['get5_web_api_url'] = url_for('home', _external=True)
 
         d['cvars']['mp_overtime_enable'] = '1' if (
             self.overtime_enabled and not self.playout_enabled) else '0'
