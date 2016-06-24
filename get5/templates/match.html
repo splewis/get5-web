@@ -18,18 +18,18 @@
   {% if player.roundsplayed > 0 %}
     <tr>
       <td> <a href="{{player.get_steam_url()}}"> {{ player.name }} </a></td>
-      <td> {{ player.kills }}  </td>
-      <td> {{ player.deaths }} </td>
-      <td> {{ player.assists }} </td>
-      <td> {{ player.flashbang_assists }} </td>
-      <td> {{ player.get_rating() | round(2) }} </td>
-      <td> {{ (player.kills / player.roundsplayed) | round(2) }} </td>
-      <td> {{ (player.damage / player.roundsplayed) | round(1) }} </td>
+      <td class="text-center"> {{ player.kills }}  </td>
+      <td class="text-center"> {{ player.deaths }} </td>
+      <td class="text-center"> {{ player.assists }} </td>
+      <td class="text-center"> {{ player.flashbang_assists }} </td>
+      <td class="text-center"> {{ player.get_rating() | round(2) }} </td>
+      <td class="text-center"> {{ (player.kills / player.roundsplayed) | round(2) }} </td>
+      <td class="text-center"> {{ (player.damage / player.roundsplayed) | round(1) }} </td>
 
       {% if player.kills == 0 %}
-      <td> {{ (0.0) | round(2) }} </td>
+      <td class="text-center"> {{ (0.0) | round(2) }} </td>
       {% else %}
-      <td> {{ (player.headshot_kills / player.kills) | round(2) }} </td>
+      <td class="text-center"> {{ (player.headshot_kills / player.kills) | round(2) }} </td>
       {% endif %}
     </tr>
   {% endif %}
@@ -136,14 +136,14 @@
           <thead>
             <tr>
               <th>Player</th>
-              <th>Kills</th>
-              <th>Deaths</th>
-              <th>Assists</th>
-              <th>Flash assists</th>
-              <th>Rating</th>
-              <th><acronym title="Frags per round">FPR</acronym></th>
-              <th><acronym title="Average damage per round">ADR</acronym></th>
-              <th><acronym title="Headshot percentage">HSP</acronym></th>
+              <th class="text-center">Kills</th>
+              <th class="text-center">Deaths</th>
+              <th class="text-center">Assists</th>
+              <th class="text-center">Flash assists</th>
+              <th class="text-center">Rating</th>
+              <th class="text-center"><acronym title="Frags per round">FPR</acronym></th>
+              <th class="text-center"><acronym title="Average damage per round">ADR</acronym></th>
+              <th class="text-center"><acronym title="Headshot percentage">HSP</acronym></th>
             </tr>
           </thead>
           <tbody>
