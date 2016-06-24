@@ -370,7 +370,7 @@ def match_backup(matchid):
 @match_blueprint.route("/matches")
 def matches():
     page = util.as_int(request.values.get('page'), on_fail=1)
-    matches = Match.query.order_by(-Match.id).paginate(page, 20)
+    matches = Match.query.order_by(-Match.id).filter_by(cancelled=False).paginate(page, 20)
     return render_template('matches.html', user=g.user, matches=matches,
                            my_matches=False, all_matches=True, page=page)
 
