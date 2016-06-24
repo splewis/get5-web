@@ -313,8 +313,11 @@ class Match(db.Model):
         if not server:
             return False
 
-        url = 'get5.splewis.net' + \
-            url_for('match.match_config', matchid=self.id)
+        url = url_for('match.match_config', matchid=self.id, _external=True)
+        # Remove http protocal since the get5 plugin can't parse args with the : in them.
+        url = url.replace("http://", "")
+        url = url.replace("https://", "")
+
         loadmatch_response = server.send_rcon_command(
             'get5_loadmatch_url ' + url)
 
