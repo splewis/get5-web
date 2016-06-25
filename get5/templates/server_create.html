@@ -20,6 +20,13 @@
       {{ form.csrf_token }}
 
       <div class="form-group">
+      {{ form.display_name.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-7">
+          {{ form.display_name(class="form-control", placeholder="Optional") }}
+        </div>
+      </div>
+
+      <div class="form-group">
       {{ form.ip_string.label(class="col-sm-2 control-label") }}
         <div class="col-sm-7">
           {{ form.ip_string(class="form-control", placeholder="Server IP") }}
@@ -29,7 +36,7 @@
       <div class="form-group">
       {{ form.port.label(class="col-sm-2 control-label") }}
         <div class="col-sm-7">
-          {{ form.port(class="form-control") }}
+          {{ form.port(class="form-control", placeholder="27015") }}
         </div>
       </div>
 

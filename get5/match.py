@@ -113,7 +113,7 @@ class MatchForm(Form):
         if self.server_id.choices is None:
             self.server_id.choices = []
 
-        server_tuples = [(server.id, server.get_hostport())
+        server_tuples = [(server.id, server.get_display())
                          for server in user.servers if not server.in_use]
         self.server_id.choices += server_tuples
 

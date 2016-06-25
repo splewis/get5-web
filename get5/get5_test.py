@@ -26,10 +26,10 @@ class Get5Test(unittest.TestCase):
         team1 = Team.create(user, 'EnvyUs', 'fr', 'nv', ['76561198053858673'])
         team2 = Team.create(user, 'Fnatic', 'se', 'fntc',
                             ['76561198053858673'])
-        server = GameServer.create(user, '127.0.0.1', '27015', 'password')
+        server = GameServer.create(user, 'myserver1', '127.0.0.1', '27015', 'password')
         server.in_use = True
 
-        GameServer.create(user, '127.0.0.1', '27016', 'password')
+        GameServer.create(user, 'myserver2', '127.0.0.1', '27016', 'password')
         db.session.commit()
 
         Match.create(user, team1.id, team2.id, '', '', 1, False,

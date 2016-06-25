@@ -16,6 +16,7 @@
     <thead>
       <tr>
         <th>Server ID</th>
+        <th>Display Name</th>
         <th>IP Address</th>
         <th>Port</th>
         <th>Status</th>
@@ -27,6 +28,7 @@
     {% for server in servers %}
       <tr>
         <td>{{ server.id }}</td>
+        <td>{{ server.display_name }}</td>
         <td>{{ server.ip_string }}</td>
         <td>{{ server.port }}</td>
         <td>

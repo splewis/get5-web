@@ -51,7 +51,7 @@
         </td>
 
         {% if my_matches %}
-        <td>{% if match.get_server() is not none   %} {{ match.get_server().get_hostport() }} {% endif %}</td>
+        <td>{% if match.get_server() is not none   %} {{ match.get_server().get_display() }} {% endif %}</td>
         <td>
           {% if match.pending() or match.live() %}
           <a href="/match/{{match.id}}/cancel" class="btn btn-danger btn-xs align-right">Cancel</a>

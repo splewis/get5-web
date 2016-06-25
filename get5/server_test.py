@@ -44,7 +44,8 @@ class TeamTests(get5_test.Get5Test):
                               data={
                                   'ip_string': '123.123.123.123',
                                   'port': '27016',
-                                  'rcon_password': 'strongpassword'
+                                  'rcon_password': 'strongpassword',
+                                  'display_name': 'myserver',
                               })
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, url_for(
@@ -56,6 +57,7 @@ class TeamTests(get5_test.Get5Test):
         self.assertEqual(server.ip_string, '123.123.123.123')
         self.assertEqual(server.port, 27016)
         self.assertEqual(server.rcon_password, 'strongpassword')
+        self.assertEqual(server.display_name, 'myserver')
         self.assertTrue(server in User.query.get(1).servers)
         self.assertFalse(server.in_use)
 

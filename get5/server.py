@@ -11,6 +11,9 @@ server_blueprint = Blueprint('server', __name__)
 
 
 class ServerForm(Form):
+    display_name = StringField('Display Name',
+                               validators=[validators.Length(min=-1, max=GameServer.display_name.type.length)])
+
     ip_string = StringField('Server IP',
                             validators=[
                                 validators.required(),
@@ -42,8 +45,10 @@ def server_create():
             mock = config_setting('TESTING', False)
 
             data = form.data
-            server = GameServer.create(
-                g.user, data['ip_string'], data['port'], data['rcon_password'])
+            server = GameServer.create(g.user,
+                                       data['display_name'],
+                                       data['ip_string'], data['port'],
+                                       data['rcon_password'])
 
             if mock or util.check_server_connection(server):
                 db.session.commit()
@@ -67,14 +72,18 @@ def server_edit(serverid):
     if not is_owner:
         return 'Not your server', 400
 
-    form = ServerForm(request.form, ip_string=server.ip_string,
-                      port=server.port, rcon_password=server.rcon_password)
+    form = ServerForm(request.form,
+                      display_name=server.display_name,
+                      ip_string=server.ip_string,
+                      port=server.port,
+                      rcon_password=server.rcon_password)
 
     if request.method == 'POST':
         if form.validate():
             mock = app.config['TESTING']
 
             data = form.data
+            server.display_name = data['display_name']
             server.ip_string = data['ip_string']
             server.port = data['port']
             server.rcon_password = data['rcon_password']
