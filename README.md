@@ -5,9 +5,30 @@ get5-web BETA
 
 This is an experimental web panel meant to be used in conjunction with the [get5](https://github.com/splewis/get5) CS:GO server plugin. It provides a more convenient way of managing matches and match servers.
 
+
+## How to use it:
+1. Create your game servers on the "Add a server" page by giving their ip, port, and rcon password
+2. Create teams on the "Create a Team" page by listing the steamids for each of the players
+3. Go to the "Create a Match" page, selecting the teams, server, and rules for the match
+
+Once you do this, the site will send an rcon command to the game server ``get5_loadmatch_url <webserver>/match/<matchid>/config``, which will load the match config onto the gameserver automatically for you. Stats and game status will automatically be updated on the webpage.
+
+As the match owner, you will be able to cancel the match. Additionally, on its matchpage there is a dropdown to run admin commands: add players to the teams if a ringer is needed, pause the match, load a match backup, list match backups, and run any rcon command.
+
 Note: when using this web panel, the CS:GO game servers **must** be have both the core get5 plugin and the get5_apistats plugin. They are [released](https://github.com/splewis/get5/releases) together.
 
 **WARNING**: This should be considered BETA software - it should not be considered STABLE and will contain BUGS. Changes in the master branch may be incompatible until it is given a 1.0.0 release tag.
+
+
+## Screenshots
+
+![Match Creation Page](/screenshots/create_match.png?raw=true "Match Creation Page")
+
+![Match Stats Page](/screenshots/match_stats.png?raw=true "Match Stats Page")
+
+![Teams Page](/screenshots/teams.png?raw=true "Teams Page")
+
+![Team Creation Page](/screenshots/team_edit.png?raw=true "Team Creation Page")
 
 ## Requirements:
 - python2.7
