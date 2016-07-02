@@ -2,7 +2,6 @@ from get5 import app, db, cache
 import countries
 import util
 
-import functools32
 from flask import url_for, Markup
 import requests
 
