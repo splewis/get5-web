@@ -77,7 +77,6 @@ def team_create():
                                data['country_flag'], data['logo'], auths, public_team)
 
             db.session.commit()
-            print('doing a log thingy')
             app.logger.info(
                 'User {} created team {}'.format(g.user.id, team.id))
 

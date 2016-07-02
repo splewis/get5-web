@@ -15,6 +15,9 @@
       <div class="panel-body">
           {% for auth,name in team.get_players() %}
           <a href="http://steamcommunity.com/profiles/{{auth}}" class="col-sm-offset-0"> {{auth}}</a>
+          {% if name %}
+          {{name}}
+          {% endif %}
           <br>
           {% endfor %}
       </div>
@@ -25,10 +28,8 @@
       <div class="panel-heading">Recent Matches</div>
         <div class="panel-body">
           {% for match in team.get_recent_matches() %}
-          <!-- <li class="list-group-item"> -->
             <a href="/match/{{match.id}}">#{{match.id}}</a>: {{ team.get_vs_match_result(match.id) }}
             <br>
-          <!-- </li> -->
           {% endfor %}
       </div>
     </div>

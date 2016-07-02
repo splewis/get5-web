@@ -1,4 +1,5 @@
 import unittest
+import logging
 
 import get5
 from get5 import db
@@ -9,6 +10,7 @@ class Get5Test(unittest.TestCase):
 
     def setUp(self):
         get5.app.config.from_pyfile('test_config.py')
+        get5.app.logger.setLevel(logging.ERROR)
         self.app = get5.app.test_client()
         get5.register_blueprints()
         db.create_all()

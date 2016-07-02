@@ -33,7 +33,7 @@ Note: when using this web panel, the CS:GO game servers **must** be have both th
 ## Requirements:
 - python2.7
 - MySQL (other databases will likely work, but aren't guaranteed to)
-- a web server capable of running Flask applications ([see deployment options](http://flask.pocoo.org/docs/0.11/deploying/))
+- a linux web server capable of running Flask applications ([see deployment options](http://flask.pocoo.org/docs/0.11/deploying/))
 
 
 ## Installation

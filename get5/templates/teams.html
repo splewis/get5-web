@@ -5,9 +5,13 @@
 
 <div id="content">
 
-  {% if not my_teams %}
-  <h2>Teams for {{owner.name}}</h2>
-  {% endif %}
+  <h1>
+  {% if my_teams %}
+  Your teams
+  {% else %}
+  Teams for <a href="/user/{{ owner.id }}"> {{ owner.name }}</a>
+  {% endif%}
+  </h1>
 
   <ul class="list-group">
 

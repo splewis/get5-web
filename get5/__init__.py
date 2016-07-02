@@ -8,6 +8,7 @@ import steamid
 from flask import (Flask, render_template, flash, jsonify,
                    request, g, session, redirect)
 
+import flask.ext.cache
 import flask.ext.sqlalchemy
 import flask.ext.openid
 import flask_limiter
@@ -16,6 +17,14 @@ import requests
 # Import the Flask Framework
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('prod_config.py')
+
+# Setup caching
+cache = flask.ext.cache.Cache(app, config={
+    'CACHE_TYPE': 'filesystem',
+    'CACHE_DIR': '/tmp',
+    'CACHE_THRESHOLD': 20000,
+    'CACHE_DEFAULT_TIMEOUT': 60,
+})
 
 # Setup openid
 oid = flask.ext.openid.OpenID(app)
@@ -45,7 +54,7 @@ stream_handler = logging.StreamHandler(sys.stdout)
 stream_handler.setLevel(logging.INFO)
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
-
+app.logger.setLevel(logging.INFO)
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
 

@@ -1,4 +1,4 @@
-from get5 import app, db
+from get5 import app, db, cache
 import countries
 import util
 
@@ -136,8 +136,8 @@ class Team(db.Model):
                 # TODO: fix the cache for get_steam_name
                 # and put the name back in here. (and update team.html
                 # template).
-                name = ''
-                # name = get_steam_name(steam64)
+                # name = ''
+                name = get_steam_name(steam64)
 
                 if not name:
                     name = ''
@@ -497,7 +497,7 @@ class PlayerStats(db.Model):
         return rv
 
 
-@functools32.lru_cache(maxsize=2048)
+@cache.memoize(timeout=1000)
 def get_steam_name(steam64):
     url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'.format(
         app.config['STEAM_API_KEY'], steam64)
