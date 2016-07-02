@@ -477,6 +477,30 @@ class PlayerStats(db.Model):
                   RoundsWithMultipleKillsRating) / 2.7
         return rating
 
+    def get_kdr(self):
+        if self.deaths == 0:
+            return float(self.kills)
+        else:
+            return float(self.kills) / self.deaths
+
+    def get_hsp(self):
+        if self.kills == 0:
+            return 0.0
+        else:
+            return float(self.headshot_kills) / self.kills
+
+    def get_adr(self):
+        if self.roundsplayed == 0:
+            return 0.0
+        else:
+            return float(self.damage) / self.roundsplayed
+
+    def get_fpr(self):
+        if self.roundsplayed == 0:
+            return 0.0
+        else:
+            return float(self.kills) / self.roundsplayed
+
     @staticmethod
     def get_or_create(matchid, mapnumber, steam_id):
         mapstats = MapStats.get_or_create(matchid, mapnumber)

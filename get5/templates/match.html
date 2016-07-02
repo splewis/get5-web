@@ -14,6 +14,9 @@
   <td></td>
   <td></td>
   <td></td>
+  <td></td>
+  <td></td>
+  <td></td>
 
   {% if player.roundsplayed > 0 %}
     <tr>
@@ -22,15 +25,15 @@
       <td class="text-center"> {{ player.deaths }} </td>
       <td class="text-center"> {{ player.assists }} </td>
       <td class="text-center"> {{ player.flashbang_assists }} </td>
-      <td class="text-center"> {{ player.get_rating() | round(2) }} </td>
-      <td class="text-center"> {{ (player.kills / player.roundsplayed) | round(2) }} </td>
-      <td class="text-center"> {{ (player.damage / player.roundsplayed) | round(1) }} </td>
 
-      {% if player.kills == 0 %}
-      <td class="text-center"> {{ (0.0) | round(2) }} </td>
-      {% else %}
-      <td class="text-center"> {{ (player.headshot_kills / player.kills) | round(2) }} </td>
-      {% endif %}
+      <td class="text-center"> {{ player.v1 }} </td>
+      <td class="text-center"> {{ player.v2 }} </td>
+      <td class="text-center"> {{ player.v3 }} </td>
+
+      <td class="text-center"> {{ player.get_rating() | round(2) }} </td>
+      <td class="text-center"> {{ player.get_fpr() | round(2) }} </td>
+      <td class="text-center"> {{ player.get_adr() | round(1) }} </td>
+      <td class="text-center"> {{ player.get_hsp() | round(2) }} </td>
     </tr>
   {% endif %}
   {% endfor %}
@@ -140,6 +143,9 @@
               <th class="text-center">Deaths</th>
               <th class="text-center">Assists</th>
               <th class="text-center">Flash assists</th>
+              <th class="text-center">1v1</th>
+              <th class="text-center">1v2</th>
+              <th class="text-center">1v3</th>
               <th class="text-center">Rating</th>
               <th class="text-center"><acronym title="Frags per round">FPR</acronym></th>
               <th class="text-center"><acronym title="Average damage per round">ADR</acronym></th>
