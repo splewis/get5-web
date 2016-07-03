@@ -17,7 +17,7 @@
     <div class="panel-heading">Recent Matches</div>
     <div class="panel-body">
       {% for match in displaying_user.get_recent_matches() %}
-        <a href="/match/{{match.id}}">#{{match.id}}</a>: {{ match.get_status_string() }}
+        <a href="/match/{{match.id}}">#{{match.id}}</a>: {{ match.get_vs_string() }}
         <br>
       {% endfor %}
     </div>

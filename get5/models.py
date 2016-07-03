@@ -137,15 +137,10 @@ class Team(db.Model):
         results = []
         for steam64 in self.auths:
             if steam64:
-
-                # TODO: fix the cache for get_steam_name
-                # and put the name back in here. (and update team.html
-                # template).
-                # name = ''
                 name = get_steam_name(steam64)
-
                 if not name:
                     name = ''
+
                 results.append((steam64, name))
         return results
 
@@ -222,6 +217,9 @@ class Team(db.Model):
     def get_url(self):
         return url_for('team.team', teamid=self.id)
 
+    def get_name_url_html(self):
+        return Markup('<a href="{}">{}</a>'.format(self.get_url(), self.name))
+
     def __repr__(self):
         return 'Team(id={}, user_id={}, name={}, flag={})'.format(
             self.id, self.user_id, self.name, self.flag)
@@ -295,6 +293,16 @@ class Match(db.Model):
 
         else:
             return 'Cancelled'
+
+    def get_vs_string(self):
+        team1 = self.get_team1()
+        team2 = self.get_team2()
+        scores = self.get_current_score()
+
+        str = '{} vs {} ({}:{})'.format(
+            team1.get_name_url_html(), team2.get_name_url_html(), scores[0], scores[1])
+
+        return Markup(str)
 
     def finalized(self):
         return self.cancelled or self.finished()

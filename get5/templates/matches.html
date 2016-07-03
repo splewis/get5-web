@@ -58,7 +58,7 @@
           {% endif %}
         </td>
         {% else %}
-        <td> <a href="/user/{{ match.get_user().id }}"> {{ match.get_user().name }} </a> </td>
+        <td> <a href="{{ match.get_user().get_url() }}"> {{ match.get_user().name }} </a> </td>
         {% endif %}
 
       </tr>
