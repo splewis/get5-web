@@ -249,10 +249,6 @@ class Match(db.Model):
     team1_score = db.Column(db.Integer, default=0)
     team2_score = db.Column(db.Integer, default=0)
 
-    # Cvar-related settings
-    overtime_enabled = db.Column(db.Boolean, default=True)
-    playout_enabled = db.Column(db.Boolean, default=False)
-
     @staticmethod
     def create(user, team1_id, team2_id, team1_string, team2_string,
                max_maps, skip_veto, title, veto_mappool, server_id=None):
@@ -392,11 +388,6 @@ class Match(db.Model):
 
         d['cvars']['get5_web_api_url'] = url_for(
             'home', _external=True, _scheme='http')
-
-        d['cvars']['mp_overtime_enable'] = '1' if (
-            self.overtime_enabled and not self.playout_enabled) else '0'
-
-        d['cvars']['mp_match_can_clinch'] = '0' if self.playout_enabled else '1'
 
         if self.veto_mappool:
             d['maplist'] = []
