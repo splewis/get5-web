@@ -31,7 +31,7 @@ oid = flask.ext.openid.OpenID(app)
 
 # Setup database connection
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
-from models import User
+from models import User, Team, GameServer, Match, MapStats
 
 # Setup rate limiting
 limiter = flask_limiter.Limiter(
@@ -166,6 +166,21 @@ def flash_errors(form):
 def user(userid):
     user = User.query.get_or_404(userid)
     return render_template('user.html', user=g.user, displaying_user=user)
+
+
+@app.route('/metrics', methods=['GET'])
+def metrics():
+    values = []
+    def add_val(name, value):
+        values.append((name, value))
+
+    add_val('Registered Users', User.query.count())
+    add_val('Saved Teams', Team.query.count())
+    add_val('Matches created', Match.query.count())
+    add_val('Servers added', GameServer.query.count())
+    add_val('Maps with stats saved', MapStats.query.count())
+
+    return render_template('metrics.html', user=g.user, values=values)
 
 
 def config_setting(key, default_value=None):
