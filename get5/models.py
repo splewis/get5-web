@@ -46,8 +46,14 @@ class User(db.Model):
 
         return rv
 
-    def get_url(userid):
-        return url_for('user', userid=userid)
+    def get_url(self):
+        return url_for('user', userid=self.id)
+
+    def get_steam_url(self):
+        return 'http://steamcommunity.com/profiles/{}'.format(self.steam_id)
+
+    def get_recent_matches(self, limit=10):
+        return self.matches.filter_by(cancelled=False).limit(limit)
 
     def __repr__(self):
         return 'User(id={}, steam_id={}, name={})'.format(self.id, self.steam_id, self.name)
@@ -266,7 +272,7 @@ class Match(db.Model):
         db.session.add(rv)
         return rv
 
-    def status_string(self, show_winner=True):
+    def get_status_string(self, show_winner=True):
         if self.pending():
             return 'Pending'
         elif self.live():
