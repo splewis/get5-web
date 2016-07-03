@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div id="content">
+
+  <h1>Get5 Metrics</h1>
+
+  <ul class="list-group">
+
+    {% for desc, value in values %}
+    <li class="list-group-item">
+      {{ desc }}: {{ value }}
+    </li>
+    {% endfor %}
+
+  </ul>
+
+</div>
+
+{% endblock %}
