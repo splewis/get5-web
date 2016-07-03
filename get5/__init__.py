@@ -31,7 +31,7 @@ oid = flask.ext.openid.OpenID(app)
 
 # Setup database connection
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
-from models import User, Team, GameServer, Match, MapStats
+from models import User, Team, GameServer, Match, MapStats, PlayerStats
 
 # Setup rate limiting
 limiter = flask_limiter.Limiter(
@@ -170,17 +170,24 @@ def user(userid):
 
 @app.route('/metrics', methods=['GET'])
 def metrics():
+    return render_template('metrics.html', user=g.user, values=get_metrics())
+
+
+@cache.cached(timeout=300)
+def get_metrics():
     values = []
     def add_val(name, value):
         values.append((name, value))
 
-    add_val('Registered Users', User.query.count())
-    add_val('Saved Teams', Team.query.count())
+    add_val('Registered users', User.query.count())
+    add_val('Saved teams', Team.query.count())
     add_val('Matches created', Match.query.count())
+    add_val('Completed matches', Match.query.filter(Match.end_time != None).count())
     add_val('Servers added', GameServer.query.count())
     add_val('Maps with stats saved', MapStats.query.count())
+    add_val('Unique players', PlayerStats.query.distinct().count())
 
-    return render_template('metrics.html', user=g.user, values=values)
+    return values
 
 
 def config_setting(key, default_value=None):
