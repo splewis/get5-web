@@ -103,6 +103,14 @@
     </div>
     {% endif %}
 
+    {% if match.forfeit %}
+    <div class="alert alert-warning" role="alert">
+      <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+      <span class="sr-only">Error:</span>
+        This match was forfeit by {{match.get_loser()}}.
+    </div>
+    {% endif %}
+
 
     {% if match.start_time is not none %}
     <p>Started at {{ match.start_time.strftime('%Y-%m-%d %H:%M') }}</p>

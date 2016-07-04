@@ -53,9 +53,21 @@ def match_finish(matchid):
     else:
         match.winner = None
 
+    forfeit = request.values.get('forfeit', 0)
+    if forfeit == 1:
+        match.forfeit = True
+        # Reassign scores
+        if winner == 'team1':
+            match.team1_score = 1
+            match.team2_score = 0
+        elif winner == 'team2':
+            match.team1_score = 0
+            match.team2_score = 1
+
     match.end_time = datetime.datetime.utcnow()
     server = GameServer.query.get(match.server_id)
-    server.in_use = False
+    if server:
+        server.in_use = False
 
     db.session.commit()
     app.logger.info('Finished match {}, winner={}', match, winner)

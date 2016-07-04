@@ -235,6 +235,7 @@ class Match(db.Model):
     team2_string = db.Column(db.String(32), default='')
     winner = db.Column(db.Integer, db.ForeignKey('team.id'))
 
+    forfeit = db.Column(db.Boolean, default=False)
     cancelled = db.Column(db.Boolean, default=False)
     start_time = db.Column(db.DateTime)
     end_time = db.Column(db.DateTime)
@@ -357,6 +358,22 @@ class Match(db.Model):
 
     def get_user(self):
         return User.query.get(self.user_id)
+
+    def get_winner(self):
+        if self.team1_score > self.team2_score:
+            return self.get_team1()
+        elif self.team2_score > self.team1_score:
+            return self.get_team2()
+        else:
+            return None
+
+    def get_loser(self):
+        if self.team1_score > self.team2_score:
+            return self.get_team2()
+        elif self.team2_score > self.team1_score:
+            return self.get_team1()
+        else:
+            return None
 
     def build_match_dict(self):
         d = {}
