@@ -234,6 +234,7 @@ class Match(db.Model):
     team1_string = db.Column(db.String(32), default='')
     team2_string = db.Column(db.String(32), default='')
     winner = db.Column(db.Integer, db.ForeignKey('team.id'))
+    plugin_version = db.Column(db.String(32), default='unknown')
 
     forfeit = db.Column(db.Boolean, default=False)
     cancelled = db.Column(db.Boolean, default=False)

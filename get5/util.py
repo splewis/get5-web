@@ -36,7 +36,7 @@ def check_server_avaliability(server):
     import json
 
     if not server:
-        return False, 'Server not found'
+        return None, 'Server not found'
 
     response = send_rcon_command(
         server.ip_string, server.port, server.rcon_password, 'get5_web_avaliable')
@@ -45,25 +45,25 @@ def check_server_avaliability(server):
         json_error = False
         already_live = False
         try:
-            json_status = json.loads(response)
-            already_live = json_status['gamestate'] != 0
+            json_reply = json.loads(response)
+            already_live = json_reply['gamestate'] != 0
         except (ValueError, KeyError):
             json_error = True
 
     if response is None:
-        return False, 'Failed to connect to server'
+        return None, 'Failed to connect to server'
 
     elif 'Unknown command' in str(response):
-        return False, 'Either get5 or get5_apistats plugin missing'
+        return None, 'Either get5 or get5_apistats plugin missing'
 
     elif already_live:
-        return False, 'Server already has a get5 match setup'
+        return None, 'Server already has a get5 match setup'
 
     elif json_error:
-        return False, 'Error reading get5_web_avaliable response'
+        return None, 'Error reading get5_web_avaliable response'
 
     else:
-        return True, ''
+        return json_reply, ''
 
 
 class RconError(ValueError):

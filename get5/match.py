@@ -144,6 +144,9 @@ def match_create():
             match_on_server = g.user.matches.filter_by(
                 server_id=server.id, end_time=None, cancelled=False).first()
 
+            server_avaliable = False
+            json_reply = None
+
             if g.user.id != server.user_id:
                 server_avaliable = False
                 message = 'This is not your server!'
@@ -155,8 +158,9 @@ def match_create():
                 server_avaliable = True
                 message = 'Success'
             else:
-                server_avaliable, message = util.check_server_avaliability(
+                json_reply, message = util.check_server_avaliability(
                     server)
+                server_avaliable = (json_reply is not None)
 
             if server_avaliable:
                 skip_veto = 'preset' in form.data['series_type']
@@ -170,6 +174,13 @@ def match_create():
                     form.data['team1_string'], form.data['team2_string'],
                     max_maps, skip_veto, form.data['match_title'],
                     form.data['veto_mappool'], form.data['server_id'])
+
+                # Save plugin version data if we have it
+                if json_reply and 'plugin_version' in json_reply:
+                    match.plugin_version = json_reply['plugin_version']
+                else:
+                    match.plugin_version = 'unknown'
+
                 server.in_use = True
 
                 db.session.commit()
