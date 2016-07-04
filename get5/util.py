@@ -113,6 +113,6 @@ def strip_rcon_logline(response):
 
 def get_version():
     try:
-        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip()
-    except CalledProcessError:
+        return subprocess.check_output(['git2', 'rev-parse', '--short', 'HEAD']).strip()
+    except (OSError, subprocess.CalledProcessError):
         return None
