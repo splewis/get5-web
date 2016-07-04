@@ -1,3 +1,4 @@
+import os
 import subprocess
 
 
@@ -113,6 +114,7 @@ def strip_rcon_logline(response):
 
 def get_version():
     try:
-        return subprocess.check_output(['git2', 'rev-parse', '--short', 'HEAD']).strip()
+        root_dir = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), '..'))
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=root_dir).strip()
     except (OSError, subprocess.CalledProcessError):
         return None
