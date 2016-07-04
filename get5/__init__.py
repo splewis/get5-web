@@ -4,6 +4,7 @@ import logging
 import logging.handlers
 
 import steamid
+import util
 
 from flask import (Flask, render_template, flash, jsonify,
                    request, g, session, redirect)
@@ -55,6 +56,9 @@ stream_handler.setLevel(logging.INFO)
 stream_handler.setFormatter(formatter)
 app.logger.addHandler(stream_handler)
 app.logger.setLevel(logging.INFO)
+
+# Find version info
+app.jinja_env.globals.update(COMMIT_STRING=util.get_version())
 
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
 

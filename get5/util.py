@@ -1,3 +1,6 @@
+import subprocess
+
+
 def as_int(val, on_fail=0):
     if val is None:
         return on_fail
@@ -106,3 +109,10 @@ def strip_rcon_logline(response):
             return '\n'.join(lines[:len(lines) - 1])
 
     return response
+
+
+def get_version():
+    try:
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD']).strip()
+    except CalledProcessError:
+        return None
