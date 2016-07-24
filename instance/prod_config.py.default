@@ -3,13 +3,15 @@ import os
 location = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), '..', 'logs'))
 LOG_PATH = os.path.join(location, 'get5.log')
 
-DEBUG = False
-TESTING = False
-SQLALCHEMY_DATABASE_URI = 'mysql://user:password@host/db'
+DEBUG = False  # Whether the server is in debug mode
+TESTING = False  # Whether this config is used for testing
+SQLALCHEMY_DATABASE_URI = 'mysql://user:password@host/db'  # Sqlalchemy database connection info
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-STEAM_API_KEY = '???'
-SECRET_KEY = '???'
-USER_MAX_SERVERS = 10
-USER_MAX_TEAMS = 100
-USER_MAX_MATCHES = 1000
+
+STEAM_API_KEY = '???'  # https://steamcommunity.com/dev/apikey
+SECRET_KEY = '???'  # Secret key used for flask cookies
+USER_MAX_SERVERS = 10  # Max servers a user can create
+USER_MAX_TEAMS = 100  # Max teams a user can create
+USER_MAX_MATCHES = 1000  # Max matches a user can create
 DEFAULT_PAGE = '/matches'
+ADMINS_ACCESS_ALL_MATCHES = False  # Whether admins can always access any match admin panel

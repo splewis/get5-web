@@ -206,9 +206,12 @@ def match(matchid):
     team1 = Team.query.get_or_404(match.team1_id)
     team2 = Team.query.get_or_404(match.team2_id)
     map_stat_list = match.map_stats.all()
-    is_owner = (g.user is not None) and (g.user.id == match.user_id)
 
-    return render_template('match.html', user=g.user, is_owner=is_owner,
+    is_owner = (g.user is not None) and (g.user.id == match.user_id)
+    admin_access = is_owner or (config_setting(
+        'ADMINS_ACCESS_ALL_MATCHES', False) and g.user.admin)
+
+    return render_template('match.html', user=g.user, admin_access=admin_access,
                            match=match, team1=team1, team2=team2,
                            map_stat_list=map_stat_list)
 
@@ -381,7 +384,8 @@ def match_backup(matchid):
 @match_blueprint.route("/matches")
 def matches():
     page = util.as_int(request.values.get('page'), on_fail=1)
-    matches = Match.query.order_by(-Match.id).filter_by(cancelled=False).paginate(page, 20)
+    matches = Match.query.order_by(-Match.id).filter_by(
+        cancelled=False).paginate(page, 20)
     return render_template('matches.html', user=g.user, matches=matches,
                            my_matches=False, all_matches=True, page=page)
 

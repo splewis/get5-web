@@ -69,7 +69,7 @@
       {{ match.team2_score }}
       {{ team2.get_flag_html() }} <a href="/team/{{team2.id}}"> {{team2.name}}</a>
 
-      {% if is_owner and (match.live() or match.pending()) %}
+      {% if admin_access and (match.live() or match.pending()) %}
       <div class="dropdown dropdown-header pull-right">
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
           Admin tools
