@@ -130,14 +130,14 @@ def match_create():
 
     if request.method == 'POST':
         num_matches = g.user.matches.count()
-        max_matches = config_setting('USER_MAX_MATCHES', 0)
+        max_matches = config_setting('USER_MAX_MATCHES')
 
         if max_matches >= 0 and num_matches >= max_matches and not g.user.admin:
             flash('You already have the maximum number of matches ({}) created'.format(
                 num_matches))
 
         if form.validate():
-            mock = config_setting('TESTING', False)
+            mock = config_setting('TESTING')
 
             server = GameServer.query.get_or_404(form.data['server_id'])
 
@@ -209,7 +209,7 @@ def match(matchid):
 
     is_owner = (g.user is not None) and (g.user.id == match.user_id)
     admin_access = is_owner or (config_setting(
-        'ADMINS_ACCESS_ALL_MATCHES', False) and g.user.admin)
+        'ADMINS_ACCESS_ALL_MATCHES') and g.user.admin)
 
     return render_template('match.html', user=g.user, admin_access=admin_access,
                            match=match, team1=team1, team2=team2,

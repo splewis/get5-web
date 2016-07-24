@@ -63,7 +63,7 @@ def team_create():
 
     if request.method == 'POST':
         num_teams = g.user.teams.count()
-        max_teams = config_setting('USER_MAX_TEAMS', 0)
+        max_teams = config_setting('USER_MAX_TEAMS')
         if max_teams >= 0 and num_teams >= max_teams and not g.user.admin:
             flash(
                 'You already have the maximum number of teams ({}) stored'.format(num_teams))

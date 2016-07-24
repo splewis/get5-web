@@ -174,7 +174,7 @@ def logout():
 
 @app.route('/')
 def home():
-    return redirect(config_setting('DEFAULT_PAGE', '/matches'))
+    return redirect(config_setting('DEFAULT_PAGE'))
 
 
 def flash_errors(form):
@@ -213,8 +213,26 @@ def get_metrics():
     return values
 
 
-def config_setting(key, default_value=None):
-    try:
+_config_defaults = {
+    'LOG_PATH': None,
+    'DEBUG': False,
+    'TESTING': False,
+    'SQLALCHEMY_DATABASE_URI': 'mysql://user:password@host/db',
+    'SQLALCHEMY_TRACK_MODIFICATIONS': False,
+    'STEAM_API_KEY': '???',
+    'SECRET_KEY': '???',
+    'USER_MAX_SERVERS': 10,
+    'USER_MAX_TEAMS': 100,
+    'USER_MAX_MATCHES': 1000,
+    'DEFAULT_PAGE': '/matches',
+    'ADMINS_ACCESS_ALL_MATCHES': False,
+}
+
+def config_setting(key):
+    if key in app.config:
         return app.config[key]
-    except KeyError:
-        return default_value
+    else:
+        if key in _config_defaults:
+            return _config_defaults[key]
+        else:
+            return None
