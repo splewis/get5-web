@@ -128,11 +128,9 @@ Here is an example apache2 conf for /etc/apache2/sites-avaliable:
 </VirtualHost>
 ```
 
-**
-Note: due to a limitation in how API requests are sent from the game server to the web server,
+**Note: due to a limitation in how API requests are sent from the game server to the web server,
 you must have a domain associated with the web panel. Just hosting it at an <ip:port> will not work and
-will cause match updates from the game server to not reach the web panel.
-**
+will cause match updates from the game server to not reach the web panel.**
 
 
 ## Other useful commands:
