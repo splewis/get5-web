@@ -15,7 +15,7 @@ Once you do this, the site will send an rcon command to the game server ``get5_l
 
 As the match owner, you will be able to cancel the match. Additionally, on its matchpage there is a dropdown to run admin commands: add players to the teams if a ringer is needed, pause the match, load a match backup, list match backups, and run any rcon command.
 
-Note: when using this web panel, the CS:GO game servers **must** be have both the core get5 plugin and the get5_apistats plugin. They are [released](https://github.com/splewis/get5/releases) together.
+Note: when using this web panel, the CS:GO game servers **must** be have both the core get5 plugin and the get5_apistats plugin. They are [released](https://github.com/splewis/get5/releases) together. This means the server must also be running the [Steamworks](https://forums.alliedmods.net/showthread.php?t=229556) and [SMJansson](https://forums.alliedmods.net/showthread.php?t=184604) extensions.
 
 **WARNING**: This should be considered BETA software - it should not be considered STABLE and will contain BUGS. Changes in the master branch may be incompatible until it is given a 1.0.0 release tag.
 
