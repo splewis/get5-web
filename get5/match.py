@@ -207,11 +207,15 @@ def match(matchid):
     team2 = Team.query.get_or_404(match.team2_id)
     map_stat_list = match.map_stats.all()
 
-    is_owner = (g.user is not None) and (g.user.id == match.user_id)
-    admin_access = is_owner or (config_setting(
-        'ADMINS_ACCESS_ALL_MATCHES') and g.user.admin)
+    is_owner = False
+    has_admin_access = False
 
-    return render_template('match.html', user=g.user, admin_access=admin_access,
+    if g.user:
+        is_owner = (g.user.id == match.user_id)
+        has_admin_access = is_owner or (config_setting(
+            'ADMINS_ACCESS_ALL_MATCHES') and g.user.admin)
+
+    return render_template('match.html', user=g.user, admin_access=has_admin_access,
                            match=match, team1=team1, team2=team2,
                            map_stat_list=map_stat_list)
 
