@@ -102,6 +102,15 @@ class TeamTests(get5_test.Get5Test):
         response = c.post('/team/1/edit')
         self.assertEqual(response.status_code, 400)
 
+    # Make sure a user can't delete someone else's teams
+    def test_delete_team_wronguser(self):
+        with self.app as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 2
+
+        response = c.get('/team/1/delete')
+        self.assertEqual(response.status_code, 400)
+
     def test_myteams_redirect(self):
         with self.app as c:
             with c.session_transaction() as sess:

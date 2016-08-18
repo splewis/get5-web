@@ -145,7 +145,7 @@ class Team(db.Model):
         return results
 
     def can_delete(self, user):
-        if not self.can_edit(user) and not self.is_public_team():
+        if not self.can_edit(user) or self.is_public_team():
             return False
         return self.get_recent_matches().count() == 0
 
