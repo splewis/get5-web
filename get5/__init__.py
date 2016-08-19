@@ -226,6 +226,7 @@ _config_defaults = {
     'USER_MAX_MATCHES': 1000,
     'DEFAULT_PAGE': '/matches',
     'ADMINS_ACCESS_ALL_MATCHES': False,
+    'PUBLIC_TEAMS_EXPORTED': True,
 }
 
 def config_setting(key):

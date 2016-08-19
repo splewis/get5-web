@@ -5,7 +5,7 @@ import countries
 import util
 import steamid
 
-from flask import Blueprint, request, render_template, flash, g, redirect, url_for
+from flask import Blueprint, request, render_template, flash, g, redirect, url_for, jsonify
 
 from wtforms import (
     Form, validators,
@@ -83,7 +83,7 @@ def team_create():
             return redirect('/teams/{}'.format(team.user_id))
 
         else:
-            get5.flash_errors(form)
+            flash_errors(form)
 
     return render_template('team_create.html', user=g.user, form=form,
                            edit=False, is_admin=g.user.admin)
@@ -151,10 +151,29 @@ def team_delete(teamid):
 def teams_user(userid):
     user = User.query.get_or_404(userid)
     page = util.as_int(request.values.get('page'), on_fail=1)
-    my_teams = (g.user is not None and userid == g.user.id)
-    teams = user.teams.paginate(page, 20)
-    return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams, page=page, owner=user)
+    json_data = util.as_int(request.values.get('json'), on_fail=0)
 
+    if json_data:
+        # Export team data as json
+        if not config_setting('PUBLIC_TEAMS_EXPORTED'):
+            return 'Public teams are not exported', 400
+
+        teams_dict = {}
+        admin_user = User.get_public_user()
+        for team in user.teams:
+            team_dict = {}
+            team_dict['name'] = team.name
+            team_dict['flag'] = team.flag
+            team_dict['logo'] = team.logo
+            team_dict['players'] = filter(lambda x: bool(x), team.auths)
+            teams_dict[team.id] = team_dict
+        return jsonify(teams_dict)
+
+    else:
+        # Render teams page
+        my_teams = (g.user is not None and userid == g.user.id)
+        teams = user.teams.paginate(page, 20)
+        return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams, page=page, owner=user)
 
 @team_blueprint.route('/teams/public', methods=['GET'])
 def teams_public():
