@@ -6,6 +6,8 @@ from get5 import db
 from models import User, Team, GameServer, Match
 
 
+# All tests will use this base test framework, including the test date defined
+# in create_test_data. This data will already be in the database on test start.
 class Get5Test(unittest.TestCase):
 
     def setUp(self):

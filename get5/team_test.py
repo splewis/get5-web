@@ -37,7 +37,7 @@ class TeamTests(get5_test.Get5Test):
                                   'name': 'NiP',
                                   'country_flag': 'se',
                                   'logo': 'nip',
-                                  'auth1': 'STEAM_0:1:52245092'
+                                  'auth1': 'STEAM_0:1:52245092',
                               })
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, url_for(
@@ -72,7 +72,7 @@ class TeamTests(get5_test.Get5Test):
                                   'name': 'NiP2',
                                   'country_flag': 'ru',
                                   'logo': 'newlogo',
-                                  'auth1': 'STEAM_0:1:52245092'
+                                  'auth1': 'STEAM_0:1:52245092',
                               })
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, url_for(
@@ -99,8 +99,14 @@ class TeamTests(get5_test.Get5Test):
             with c.session_transaction() as sess:
                 sess['user_id'] = 2
 
-        response = c.post('/team/1/edit')
-        self.assertEqual(response.status_code, 400)
+            response = c.post('/team/1/edit')
+            self.assertEqual(response.status_code, 400)
+
+    # Make sure a non-logged in user can't edit someone else's teams
+    def test_edit_team_nouser(self):
+        with self.app as c:
+            response = c.post('/team/1/edit')
+            self.assertEqual(response.status_code, 400)
 
     # Make sure a user can't delete someone else's teams
     def test_delete_team_wronguser(self):
@@ -108,8 +114,8 @@ class TeamTests(get5_test.Get5Test):
             with c.session_transaction() as sess:
                 sess['user_id'] = 2
 
-        response = c.get('/team/1/delete')
-        self.assertEqual(response.status_code, 400)
+            response = c.get('/team/1/delete')
+            self.assertEqual(response.status_code, 400)
 
     def test_myteams_redirect(self):
         with self.app as c:
@@ -121,6 +127,9 @@ class TeamTests(get5_test.Get5Test):
             self.assertEqual(response.status_code, 302)
             self.assertEqual(response.location, url_for(
                 'team.teams_user', userid=1, _external=True))
+
+    # TODO:
+    # - test public team creation, editing, redirects
 
 
 if __name__ == '__main__':

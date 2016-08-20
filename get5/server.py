@@ -68,7 +68,7 @@ def server_create():
 @server_blueprint.route('/server/<int:serverid>/edit', methods=['GET', 'POST'])
 def server_edit(serverid):
     server = GameServer.query.get_or_404(serverid)
-    is_owner = (g.user.id == server.user_id)
+    is_owner = g.user and (g.user.id == server.user_id)
     if not is_owner:
         return 'Not your server', 400
 

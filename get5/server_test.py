@@ -111,9 +111,14 @@ class TeamTests(get5_test.Get5Test):
         with self.app as c:
             with c.session_transaction() as sess:
                 sess['user_id'] = 2
+            response = c.post('/server/1/edit')
+            self.assertEqual(response.status_code, 400)
 
-        response = c.post('/server/1/edit')
-        self.assertEqual(response.status_code, 400)
+    # Make sure a non-logged in user can't edit someone else's servers
+    def test_edit_server_nouser(self):
+        with self.app as c:
+            response = c.post('/server/1/edit')
+            self.assertEqual(response.status_code, 400)
 
 
 if __name__ == '__main__':
