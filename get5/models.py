@@ -543,7 +543,7 @@ class PlayerStats(db.Model):
         return rv
 
 
-@cache.memoize(timeout=1000)
+@cache.memoize(timeout=60*60*24)  # 1 day timeout
 def get_steam_name(steam64):
     url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'.format(
         app.config['STEAM_API_KEY'], steam64)

@@ -42,7 +42,7 @@ app.config.from_pyfile('prod_config.py')
 cache = flask.ext.cache.Cache(app, config={
     'CACHE_TYPE': 'filesystem',
     'CACHE_DIR': '/tmp',
-    'CACHE_THRESHOLD': 20000,
+    'CACHE_THRESHOLD': 25000,
     'CACHE_DEFAULT_TIMEOUT': 60,
 })
 
