@@ -229,7 +229,10 @@ def match_config(matchid):
 
 
 def admintools_check(user, match):
-    if user is None or user.id != match.user_id:
+    if user is None:
+        raise BadRequestError('You do not have access to this page')
+
+    if user.id != match.user_id and not (user.admin and get5.config_setting('ADMINS_ACCESS_ALL_MATCHES')):
         raise BadRequestError('You do not have access to this page')
 
     if match.finished():
