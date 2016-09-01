@@ -61,23 +61,12 @@ class SteamIdTests(get5_test.Get5Test):
         self.assertTrue(suc)
         self.assertEqual(actual, expected)
 
-        input = 'http://steamcommunity.com/id/splewis2'
-        expected = ''
-        suc, actual = steamid.auth_to_steam64(input)
-        self.assertFalse(suc)
-        self.assertEqual(actual, expected)
-
         input = 'splewis'
         expected = '76561198064755913'
         suc, actual = steamid.auth_to_steam64(input)
         self.assertTrue(suc)
         self.assertEqual(actual, expected)
 
-        input = 'splewis_bad'
-        expected = ''
-        suc, actual = steamid.auth_to_steam64(input)
-        self.assertFalse(suc)
-        self.assertEqual(actual, expected)
 
 
 if __name__ == '__main__':
