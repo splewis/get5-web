@@ -62,11 +62,11 @@
   <div class="container">
 
     <h1>
-      {{ team1.get_flag_html() }} <a href="/team/{{team1.id}}"> {{team1.name}}</a>
+      {{ team1.get_logo_or_flag_html(1.0, team2) }} <a href="/team/{{team1.id}}"> {{team1.name}}</a>
       {{ match.team1_score }}
       {{ score_symbol(match.team1_score, match.team2_score) }}
       {{ match.team2_score }}
-      {{ team2.get_flag_html() }} <a href="/team/{{team2.id}}"> {{team2.name}}</a>
+      {{ team2.get_logo_or_flag_html(1.0, team1) }} <a href="/team/{{team2.id}}"> {{team2.name}}</a>
 
       {% if admin_access and (match.live() or match.pending()) %}
       <div class="dropdown dropdown-header pull-right">

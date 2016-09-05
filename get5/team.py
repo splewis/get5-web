@@ -2,8 +2,9 @@ from get5 import app, db, flash_errors, config_setting
 from models import User, Team
 
 import countries
-import util
+import logos
 import steamid
+import util
 
 from flask import Blueprint, request, render_template, flash, g, redirect, url_for, jsonify
 
@@ -32,10 +33,12 @@ class TeamForm(Form):
     name = StringField('Team Name', validators=[
                        validators.required(), validators.Length(min=-1, max=Team.name.type.length)])
 
-    choices = [('', 'None')] + countries.country_choices
-    country_flag = SelectField('Country Flag', choices=choices)
+    flag_choices = [('', 'None')] + countries.country_choices
+    country_flag = SelectField('Country Flag', choices=flag_choices, default='')
 
-    logo = StringField('Logo Name')
+    logo_choices = logos.get_logo_choices()
+    logo = SelectField('Logo Name', choices=logo_choices, default='')
+
     auth1 = StringField('Player 1', validators=[valid_auth])
     auth2 = StringField('Player 2', validators=[valid_auth])
     auth3 = StringField('Player 3', validators=[valid_auth])

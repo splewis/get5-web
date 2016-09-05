@@ -1,5 +1,6 @@
 from get5 import app, db, cache
 import countries
+import logos
 import util
 
 from flask import url_for, Markup
@@ -214,15 +215,30 @@ class Team(db.Model):
             countries.get_flag_img_path(self.flag), width, height)
         return Markup(output)
 
+    def get_logo_html(self, scale=1.0):
+        if logos.has_logo(self.logo):
+            width = int(round(32.0 * scale))
+            height = int(round(32.0 * scale))
+            html = ('<img src="{}"  width="{}" height="{}">')
+            return Markup(html.format(logos.get_logo_img(self.logo), width, height))
+        else:
+            return ''
+
     def get_url(self):
         return url_for('team.team', teamid=self.id)
 
     def get_name_url_html(self):
         return Markup('<a href="{}">{}</a>'.format(self.get_url(), self.name))
 
+    def get_logo_or_flag_html(self, scale=1.0, other_team=None):
+        if logos.has_logo(self.logo) and (other_team is None or logos.has_logo(other_team.logo)):
+            return self.get_logo_html(scale)
+        else:
+            return self.get_flag_html(scale)
+
     def __repr__(self):
-        return 'Team(id={}, user_id={}, name={}, flag={})'.format(
-            self.id, self.user_id, self.name, self.flag)
+        return 'Team(id={}, user_id={}, name={}, flag={}, logo={})'.format(
+            self.id, self.user_id, self.name, self.flag, self.logo)
 
 
 class Match(db.Model):

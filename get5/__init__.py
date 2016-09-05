@@ -22,6 +22,7 @@ import sys
 import logging
 import logging.handlers
 
+import logos
 import steamid
 import util
 
@@ -79,6 +80,8 @@ app.logger.setLevel(logging.INFO)
 # Find version info
 app.jinja_env.globals.update(COMMIT_STRING=util.get_version())
 
+# Setup any data structures needed
+logos.initialize_logos()
 _steam_id_re = re.compile('steamcommunity.com/openid/id/(.*?)$')
 
 

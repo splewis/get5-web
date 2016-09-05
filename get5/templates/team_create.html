@@ -21,7 +21,7 @@
     <div class="form-group">
     {{ form.logo.label(class="col-sm-2 control-label") }}
       <div class="col-sm-7">
-        {{ form.logo(class="form-control", placeholder="Logo file (must already be on the gameserver)") }}
+        {{ form.logo(class="form-control input-sm") }}
       </div>
     </div>
 
@@ -105,6 +105,10 @@
   </form>
 
 </div>
+
+<script>
+$("#logo").chosen()
+</script>
 
 <script>
 $("#country_flag").chosen()
