@@ -70,7 +70,7 @@ def match_finish(matchid):
         server.in_use = False
 
     db.session.commit()
-    app.logger.info('Finished match {}, winner={}', match, winner)
+    app.logger.info('Finished match {}, winner={}'.format(match, winner))
 
     return 'Success'
 
