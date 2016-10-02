@@ -184,8 +184,8 @@ def match_create():
                 server.in_use = True
 
                 db.session.commit()
-                app.logger.info('User {} created match {}, assigned to server {}',
-                                g.user.id, match.id, server.id)
+                app.logger.info('User {} created match {}, assigned to server {}'
+                                .format(g.user.id, match.id, server.id))
 
                 if mock or match.send_to_server():
                     return redirect('/mymatches')
