@@ -293,7 +293,7 @@ def match_pause(matchid):
     server = GameServer.query.get_or_404(match.server_id)
 
     try:
-        server.send_rcon_command('mp_pause_match', raise_errors=True)
+        server.send_rcon_command('sm_pause', raise_errors=True)
         flash('Paused match')
     except util.RconError as e:
         flash('Failed to send pause command: ' + str(e))
@@ -308,7 +308,7 @@ def match_unpause(matchid):
     server = GameServer.query.get_or_404(match.server_id)
 
     try:
-        server.send_rcon_command('mp_unpause_match', raise_errors=True)
+        server.send_rcon_command('sm_unpause', raise_errors=True)
         flash('Unpaused match')
     except util.RconError as e:
         flash('Failed to send unpause command: ' + str(e))
