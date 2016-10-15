@@ -1,0 +1,16 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin: 0 0 100px;
+}
+.panel-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+.panel-footer p {
+  margin: 10px 0 10px;
+}
