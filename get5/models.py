@@ -498,6 +498,10 @@ class PlayerStats(db.Model):
     k3 = db.Column(db.Integer, default=0)
     k4 = db.Column(db.Integer, default=0)
     k5 = db.Column(db.Integer, default=0)
+    firstkill_t = db.Column(db.Integer, default=0)
+    firstkill_ct = db.Column(db.Integer, default=0)
+    firstdeath_t = db.Column(db.Integer, default=0)
+    firstdeath_Ct = db.Column(db.Integer, default=0)
 
     def get_steam_url(self):
         return 'http://steamcommunity.com/profiles/{}'.format(self.steam_id)

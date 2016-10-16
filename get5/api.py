@@ -185,6 +185,11 @@ def match_map_update_player(matchid, mapnumber, steamid64):
             player_stats.v3 = as_int(request.values.get('v3'))
             player_stats.v4 = as_int(request.values.get('v4'))
             player_stats.v5 = as_int(request.values.get('v5'))
+            player_stats.firstkill_t = as_int(request.values.get('firstkill_t'))
+            player_stats.firstkill_ct = as_int(request.values.get('firstkill_ct'))
+            player_stats.firstdeath_t = as_int(request.values.get('firstdeath_t'))
+            player_stats.firstdeath_ct = as_int(request.values.get('firstdeath_ct'))
+
             db.session.commit()
     else:
         return 'Failed to find map stats object', 404
