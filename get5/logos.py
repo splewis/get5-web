@@ -1,5 +1,4 @@
 import glob
-import ntpath
 import os
 
 

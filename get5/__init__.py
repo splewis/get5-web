@@ -33,7 +33,6 @@ import flask.ext.cache
 import flask.ext.sqlalchemy
 import flask.ext.openid
 import flask_limiter
-import requests
 
 # Import the Flask Framework
 app = Flask(__name__, instance_relative_config=True)
@@ -52,7 +51,7 @@ oid = flask.ext.openid.OpenID(app)
 
 # Setup database connection
 db = flask.ext.sqlalchemy.SQLAlchemy(app)
-from models import User, Team, GameServer, Match, MapStats, PlayerStats
+from models import User, Team, GameServer, Match, MapStats, PlayerStats  # noqa: E402
 
 # Setup rate limiting
 limiter = flask_limiter.Limiter(
@@ -111,7 +110,8 @@ def login():
 def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
     steam_id = match.group(1)
-    if (not steam_id) or ('WHITELISTED_IDS' in app.config and steam_id not in app.config['WHITELISTED_IDS']):
+    is_whitelisted = (steam_id in config_setting('WHITELISTED_IDS'))
+    if (not steam_id) or (config_setting('WHITELISTED_IDS') and is_whitelisted):
         return 'Sorry, you don\'t have access to this webpanel'
 
     g.user = User.get_or_create(steam_id)
@@ -202,13 +202,15 @@ def metrics():
 @cache.cached(timeout=300)
 def get_metrics():
     values = []
+
     def add_val(name, value):
         values.append((name, value))
 
     add_val('Registered users', User.query.count())
     add_val('Saved teams', Team.query.count())
     add_val('Matches created', Match.query.count())
-    add_val('Completed matches', Match.query.filter(Match.end_time != None).count())
+    add_val('Completed matches', Match.query.filter(
+        Match.end_time is not None).count())
     add_val('Servers added', GameServer.query.count())
     add_val('Maps with stats saved', MapStats.query.count())
     add_val('Unique players', PlayerStats.query.distinct().count())
@@ -230,7 +232,10 @@ _config_defaults = {
     'DEFAULT_PAGE': '/matches',
     'ADMINS_ACCESS_ALL_MATCHES': False,
     'PUBLIC_TEAMS_EXPORTED': True,
+    'WHITELISTED_IDS': [],
+    'ADMIN_IDS': [],
 }
+
 
 def config_setting(key):
     if key in app.config:

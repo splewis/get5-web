@@ -1,0 +1,4 @@
+[flake8]
+ignore = D203
+exclude = .git,__pycache__,templates
+max-line-length = 99

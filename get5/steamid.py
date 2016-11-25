@@ -42,7 +42,7 @@ def steam64_from_dom(dom):
 
 
 def custom_url_to_steam3(url):
-    if not '?xml=1' in url:
+    if '?xml=1' not in url:
         url += '?xml=1'
 
     try:
@@ -75,7 +75,7 @@ def auth_to_steam64(auth):
     elif auth.startswith('STEAM_'):
         return steam2_to_steam64(auth)
 
-    elif auth.startswith('7656119') and not 'steam' in auth:
+    elif auth.startswith('7656119') and 'steam' not in auth:
         return True, auth
 
     elif auth.startswith('[U:1:'):

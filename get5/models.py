@@ -162,7 +162,7 @@ class Team(db.Model):
 
         recent_matches = matches.filter(
             ((Match.team1_id == self.id) | (Match.team2_id == self.id)) & (
-                Match.cancelled == False) & (Match.start_time != None)
+                Match.cancelled == False) & (Match.start_time != None)  # noqa: E712
         ).order_by(-Match.id).limit(5)
 
         if recent_matches is None:
@@ -563,10 +563,10 @@ class PlayerStats(db.Model):
         return rv
 
 
-@cache.memoize(timeout=60*60*24)  # 1 day timeout
+@cache.memoize(timeout=60 * 60 * 24)  # 1 day timeout
 def get_steam_name(steam64):
-    url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'.format(
-        app.config['STEAM_API_KEY'], steam64)
+    url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'
+    url = url.format(app.config['STEAM_API_KEY'], steam64)
     response = requests.get(url)
     if response.status_code == 200:
         try:

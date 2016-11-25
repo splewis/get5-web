@@ -1,4 +1,5 @@
 import os
+import socket
 import subprocess
 
 
@@ -70,9 +71,10 @@ class RconError(ValueError):
     pass
 
 
-def send_rcon_command(host, port, rcon_password, command, raise_errors=False, num_retries=3, timeout=3.0):
-    from valve.source.rcon import RCON, IncompleteMessageError, AuthenticationError, NoResponseError
-    import socket
+def send_rcon_command(host, port, rcon_password, command,
+                      raise_errors=False, num_retries=3, timeout=3.0):
+    from valve.source.rcon import (RCON, IncompleteMessageError,
+                                   AuthenticationError, NoResponseError)
 
     try:
         port = int(port)
@@ -114,7 +116,9 @@ def strip_rcon_logline(response):
 
 def get_version():
     try:
-        root_dir = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__), '..'))
-        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd=root_dir).strip()
+        root_dir = os.path.realpath(os.path.join(
+            os.getcwd(), os.path.dirname(__file__), '..'))
+        cmd = ['git', 'rev-parse', '--short', 'HEAD']
+        return subprocess.check_output(cmd, cwd=root_dir).strip()
     except (OSError, subprocess.CalledProcessError):
         return None
