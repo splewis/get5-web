@@ -110,14 +110,14 @@ class Team(db.Model):
     auths = db.Column(db.PickleType)
 
     @staticmethod
-    def create(user, name, flag, logo, auths, as_admin=False):
+    def create(user, name, tag, flag, logo, auths, as_admin=False):
         rv = Team()
         if as_admin and user.admin:
             rv.user_id = User.get_public_user().id
         else:
             rv.user_id = user.id
 
-        rv.set_data(name, flag, logo, auths)
+        rv.set_data(name, tag, flag, logo, auths)
         db.session.add(rv)
         return rv
 
