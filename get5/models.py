@@ -103,7 +103,7 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(40))
-    tag = db.Column(db.String(40))
+    tag = db.Column(db.String(40), default='')
     flag = db.Column(db.String(4), default='')
     logo = db.Column(db.String(10), default='')
     auths = db.Column(db.PickleType)
