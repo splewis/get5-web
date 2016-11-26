@@ -19,6 +19,13 @@
     </div>
 
     <div class="form-group">
+    {{ form.tag.label(class="col-sm-2 control-label") }}
+      <div class="col-sm-7">
+        {{ form.tag(class="form-control", placeholder="Team tag") }}
+      </div>
+    </div>
+
+    <div class="form-group">
     {{ form.logo.label(class="col-sm-2 control-label") }}
       <div class="col-sm-7">
         {{ form.logo(class="form-control input-sm") }}
