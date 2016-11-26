@@ -103,24 +103,26 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(40))
+    tag = db.Column(db.String(40), default='')
     flag = db.Column(db.String(4), default='')
     logo = db.Column(db.String(10), default='')
     auths = db.Column(db.PickleType)
 
     @staticmethod
-    def create(user, name, flag, logo, auths, as_admin=False):
+    def create(user, name, tag, flag, logo, auths, as_admin=False):
         rv = Team()
         if as_admin and user.admin:
             rv.user_id = User.get_public_user().id
         else:
             rv.user_id = user.id
 
-        rv.set_data(name, flag, logo, auths)
+        rv.set_data(name, tag, flag, logo, auths)
         db.session.add(rv)
         return rv
 
-    def set_data(self, name, flag, logo, auths):
+    def set_data(self, name, tag, flag, logo, auths):
         self.name = name
+        self.tag = tag
         self.flag = flag.lower() if flag else ''
         self.logo = logo
         self.auths = auths
@@ -410,6 +412,7 @@ class Match(db.Model):
 
             d[teamkey] = {}
             d[teamkey]['name'] = team.name
+            d[teamkey]['tag'] = team.tag
             d[teamkey]['flag'] = team.flag.upper()
             d[teamkey]['logo'] = team.logo
             d[teamkey]['matchtext'] = matchtext

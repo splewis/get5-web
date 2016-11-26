@@ -33,6 +33,9 @@ class TeamForm(Form):
     name = StringField('Team Name', validators=[
                        validators.required(), validators.Length(min=-1, max=Team.name.type.length)])
 
+    tag = StringField('Team Tag', validators=[
+                       validators.required(), validators.Length(min=-1, max=Team.tag.type.length)])
+
     flag_choices = [('', 'None')] + countries.country_choices
     country_flag = SelectField('Country Flag', choices=flag_choices, default='')
 
@@ -76,7 +79,7 @@ def team_create():
             public_team = data['public_team']
             auths = form.get_auth_list()
 
-            team = Team.create(g.user, data['name'],
+            team = Team.create(g.user, data['name'], data['tag'],
                                data['country_flag'], data['logo'], auths, public_team)
 
             db.session.commit()
@@ -109,6 +112,7 @@ def team_edit(teamid):
     form = TeamForm(
         request.form,
         name=team.name,
+        tag=team.tag,
         country_flag=team.flag,
         logo=team.logo,
         auth1=team.auths[0],
@@ -128,7 +132,7 @@ def team_edit(teamid):
         if request.method == 'POST':
             if form.validate():
                 data = form.data
-                team.set_data(data['name'], data['country_flag'],
+                team.set_data(data['name'], data['tag'], data['country_flag'],
                               data['logo'], form.get_auth_list())
                 db.session.commit()
                 return redirect('/teams/{}'.format(team.user_id))
@@ -166,6 +170,7 @@ def teams_user(userid):
         for team in user.teams:
             team_dict = {}
             team_dict['name'] = team.name
+            team_dict['tag'] = team.tag
             team_dict['flag'] = team.flag
             team_dict['logo'] = team.logo
             team_dict['players'] = filter(lambda x: bool(x), team.auths)
