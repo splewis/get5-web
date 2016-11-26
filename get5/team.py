@@ -31,13 +31,15 @@ def valid_auth(form, field):
 
 class TeamForm(Form):
     name = StringField('Team Name', validators=[
-                       validators.required(), validators.Length(min=-1, max=Team.name.type.length)])
+        validators.required(),
+        validators.Length(min=-1, max=Team.name.type.length)])
 
     tag = StringField('Team Tag', validators=[
                        validators.required(), validators.Length(min=-1, max=Team.tag.type.length)])
 
     flag_choices = [('', 'None')] + countries.country_choices
-    country_flag = SelectField('Country Flag', choices=flag_choices, default='')
+    country_flag = SelectField(
+        'Country Flag', choices=flag_choices, default='')
 
     logo_choices = logos.get_logo_choices()
     logo = SelectField('Logo Name', choices=logo_choices, default='')
@@ -166,7 +168,6 @@ def teams_user(userid):
             return 'Public teams are not exported', 400
 
         teams_dict = {}
-        admin_user = User.get_public_user()
         for team in user.teams:
             team_dict = {}
             team_dict['name'] = team.name
@@ -181,7 +182,9 @@ def teams_user(userid):
         # Render teams page
         my_teams = (g.user is not None and userid == g.user.id)
         teams = user.teams.paginate(page, 20)
-        return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams, page=page, owner=user)
+        return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams,
+                               page=page, owner=user)
+
 
 @team_blueprint.route('/teams/public', methods=['GET'])
 def teams_public():

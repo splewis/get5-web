@@ -68,6 +68,5 @@ class SteamIdTests(get5_test.Get5Test):
         self.assertEqual(actual, expected)
 
 
-
 if __name__ == '__main__':
     unittest.main()

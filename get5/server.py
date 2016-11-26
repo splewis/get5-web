@@ -12,7 +12,9 @@ server_blueprint = Blueprint('server', __name__)
 
 class ServerForm(Form):
     display_name = StringField('Display Name',
-                               validators=[validators.Length(min=-1, max=GameServer.display_name.type.length)])
+                               validators=[
+                                   validators.Length(min=-1,
+                                                     max=GameServer.display_name.type.length)])
 
     ip_string = StringField('Server IP',
                             validators=[
@@ -25,7 +27,8 @@ class ServerForm(Form):
     rcon_password = StringField('RCON password',
                                 validators=[
                                     validators.required(),
-                                    validators.Length(min=-1, max=GameServer.rcon_password.type.length)])
+                                    validators.Length(min=-1,
+                                                      max=GameServer.rcon_password.type.length)])
 
 
 @server_blueprint.route('/server/create', methods=['GET', 'POST'])

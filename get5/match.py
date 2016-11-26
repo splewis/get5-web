@@ -65,14 +65,16 @@ class MatchForm(Form):
 
     team1_string = StringField('Team 1 title text',
                                default='',
-                               validators=[validators.Length(min=-1, max=Match.team1_string.type.length)])
+                               validators=[validators.Length(min=-1,
+                                                             max=Match.team1_string.type.length)])
 
     team2_id = SelectField('Team 2', coerce=int,
                            validators=[validators.required(), different_teams_validator])
 
     team2_string = StringField('Team 2 title text',
                                default='',
-                               validators=[validators.Length(min=-1, max=Match.team2_string.type.length)])
+                               validators=[validators.Length(min=-1,
+                                                             max=Match.team2_string.type.length)])
 
     # use_map_veto = CheckBox
     mapchoices = [
@@ -232,7 +234,9 @@ def admintools_check(user, match):
     if user is None:
         raise BadRequestError('You do not have access to this page')
 
-    if user.id != match.user_id and not (user.admin and get5.config_setting('ADMINS_ACCESS_ALL_MATCHES')):
+    grant_admin_access = user.admin and get5.config_setting(
+        'ADMINS_ACCESS_ALL_MATCHES')
+    if user.id != match.user_id and not grant_admin_access:
         raise BadRequestError('You do not have access to this page')
 
     if match.finished():
