@@ -15,6 +15,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     steam_id = db.Column(db.String(40), unique=True)
     name = db.Column(db.String(40))
+    tag = db.Column(db.String(40))
     admin = db.Column(db.Boolean, default=False)
     servers = db.relationship('GameServer', backref='user', lazy='dynamic')
     teams = db.relationship('Team', backref='user', lazy='dynamic')
@@ -103,6 +104,7 @@ class Team(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     name = db.Column(db.String(40))
+    tag = db.Column(db.String(40))
     flag = db.Column(db.String(4), default='')
     logo = db.Column(db.String(10), default='')
     auths = db.Column(db.PickleType)
@@ -121,6 +123,7 @@ class Team(db.Model):
 
     def set_data(self, name, flag, logo, auths):
         self.name = name
+        self.tag = tag
         self.flag = flag.lower() if flag else ''
         self.logo = logo
         self.auths = auths
@@ -410,6 +413,7 @@ class Match(db.Model):
 
             d[teamkey] = {}
             d[teamkey]['name'] = team.name
+            d[teamkey]['tag'] = team.tag
             d[teamkey]['flag'] = team.flag.upper()
             d[teamkey]['logo'] = team.logo
             d[teamkey]['matchtext'] = matchtext

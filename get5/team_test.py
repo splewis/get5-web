@@ -35,6 +35,7 @@ class TeamTests(get5_test.Get5Test):
                               follow_redirects=False,
                               data={
                                   'name': 'NiP',
+                                  'tag': 'NiP',
                                   'country_flag': 'se',
                                   'auth1': 'STEAM_0:1:52245092',
                               })
@@ -47,6 +48,7 @@ class TeamTests(get5_test.Get5Test):
         self.assertEqual(team.id, 3)  # already 2 test data teams
         self.assertEqual(team.user_id, 1)
         self.assertEqual(team.name, 'NiP')
+        self.assertEqual(team.tag, 'NiP')
         self.assertEqual(team.flag, 'se')
         self.assertEqual(team.auths[0], '76561198064755913')
         self.assertTrue(team in User.query.get(1).teams)
@@ -68,6 +70,7 @@ class TeamTests(get5_test.Get5Test):
                               follow_redirects=False,
                               data={
                                   'name': 'NiP2',
+                                  'tag': 'NiP2',
                                   'country_flag': 'ru',
                                   'auth1': 'STEAM_0:1:52245092',
                               })
@@ -77,6 +80,7 @@ class TeamTests(get5_test.Get5Test):
 
         team = Team.query.get(3)
         self.assertEqual(team.name, 'NiP2')
+        self.assertEqual(team.tag, 'NiP2')
         self.assertEqual(team.flag, 'ru')
 
         # Now delete the team
