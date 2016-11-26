@@ -234,6 +234,26 @@ _config_defaults = {
     'PUBLIC_TEAMS_EXPORTED': True,
     'WHITELISTED_IDS': [],
     'ADMIN_IDS': [],
+    'MAPLIST': [
+        'de_cache',
+        'de_cbble',
+        'de_dust2',
+        'de_mirage',
+        'de_nuke',
+        'de_overpass',
+        'de_train',
+        'de_inferno',
+        'de_season'
+    ],
+    'DEFAULT_MAPLIST': [
+        'de_cache',
+        'de_cbble',
+        'de_dust2',
+        'de_mirage',
+        'de_nuke',
+        'de_overpass',
+        'de_train',
+    ],
 }
 
 
@@ -244,4 +264,5 @@ def config_setting(key):
         if key in _config_defaults:
             return _config_defaults[key]
         else:
+            app.logger.error('Tried to lookup missing config setting: %s' % key)
             return None

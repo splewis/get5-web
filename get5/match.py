@@ -76,23 +76,8 @@ class MatchForm(Form):
                                validators=[validators.Length(min=-1,
                                                              max=Match.team2_string.type.length)])
 
-    # use_map_veto = CheckBox
-    mapchoices = [
-        # Standard maps
-        'de_cache',
-        'de_cbble',
-        'de_dust2',
-        'de_mirage',
-        'de_nuke',
-        'de_overpass',
-        'de_train',
-
-        # Extra maps
-        'de_inferno',
-        'de_season',
-    ]
-    default_mapchoices = mapchoices[:7]
-
+    mapchoices = config_setting('MAPLIST')
+    default_mapchoices = config_setting('DEFAULT_MAPLIST')
     veto_mappool = MultiCheckboxField('Map pool',
                                       choices=map(lambda name: (
                                           name, util.format_mapname(name)), mapchoices),

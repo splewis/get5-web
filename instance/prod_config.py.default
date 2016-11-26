@@ -15,3 +15,25 @@ USER_MAX_TEAMS = 100  # Max teams a user can create
 USER_MAX_MATCHES = 1000  # Max matches a user can create
 DEFAULT_PAGE = '/matches'
 ADMINS_ACCESS_ALL_MATCHES = False  # Whether admins can always access any match admin panel
+
+MAPLIST = [
+    'de_cache',
+    'de_cbble',
+    'de_dust2',
+    'de_mirage',
+    'de_nuke',
+    'de_overpass',
+    'de_train',
+    'de_inferno',
+    'de_season',
+]
+
+DEFAULT_MAPLIST = [
+    'de_cache',
+    'de_cbble',
+    'de_dust2',
+    'de_mirage',
+    'de_nuke',
+    'de_overpass',
+    'de_train',
+]
