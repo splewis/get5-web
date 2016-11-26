@@ -121,7 +121,7 @@ class Team(db.Model):
         db.session.add(rv)
         return rv
 
-    def set_data(self, name, flag, logo, auths):
+    def set_data(self, name, tag, flag, logo, auths):
         self.name = name
         self.tag = tag
         self.flag = flag.lower() if flag else ''
