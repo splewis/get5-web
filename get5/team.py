@@ -132,7 +132,7 @@ def team_edit(teamid):
         if request.method == 'POST':
             if form.validate():
                 data = form.data
-                team.set_data(data['name'], date['tag'], data['country_flag'],
+                team.set_data(data['name'], data['tag'], data['country_flag'],
                               data['logo'], form.get_auth_list())
                 db.session.commit()
                 return redirect('/teams/{}'.format(team.user_id))
