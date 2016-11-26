@@ -72,6 +72,8 @@ Finally, initialize the database:
 ./manager.py db upgrade
 ```
 
+If you want logos avaliable to use, you should upload them to the get5-web/static/img/logos directory as .png files. A good source is http://csgo-data.com/.
+
 
 ### Deployed using Apache2 with mod_wsgi
 
