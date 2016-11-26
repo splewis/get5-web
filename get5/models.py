@@ -29,9 +29,7 @@ class User(db.Model):
             db.session.add(rv)
             app.logger.info('Creating user for {}'.format(steam_id))
 
-        if 'ADMIN_IDS' in app.config:
-            rv.admin = steam_id in app.config['ADMIN_IDS']
-
+        rv.admin = ('ADMIN_IDS' in app.config) and (steam_id in app.config['ADMIN_IDS'])
         return rv
 
     @staticmethod

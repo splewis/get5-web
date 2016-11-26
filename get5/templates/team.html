@@ -5,7 +5,12 @@
 
   <div class="container">
     <h1>
-    {{ team.get_flag_html(1.0) }} {{ team.name }} {{ team.get_logo_html(1.0) }}
+      {{ team.get_flag_html(1.0) }} {{ team.name }} {{ team.get_logo_html(1.0) }}
+      {% if team.can_edit(user) %}
+      <div class="pull-right">
+        <a href="/team/{{team.id}}/edit" class="btn btn-primary btn-xs">Edit</a>
+      </div>
+      {% endif %}
     </h1>
 
     <br>
