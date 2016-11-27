@@ -110,8 +110,8 @@ def login():
 def create_or_login(resp):
     match = _steam_id_re.search(resp.identity_url)
     steam_id = match.group(1)
-    is_whitelisted = (steam_id in config_setting('WHITELISTED_IDS'))
-    if (not steam_id) or (config_setting('WHITELISTED_IDS') and is_whitelisted):
+    is_in_whitelist = (steam_id in config_setting('WHITELISTED_IDS'))
+    if (not steam_id) or (config_setting('WHITELISTED_IDS') and not is_in_whitelist):
         return 'Sorry, you don\'t have access to this webpanel'
 
     g.user = User.get_or_create(steam_id)
