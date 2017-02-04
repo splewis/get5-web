@@ -25,12 +25,12 @@ CREATE_MATCH_TITLE_TEXT = False # Whether settings for "match title text" and "t
 MAPLIST = [
     'de_cache',
     'de_cbble',
-    'de_dust2',
+    'de_inferno',
     'de_mirage',
     'de_nuke',
     'de_overpass',
     'de_train',
-    'de_inferno',
+    'de_dust2',
     'de_season',
 ]
 
@@ -38,7 +38,7 @@ MAPLIST = [
 DEFAULT_MAPLIST = [
     'de_cache',
     'de_cbble',
-    'de_dust2',
+    'de_inferno',
     'de_mirage',
     'de_nuke',
     'de_overpass',
