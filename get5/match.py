@@ -185,7 +185,7 @@ def match_create():
             get5.flash_errors(form)
 
     return render_template('match_create.html', form=form, user=g.user, teams=g.user.teams,
-                            match_text_option=config_setting('CREATE_MATCH_TITLE_TEXT'))
+                           match_text_option=config_setting('CREATE_MATCH_TITLE_TEXT'))
 
 
 @match_blueprint.route('/match/<int:matchid>')
