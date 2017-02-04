@@ -19,6 +19,7 @@ USER_MAX_TEAMS = 100  # Max teams a user can create
 USER_MAX_MATCHES = 1000  # Max matches a user can create
 DEFAULT_PAGE = '/matches'
 ADMINS_ACCESS_ALL_MATCHES = False  # Whether admins can always access any match admin panel
+CREATE_MATCH_TITLE_TEXT = False # Whether settings for "match title text" and "team text" appear on "create a match page"
 
 # All maps that are selectable in the "create a match" page
 MAPLIST = [

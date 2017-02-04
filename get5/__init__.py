@@ -232,6 +232,7 @@ _config_defaults = {
     'DEFAULT_PAGE': '/matches',
     'ADMINS_ACCESS_ALL_MATCHES': False,
     'PUBLIC_TEAMS_EXPORTED': True,
+    'CREATE_MATCH_TITLE_TEXT': False,
     'WHITELISTED_IDS': [],
     'ADMIN_IDS': [],
     'MAPLIST': [

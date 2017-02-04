@@ -29,6 +29,7 @@
           <a href="/team/create" class="btn btn-primary">Create a team</a>
       </div>
 
+      {% if match_text_option %}
       <div class="form-group">
       {{ form.team1_string.label(class="col-sm-2 control-label") }}
         <div class="col-sm-4">
@@ -36,8 +37,8 @@
           <p class="help-block">The team title texts and match text are shown in freezetime to spectators: <a href="/static/img/matchtext_example.png" target="_blank">example</a> </p>
         </div>
       </div>
-
       <br>
+      {% endif %}
 
       <div class="form-group">
         {{ form.team2_id.label(class="col-sm-2 control-label") }}
@@ -46,6 +47,7 @@
           </div>
       </div>
 
+      {% if match_text_option %}
       <div class="form-group">
       {{ form.team2_string.label(class="col-sm-2 control-label") }}
         <div class="col-sm-4">
@@ -61,6 +63,7 @@
           {{ form.match_title(class="form-control input-sm") }}
         </div>
       </div>
+      {% endif %}
 
       <br>
 
