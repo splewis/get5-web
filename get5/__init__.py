@@ -238,18 +238,18 @@ _config_defaults = {
     'MAPLIST': [
         'de_cache',
         'de_cbble',
-        'de_dust2',
+        'de_inferno',
         'de_mirage',
         'de_nuke',
         'de_overpass',
         'de_train',
-        'de_inferno',
+        'de_dust2',
         'de_season'
     ],
     'DEFAULT_MAPLIST': [
         'de_cache',
         'de_cbble',
-        'de_dust2',
+        'de_inferno',
         'de_mirage',
         'de_nuke',
         'de_overpass',
