@@ -231,7 +231,6 @@ _config_defaults = {
     'USER_MAX_MATCHES': 1000,
     'DEFAULT_PAGE': '/matches',
     'ADMINS_ACCESS_ALL_MATCHES': False,
-    'PUBLIC_TEAMS_EXPORTED': True,
     'CREATE_MATCH_TITLE_TEXT': False,
     'WHITELISTED_IDS': [],
     'ADMIN_IDS': [],
@@ -265,5 +264,6 @@ def config_setting(key):
         if key in _config_defaults:
             return _config_defaults[key]
         else:
-            app.logger.error('Tried to lookup missing config setting: %s' % key)
+            app.logger.error(
+                'Tried to lookup missing config setting: %s' % key)
             return None

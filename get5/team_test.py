@@ -11,7 +11,7 @@ class TeamTests(get5_test.Get5Test):
     def test_render_pages(self):
         self.assertEqual(self.app.get('/teams/1').status_code, 200)
         self.assertEqual(self.app.get('/team/1').status_code, 200)
-        self.assertEqual(self.app.get('/team/1').status_code, 200)
+        self.assertEqual(self.app.get('/team/2').status_code, 200)
 
     def test_team_create_not_logged_in(self):
         # This should redirect to the login page
@@ -128,8 +128,41 @@ class TeamTests(get5_test.Get5Test):
             self.assertEqual(response.location, url_for(
                 'team.teams_user', userid=1, _external=True))
 
-    # TODO:
-    # - test public team creation, editing, redirects
+    # TODO: test a new user trying to use a public team
+    def test_create_public_team(self):
+        with self.app as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1
+            user = User.query.get(1)
+            user.admin = True
+
+            # Make sure we can render the team creation page
+            response = c.get('/team/create')
+            self.assertEqual(response.status_code, 200)
+
+            # Fill in its form
+            response = c.post('/team/create',
+                              follow_redirects=False,
+                              data={
+                                  'name': 'EG',
+                                  'tag': 'EG',
+                                  'country_flag': 'us',
+                                  'auth1': 'STEAM_0:1:52245092',
+                                  'public_team': True,
+                              })
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(response.location, url_for(
+                'team.teams_user', userid=1, _external=True))
+
+        # Make sure the team was actually created
+        team = Team.query.filter_by(name='EG').first()
+        self.assertEqual(team.user_id, 1)
+        self.assertEqual(team.name, 'EG')
+        self.assertEqual(team.tag, 'EG')
+        self.assertEqual(team.flag, 'us')
+        self.assertEqual(team.auths[0], '76561198064755913')
+        self.assertEqual(team.public_team, True)
+        self.assertTrue(team in User.query.get(1).teams)
 
 
 if __name__ == '__main__':

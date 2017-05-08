@@ -28,21 +28,8 @@ class User(db.Model):
             rv.steam_id = steam_id
             db.session.add(rv)
             app.logger.info('Creating user for {}'.format(steam_id))
-
-        rv.admin = ('ADMIN_IDS' in app.config) and (steam_id in app.config['ADMIN_IDS'])
-        return rv
-
-    @staticmethod
-    def get_public_user():
-        rv = User.query.filter_by(steam_id=0).first()
-        if rv is None:
-            rv = User()
-            rv.name = 'admin'
-            rv.steam_id = 0
-            rv.admin = True
-            db.session.add(rv)
-            db.session.commit()
-
+            rv.admin = ('ADMIN_IDS' in app.config) and (
+                steam_id in app.config['ADMIN_IDS'])
         return rv
 
     def get_url(self):
@@ -55,7 +42,7 @@ class User(db.Model):
         return self.matches.filter_by(cancelled=False).limit(limit)
 
     def __repr__(self):
-        return 'User(id={}, steam_id={}, name={})'.format(self.id, self.steam_id, self.name)
+        return 'User(id={}, steam_id={}, name={}, admin={})'.format(self.id, self.steam_id, self.name, self.admin)
 
 
 class GameServer(db.Model):
@@ -106,31 +93,29 @@ class Team(db.Model):
     logo = db.Column(db.String(10), default='')
     auths = db.Column(db.PickleType)
 
-    @staticmethod
-    def create(user, name, tag, flag, logo, auths, as_admin=False):
-        rv = Team()
-        if as_admin and user.admin:
-            rv.user_id = User.get_public_user().id
-        else:
-            rv.user_id = user.id
+    # TODO: add an index for teams with public_team=True
+    public_team = db.Column(db.Boolean, index=True)
 
-        rv.set_data(name, tag, flag, logo, auths)
+    @staticmethod
+    def create(user, name, tag, flag, logo, auths, public_team=False):
+        rv = Team()
+        rv.user_id = user.id
+        rv.set_data(name, tag, flag, logo, auths, public_team and user.admin)
         db.session.add(rv)
         return rv
 
-    def set_data(self, name, tag, flag, logo, auths):
+    def set_data(self, name, tag, flag, logo, auths, public_team):
         self.name = name
         self.tag = tag
         self.flag = flag.lower() if flag else ''
         self.logo = logo
         self.auths = auths
+        self.public_team = public_team
 
     def can_edit(self, user):
         if not user:
             return False
         if self.user_id == user.id:
-            return True
-        if user.admin and self.is_public_team():
             return True
         return False
 
@@ -146,15 +131,12 @@ class Team(db.Model):
         return results
 
     def can_delete(self, user):
-        if not self.can_edit(user) or self.is_public_team():
+        if not self.can_edit(user):
             return False
         return self.get_recent_matches().count() == 0
 
-    def is_public_team(self):
-        return self.user_id == User.get_public_user().id
-
     def get_recent_matches(self, limit=10):
-        if self.is_public_team():
+        if self.public_team:
             matches = Match.query.order_by(-Match.id).limit(100).from_self()
         else:
             owner = User.query.get_or_404(self.user_id)
@@ -237,8 +219,8 @@ class Team(db.Model):
             return self.get_flag_html(scale)
 
     def __repr__(self):
-        return 'Team(id={}, user_id={}, name={}, flag={}, logo={})'.format(
-            self.id, self.user_id, self.name, self.flag, self.logo)
+        return 'Team(id={}, user_id={}, name={}, flag={}, logo={}, public={})'.format(
+            self.id, self.user_id, self.name, self.flag, self.logo, self.public_team)
 
 
 class Match(db.Model):

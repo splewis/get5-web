@@ -78,11 +78,11 @@ def team_create():
 
         elif form.validate():
             data = form.data
-            public_team = data['public_team']
             auths = form.get_auth_list()
 
             team = Team.create(g.user, data['name'], data['tag'],
-                               data['country_flag'], data['logo'], auths, public_team)
+                               data['country_flag'], data['logo'],
+                               auths, data['public_team'] and g.user.admin)
 
             db.session.commit()
             app.logger.info(
@@ -109,8 +109,6 @@ def team_edit(teamid):
     if not team.can_edit(g.user):
         return 'Not your team', 400
 
-    public_team = (team.user_id == User.get_public_user().id)
-
     form = TeamForm(
         request.form,
         name=team.name,
@@ -124,7 +122,7 @@ def team_edit(teamid):
         auth5=team.auths[4],
         auth6=team.auths[5],
         auth7=team.auths[6],
-        public_team=public_team)
+        public_team=team.public_team)
 
     if request.method == 'GET':
         return render_template('team_create.html', user=g.user, form=form,
@@ -135,7 +133,7 @@ def team_edit(teamid):
             if form.validate():
                 data = form.data
                 team.set_data(data['name'], data['tag'], data['country_flag'],
-                              data['logo'], form.get_auth_list())
+                              data['logo'], form.get_auth_list(), data['public_team'] and g.user.admin)
                 db.session.commit()
                 return redirect('/teams/{}'.format(team.user_id))
             else:
@@ -163,10 +161,6 @@ def teams_user(userid):
     json_data = util.as_int(request.values.get('json'), on_fail=0)
 
     if json_data:
-        # Export team data as json
-        if not config_setting('PUBLIC_TEAMS_EXPORTED'):
-            return 'Public teams are not exported', 400
-
         teams_dict = {}
         for team in user.teams:
             team_dict = {}
@@ -184,11 +178,6 @@ def teams_user(userid):
         teams = user.teams.paginate(page, 20)
         return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams,
                                page=page, owner=user)
-
-
-@team_blueprint.route('/teams/public', methods=['GET'])
-def teams_public():
-    return redirect(url_for('team.teams_user', userid=User.get_public_user().id))
 
 
 @team_blueprint.route('/myteams', methods=['GET'])

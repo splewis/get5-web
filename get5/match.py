@@ -92,7 +92,15 @@ class MatchForm(Form):
         if self.team2_id.choices is None:
             self.team2_id.choices = []
 
-        team_tuples = [(team.id, team.name) for team in user.teams]
+        team_ids = [team.id for team in user.teams]
+        for team in Team.query.filter_by(public_team=True):
+            if team.id not in team_ids:
+                team_ids.append(team.id)
+
+        team_tuples = []
+        for teamid in team_ids:
+            team_tuples.append((teamid, Team.query.get(teamid).name))
+
         self.team1_id.choices += team_tuples
         self.team2_id.choices += team_tuples
 
@@ -112,7 +120,6 @@ def match_create():
 
     form = MatchForm(request.form)
     form.add_teams(g.user)
-    form.add_teams(User.get_public_user())
     form.add_servers(g.user)
 
     if request.method == 'POST':
