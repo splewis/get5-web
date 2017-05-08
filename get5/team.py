@@ -6,7 +6,7 @@ import logos
 import steamid
 import util
 
-from flask import Blueprint, request, render_template, flash, g, redirect, url_for, jsonify
+from flask import Blueprint, request, render_template, flash, g, redirect, jsonify
 
 from wtforms import (
     Form, validators,
@@ -133,7 +133,8 @@ def team_edit(teamid):
             if form.validate():
                 data = form.data
                 team.set_data(data['name'], data['tag'], data['country_flag'],
-                              data['logo'], form.get_auth_list(), data['public_team'] and g.user.admin)
+                              data['logo'], form.get_auth_list(),
+                              data['public_team'] and g.user.admin)
                 db.session.commit()
                 return redirect('/teams/{}'.format(team.user_id))
             else:

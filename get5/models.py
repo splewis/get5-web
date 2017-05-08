@@ -42,7 +42,8 @@ class User(db.Model):
         return self.matches.filter_by(cancelled=False).limit(limit)
 
     def __repr__(self):
-        return 'User(id={}, steam_id={}, name={}, admin={})'.format(self.id, self.steam_id, self.name, self.admin)
+        return 'User(id={}, steam_id={}, name={}, admin={})'.format(
+            self.id, self.steam_id, self.name, self.admin)
 
 
 class GameServer(db.Model):
