@@ -392,11 +392,16 @@ class Match(db.Model):
                 return
 
             d[teamkey] = {}
-            d[teamkey]['name'] = team.name
-            d[teamkey]['tag'] = team.tag
-            d[teamkey]['flag'] = team.flag.upper()
-            d[teamkey]['logo'] = team.logo
-            d[teamkey]['matchtext'] = matchtext
+            # Add entries if they have values.
+            def add_if(key, value):
+                if value:
+                    d[teamkey][key] = value
+            add_if('name', team.name)
+            add_if('name', team.name)
+            add_if('tag', team.tag)
+            add_if('flag', team.flag.upper())
+            add_if('logo', team.logo)
+            add_if('matchtext', matchtext)
             d[teamkey]['players'] = filter(lambda x: x != '', team.auths)
 
         add_team_data('team1', self.team1_id, self.team1_string)
