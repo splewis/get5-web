@@ -42,7 +42,7 @@ class MatchTests(get5_test.Get5Test):
             self.assertEqual(response.status_code, 200)
             self.assertIn('Error in the Server field', response.data)
 
-    # Try starting a match using someone else's serve
+    # Try starting a match using someone else's server
     def test_match_create_not_my_server(self):
         with self.app as c:
             with c.session_transaction() as sess:
@@ -59,7 +59,6 @@ class MatchTests(get5_test.Get5Test):
                                   'server_id': 1,
                                   'team1_id': 1,
                                   'team2_id': 2,
-                                  'match_title': 'Map {MAPNUMBER} of {MAXMAPS}',
                                   'series_type': 'bo3',
                                   'veto_mappool': ['de_dust2', 'de_cache', 'de_mirage'],
                               })

@@ -54,15 +54,17 @@ class GameServer(db.Model):
     port = db.Column(db.Integer)
     rcon_password = db.Column(db.String(32))
     in_use = db.Column(db.Boolean, default=False)
+    public_server = db.Column(db.Boolean, default=False, index=True)
 
     @staticmethod
-    def create(user, display_name, ip_string, port, rcon_password):
+    def create(user, display_name, ip_string, port, rcon_password, public_server):
         rv = GameServer()
         rv.user_id = user.id
         rv.display_name = display_name
         rv.ip_string = ip_string
         rv.port = port
         rv.rcon_password = rcon_password
+        rv.public_server = public_server
         db.session.add(rv)
         return rv
 
@@ -93,8 +95,6 @@ class Team(db.Model):
     flag = db.Column(db.String(4), default='')
     logo = db.Column(db.String(10), default='')
     auths = db.Column(db.PickleType)
-
-    # TODO: add an index for teams with public_team=True
     public_team = db.Column(db.Boolean, index=True)
 
     @staticmethod
@@ -227,7 +227,7 @@ class Team(db.Model):
 class Match(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    server_id = db.Column(db.Integer, db.ForeignKey('game_server.id'))
+    server_id = db.Column(db.Integer, db.ForeignKey('game_server.id'), index=True)
     team1_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team2_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team1_string = db.Column(db.String(32), default='')
@@ -390,8 +390,8 @@ class Match(db.Model):
             team = Team.query.get(teamid)
             if not team:
                 return
-
             d[teamkey] = {}
+
             # Add entries if they have values.
             def add_if(key, value):
                 if value:

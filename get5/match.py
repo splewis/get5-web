@@ -108,8 +108,19 @@ class MatchForm(Form):
         if self.server_id.choices is None:
             self.server_id.choices = []
 
-        server_tuples = [(server.id, server.get_display())
-                         for server in user.servers if not server.in_use]
+        server_ids = []
+        for s in user.servers:
+            if not s.in_use:
+                server_ids.append(s.id)
+
+        for s in GameServer.query.filter_by(public_server=True):
+            if not s.in_use and not s.id in server_ids:
+                server_ids.append(s.id)
+
+        server_tuples = []
+        for server_id in server_ids:
+            server_tuples.append((server_id, GameServer.query.get(server_id).get_display()))
+
         self.server_id.choices += server_tuples
 
 

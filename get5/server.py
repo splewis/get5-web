@@ -4,7 +4,7 @@ import util
 
 from flask import Blueprint, request, render_template, flash, g, redirect
 
-from wtforms import Form, validators, StringField, IntegerField
+from wtforms import Form, validators, StringField, IntegerField, BooleanField
 
 
 server_blueprint = Blueprint('server', __name__)
@@ -30,6 +30,8 @@ class ServerForm(Form):
                                     validators.Length(min=-1,
                                                       max=GameServer.rcon_password.type.length)])
 
+    public_server = BooleanField('Publicly usable server')
+
 
 @server_blueprint.route('/server/create', methods=['GET', 'POST'])
 def server_create():
@@ -51,7 +53,8 @@ def server_create():
             server = GameServer.create(g.user,
                                        data['display_name'],
                                        data['ip_string'], data['port'],
-                                       data['rcon_password'])
+                                       data['rcon_password'],
+                                       data['public_server'] and g.user.admin)
 
             if mock or util.check_server_connection(server):
                 db.session.commit()
@@ -65,7 +68,8 @@ def server_create():
         else:
             flash_errors(form)
 
-    return render_template('server_create.html', user=g.user, form=form, edit=False)
+    return render_template('server_create.html', user=g.user, form=form,
+                           edit=False, is_admin=g.user.admin)
 
 
 @server_blueprint.route('/server/<int:serverid>/edit', methods=['GET', 'POST'])
@@ -79,7 +83,8 @@ def server_edit(serverid):
                       display_name=server.display_name,
                       ip_string=server.ip_string,
                       port=server.port,
-                      rcon_password=server.rcon_password)
+                      rcon_password=server.rcon_password,
+                      public_server=server.public_server)
 
     if request.method == 'POST':
         if form.validate():
@@ -90,6 +95,7 @@ def server_edit(serverid):
             server.ip_string = data['ip_string']
             server.port = data['port']
             server.rcon_password = data['rcon_password']
+            server.public_server = (data['public_server'] and g.user.admin)
 
             if mock or util.check_server_connection(server):
                 db.session.commit()
@@ -101,7 +107,8 @@ def server_edit(serverid):
         else:
             flash_errors(form)
 
-    return render_template('server_create.html', user=g.user, form=form, edit=True)
+    return render_template('server_create.html', user=g.user, form=form,
+                           edit=True, is_admin=g.user.admin)
 
 
 @server_blueprint.route('/server/<int:serverid>/delete', methods=['GET'])

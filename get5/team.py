@@ -140,7 +140,8 @@ def team_edit(teamid):
             else:
                 flash_errors(form)
 
-    return render_template('team_create.html', user=g.user, form=form, edit=True)
+    return render_template('team_create.html', user=g.user, form=form, edit=True,
+                           is_admin=g.user.admin)
 
 
 @team_blueprint.route('/team/<int:teamid>/delete')
