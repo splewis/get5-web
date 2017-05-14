@@ -114,7 +114,7 @@ class MatchForm(Form):
                 server_ids.append(s.id)
 
         for s in GameServer.query.filter_by(public_server=True):
-            if not s.in_use and not s.id in server_ids:
+            if not s.in_use and s.id not in server_ids:
                 server_ids.append(s.id)
 
         server_tuples = []

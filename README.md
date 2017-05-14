@@ -67,6 +67,8 @@ ADMIN_IDS = [
 ]
 ```
 
+Admins will be able to create "public" teams and servers - which can be used to create a match by any logged in user. If ``ADMINS_ACCESS_ALL_MATCHES`` is set to True, admins will also be able to send any rcon commands to servers and cancel any match.
+
 Finally, initialize the database:
 ```
 ./manager.py db upgrade
