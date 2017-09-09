@@ -17,6 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+# This is a dirty, awful hack to get utf8 encoding 'right'.
+# This needs to be removed and fixed.
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
 import re
 import sys
 import logging
