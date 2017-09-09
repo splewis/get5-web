@@ -17,16 +17,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# This is a dirty, awful hack to get utf8 encoding 'right'.
-# This needs to be removed and fixed.
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
-
-import re
-import sys
 import logging
 import logging.handlers
+import re
+import sys
 
 import logos
 import steamid
@@ -39,6 +33,11 @@ import flask.ext.cache
 import flask.ext.sqlalchemy
 import flask.ext.openid
 import flask_limiter
+
+# This is a dirty, awful hack to get utf8 encoding 'right'.
+# This needs to be removed and fixed.
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 # Import the Flask Framework
 app = Flask(__name__, instance_relative_config=True)
