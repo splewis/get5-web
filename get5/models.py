@@ -69,7 +69,8 @@ class GameServer(db.Model):
         return rv
 
     def send_rcon_command(self, command, raise_errors=False, num_retries=3, timeout=3.0):
-        return util.send_rcon_command(self.ip_string, self.port, self.rcon_password,
+        return util.send_rcon_command(
+            self.ip_string, self.port, self.rcon_password,
                                       command, raise_errors, num_retries, timeout)
 
     def get_hostport(self):
@@ -227,7 +228,8 @@ class Team(db.Model):
 class Match(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    server_id = db.Column(db.Integer, db.ForeignKey('game_server.id'), index=True)
+    server_id = db.Column(
+        db.Integer, db.ForeignKey('game_server.id'), index=True)
     team1_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team2_id = db.Column(db.Integer, db.ForeignKey('team.id'))
     team1_string = db.Column(db.String(32), default='')
@@ -504,7 +506,8 @@ class PlayerStats(db.Model):
                                self.deaths) / self.roundsplayed / AverageSPR
         killcount = float(self.k1 + 4 * self.k2 + 9 *
                           self.k3 + 16 * self.k4 + 25 * self.k5)
-        RoundsWithMultipleKillsRating = killcount / self.roundsplayed / AverageRMK
+        RoundsWithMultipleKillsRating = killcount / \
+            self.roundsplayed / AverageRMK
         rating = (KillRating + 0.7 * SurvivalRating +
                   RoundsWithMultipleKillsRating) / 2.7
         return rating

@@ -80,7 +80,8 @@ class MatchForm(Form):
     default_mapchoices = config_setting('DEFAULT_MAPLIST')
     veto_mappool = MultiCheckboxField('Map pool',
                                       choices=map(lambda name: (
-                                          name, util.format_mapname(name)), mapchoices),
+                                          name, util.format_mapname(
+                                              name)), mapchoices),
                                       default=default_mapchoices,
                                       validators=[mappool_validator],
                                       )
@@ -119,7 +120,8 @@ class MatchForm(Form):
 
         server_tuples = []
         for server_id in server_ids:
-            server_tuples.append((server_id, GameServer.query.get(server_id).get_display()))
+            server_tuples.append(
+                (server_id, GameServer.query.get(server_id).get_display()))
 
         self.server_id.choices += server_tuples
 
@@ -202,7 +204,8 @@ def match_create():
         else:
             get5.flash_errors(form)
 
-    return render_template('match_create.html', form=form, user=g.user, teams=g.user.teams,
+    return render_template(
+        'match_create.html', form=form, user=g.user, teams=g.user.teams,
                            match_text_option=config_setting('CREATE_MATCH_TITLE_TEXT'))
 
 
@@ -221,7 +224,8 @@ def match(matchid):
         has_admin_access = is_owner or (config_setting(
             'ADMINS_ACCESS_ALL_MATCHES') and g.user.admin)
 
-    return render_template('match.html', user=g.user, admin_access=has_admin_access,
+    return render_template(
+        'match.html', user=g.user, admin_access=has_admin_access,
                            match=match, team1=team1, team2=team2,
                            map_stat_list=map_stat_list)
 

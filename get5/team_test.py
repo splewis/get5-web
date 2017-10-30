@@ -34,8 +34,8 @@ class TeamTests(get5_test.Get5Test):
             response = c.post('/team/create',
                               follow_redirects=False,
                               data={
-                                  'name': 'NiP',
-                                  'tag': 'NiP',
+                                  'name': 'NiP ',
+                                  'tag': 'NiP ',
                                   'country_flag': 'se',
                                   'auth1': 'STEAM_0:1:52245092',
                               })

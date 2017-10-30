@@ -36,7 +36,8 @@ class Get5Test(unittest.TestCase):
             user, 'myserver1', '127.0.0.1', '27015', 'password', False)
         server.in_use = True
 
-        GameServer.create(user, 'myserver2', '127.0.0.1', '27016', 'password', True)
+        GameServer.create(
+            user, 'myserver2', '127.0.0.1', '27016', 'password', True)
         db.session.commit()
 
         Match.create(user, team1.id, team2.id, '', '', 1, False,

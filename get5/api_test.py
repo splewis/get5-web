@@ -7,6 +7,7 @@ from models import Match, MapStats, PlayerStats, GameServer
 class ApiTests(get5_test.Get5Test):
 
     # Full test of the match stats api.
+
     def test_match_stats(self):
         # Make sure the match page can be rendered
         self.assertEqual(self.app.get('/match/1').status_code, 200)
@@ -61,7 +62,8 @@ class ApiTests(get5_test.Get5Test):
         self.assertEqual(mapstat.team2_score, 7)
 
         # Send a player stats update
-        response = self.app.post('/match/1/map/0/player/76561198053858673/update',
+        response = self.app.post(
+            '/match/1/map/0/player/76561198053858673/update',
                                  data={
                                      'roundsplayed': '5',
                                      'kills': '5',
