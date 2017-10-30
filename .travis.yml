@@ -25,5 +25,4 @@ before_script:
   - mysql -e 'create database test_db;'
 
 script:
-  - flake8 --count get5/
   - ./test.sh
