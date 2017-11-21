@@ -9,6 +9,7 @@ from models import User, GameServer
 class TeamTests(get5_test.Get5Test):
 
     # Test incorrect data server creation
+
     def test_server_create_invalid_data(self):
         with self.app as c:
             with c.session_transaction() as sess:

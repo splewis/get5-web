@@ -79,9 +79,12 @@ def team_create():
         elif form.validate():
             data = form.data
             auths = form.get_auth_list()
+            name = data['name'].strip()
+            tag = data['tag'].strip()
+            flag = data['country_flag']
+            logo = data['logo']
 
-            team = Team.create(g.user, data['name'], data['tag'],
-                               data['country_flag'], data['logo'],
+            team = Team.create(g.user, name, tag, flag, logo,
                                auths, data['public_team'] and g.user.admin)
 
             db.session.commit()
@@ -140,7 +143,8 @@ def team_edit(teamid):
             else:
                 flash_errors(form)
 
-    return render_template('team_create.html', user=g.user, form=form, edit=True,
+    return render_template(
+        'team_create.html', user=g.user, form=form, edit=True,
                            is_admin=g.user.admin)
 
 
@@ -178,7 +182,8 @@ def teams_user(userid):
         # Render teams page
         my_teams = (g.user is not None and userid == g.user.id)
         teams = user.teams.paginate(page, 20)
-        return render_template('teams.html', user=g.user, teams=teams, my_teams=my_teams,
+        return render_template(
+            'teams.html', user=g.user, teams=teams, my_teams=my_teams,
                                page=page, owner=user)
 
 
