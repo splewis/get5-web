@@ -111,8 +111,8 @@ get5.register_blueprints()
 Here is an example apache2 conf for /etc/apache2/sites-avaliable:
 ```
 <VirtualHost *:80>
-		ServerName get5.splewis.net
-		ServerAdmin sean@splewis.net
+		ServerName get5.yourdomain.com
+		ServerAdmin youremail@gmail.com
 		WSGIScriptAlias / /var/www/get5-web/get5.wsgi
 
 		<Directory /var/www/get5>
