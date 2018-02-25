@@ -101,6 +101,56 @@ class MatchTests(get5_test.Get5Test):
         self.assertEqual(self.app.get('/match/2/config').status_code, 200)
         self.assertTrue(GameServer.query.get(2).in_use)
 
+    # Try starting a match using someone else's public server
+    def test_match_create_not_my_server(self):
+        # Create a public server first, it will be id=3 (2 servers already exist)
+        with self.app as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 2
+            user = User.query.get(2)
+            user.admin = True
+
+            response = c.post('/server/create',
+                              follow_redirects=False,
+                              data={
+                                  'ip_string': '123.123.123.123',
+                                  'port': '27016',
+                                  'rcon_password': 'strongpassword',
+                                  'display_name': 'myserver',
+                                  'public_server': True,
+                              })
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(response.location, url_for(
+                'server.myservers', _external=True))
+
+        # Create a match on it
+        with self.app as c:
+            with c.session_transaction() as sess:
+                sess['user_id'] = 1 # different user from server owner
+            response = c.post('/match/create',
+                              follow_redirects=False,
+                              data={
+                                  'server_id': 3,
+                                  'team1_id': 1,
+                                  'team2_id': 2,
+                                  'series_type': 'bo3',
+                                  'veto_mappool': ['de_dust2', 'de_cache', 'de_mirage'],
+                              })
+            self.assertEqual(response.status_code, 302)
+            self.assertEqual(response.location, url_for(
+                'match.mymatches', _external=True))
+
+        # Check data on the server just created
+        match = Match.query.get(2)
+        self.assertEqual(match.user_id, 1)
+        self.assertEqual(match.team1_id, 1)
+        self.assertEqual(match.team2_id, 2)
+        self.assertEqual(match.max_maps, 3)
+        self.assertTrue(match in User.query.get(1).matches)
+        self.assertEqual(self.app.get('/match/2/config').status_code, 200)
+        self.assertTrue(GameServer.query.get(3).in_use)
+
+
     def test_match_cancel(self):
         # Make sure someone else can't cancel my match when logged in
         with self.app as c:

@@ -6,6 +6,7 @@ import get5_test
 from models import User, GameServer
 
 
+# TODO: add a test for trying to create a public server as non-admin
 class TeamTests(get5_test.Get5Test):
 
     # Test incorrect data server creation

@@ -8,6 +8,9 @@ from models import User, Team, GameServer, Match
 
 # All tests will use this base test framework, including the test date defined
 # in create_test_data. This data will already be in the database on test start.
+#
+# TODO: make ALL tests not rely on this state. Helper functions are fine -
+# but this global state makes tests hard to understand.
 class Get5Test(unittest.TestCase):
 
     def setUp(self):

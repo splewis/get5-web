@@ -154,7 +154,7 @@ def match_create():
             server_avaliable = False
             json_reply = None
 
-            if g.user.id != server.user_id:
+            if g.user.id != server.user_id and not server.public_server:
                 server_avaliable = False
                 message = 'This is not your server!'
             elif match_on_server is not None:
