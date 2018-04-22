@@ -37,7 +37,7 @@ MAPLIST = [
 # Maps whose checkbox is selected (in the mappool) by default in the "create a match" page
 DEFAULT_MAPLIST = [
     'de_cache',
-    'de_cbble',
+    'de_dust2',
     'de_inferno',
     'de_mirage',
     'de_nuke',
