@@ -246,7 +246,7 @@ class Match(db.Model):
     skip_veto = db.Column(db.Boolean)
     api_key = db.Column(db.String(32))
 
-    veto_mappool = db.Column(db.String(160))
+    veto_mappool = db.Column(db.String(500))
     map_stats = db.relationship('MapStats', backref='match', lazy='dynamic')
 
     team1_score = db.Column(db.Integer, default=0)
