@@ -17,3 +17,11 @@ body {
 ul.nav.navbar-nav {
     float: right;
 }
+@media (max-width: 768px)
+{
+	ul.nav.navbar-nav
+	{
+		float:none;
+		text-align:center;
+	}
+}
