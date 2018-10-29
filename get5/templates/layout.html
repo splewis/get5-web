@@ -25,11 +25,17 @@
       <nav class="navbar navbar-default">
         <div class="container-fluid">
           <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+		        <span class="icon-bar"></span>
+	        	<span class="icon-bar"></span>
+            <span class="icon-bar"></span> 
+      		</button>
             <a class="navbar-brand" href="/">Get5 Web Panel</a>
           </div>
           <ul class="nav navbar-nav">
+             <div class="collapse navbar-collapse" id="myNavbar">
             <li><a id="matches" href="/matches">All Matches</a></li>
-            
+          
             {% if user %}
             <li><a id="mymatches" href="/mymatches">My Matches</a></li>
             <li><a id="match_create" href="/match/create">Create a Match</a></li>
