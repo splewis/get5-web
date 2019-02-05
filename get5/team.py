@@ -135,9 +135,13 @@ def team_edit(teamid):
         if request.method == 'POST':
             if form.validate():
                 data = form.data
+                public_team = team.public_team
+                if g.user.admin:
+                    public_team = data['public_team']
+
                 team.set_data(data['name'], data['tag'], data['country_flag'],
                               data['logo'], form.get_auth_list(),
-                              data['public_team'] and g.user.admin)
+                              public_team)
                 db.session.commit()
                 return redirect('/teams/{}'.format(team.user_id))
             else:
