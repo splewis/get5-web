@@ -28,8 +28,9 @@ class User(db.Model):
             rv.steam_id = steam_id
             db.session.add(rv)
             app.logger.info('Creating user for {}'.format(steam_id))
-            rv.admin = ('ADMIN_IDS' in app.config) and (
-                steam_id in app.config['ADMIN_IDS'])
+
+        rv.admin = ('ADMIN_IDS' in app.config) and (
+            steam_id in app.config['ADMIN_IDS'])
         return rv
 
     def get_url(self):
