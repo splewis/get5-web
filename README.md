@@ -7,6 +7,8 @@ get5-web BETA
 
 This is an **experimental** (proof-of-concept) web panel meant to be used in conjunction with the [get5](https://github.com/splewis/get5) CS:GO server plugin. It provides a more convenient way of managing matches and match servers.
 
+**WARNING**: YOU SHOULD NOT USE THIS. IT HAS BUGS. IT HAS NO SUPPORT. **The get5 plugin itself is supported - this webpanel itself has NO support.** If you want a working webpanel for get5, look elsewhere or develop your own.
+
 
 ## How to use it:
 1. Create your game servers on the "Add a server" page by giving their ip, port, and rcon password
@@ -18,9 +20,6 @@ Once you do this, the site will send an rcon command to the game server ``get5_l
 As the match owner, you will be able to cancel the match. Additionally, on its matchpage there is a dropdown to run admin commands: add players to the teams if a ringer is needed, pause the match, load a match backup, list match backups, and run any rcon command.
 
 Note: when using this web panel, the CS:GO game servers **must** be have both the core get5 plugin and the get5_apistats plugin. They are [released](https://github.com/splewis/get5/releases) together. This means the server must also be running the [Steamworks](https://forums.alliedmods.net/showthread.php?t=229556) and [SMJansson](https://forums.alliedmods.net/showthread.php?t=184604) extensions.
-
-**WARNING**: This should be considered **BETA** software - it should not be considered STABLE and will contain BUGS. Changes in the master branch may be incompatible until it is given a 1.0.0 release tag. **The get5 plugin itself is suported - this webpanel only has very limited support.**
-
 
 ## Screenshots
 
