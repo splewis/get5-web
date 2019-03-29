@@ -23,27 +23,27 @@ CREATE_MATCH_TITLE_TEXT = False # Whether settings for "match title text" and "t
 
 # All maps that are selectable in the "create a match" page
 MAPLIST = [
-    'de_cache',
-    'de_cbble',
+    'de_dust2',
     'de_inferno',
     'de_mirage',
     'de_nuke',
     'de_overpass',
     'de_train',
-    'de_dust2',
-    'de_season',
     'de_vertigo',
+    'de_season',
+    'de_cbble',
+    'de_cache',
 ]
 
 # Maps whose checkbox is selected (in the mappool) by default in the "create a match" page
 DEFAULT_MAPLIST = [
-    'de_vertigo',
     'de_dust2',
     'de_inferno',
     'de_mirage',
     'de_nuke',
     'de_overpass',
     'de_train',
+    'de_vertigo',
 ]
 
 # You may set the server to allow allow whitelisted steamids to login.
