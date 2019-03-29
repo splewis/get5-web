@@ -83,7 +83,8 @@ cp prod_config.py.default prod_config.py
 - `SECRET_KEY`:
   - Random key. Generate some random text into here.
 
-> With the core configuration completed, there are now more advanced options available. These are documented inside the configuration file. Should you wish to whitelist the panel to specific users, look into the `WHITELISTED_IDS` and `ADMIN_IDS` section.
+> With the core configuration completed, there are now more advanced options available. These are documented inside the configuration file. Should you wish to whitelist the panel to specific users, look into the `WHITELISTED_IDS` and `ADMIN_IDS` section. Make sure that ADMIN_IDS are also part of Whitelisted_IDS for only allowing Admins and Whitelisted Slot to work. If Admins IDs are added in Admins IDs section and not in Whitelisted Section they will not be allowed to join in. 
+
 
 ## 7: Database Migrations
 
