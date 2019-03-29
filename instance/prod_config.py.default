@@ -32,7 +32,7 @@ MAPLIST = [
     'de_train',
     'de_dust2',
     'de_season',
-    'de_vertifo',
+    'de_vertigo',
 ]
 
 # Maps whose checkbox is selected (in the mappool) by default in the "create a match" page
