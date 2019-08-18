@@ -419,6 +419,9 @@ class Match(db.Model):
             d['maplist'] = []
             for map in self.veto_mappool.split():
                 d['maplist'].append(map)
+				
+        d['min_spectators_to_ready'] = 0
+        d['spectators'] = {"players": app.config['SPECTATOR_IDS']}
 
         return d
 
