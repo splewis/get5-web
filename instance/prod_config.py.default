@@ -54,5 +54,6 @@ WHITELISTED_IDS = []
 # is set, they can access admin info for all matches (can pause, cancel, etc.) ANY match.
 ADMIN_IDS = []
 
-
+# The spectator value is for admins, observers, and other personnel (including coaches)
+# that need to be able to join the server, while the game is live or in the warmup. And would otherwise get kicked by the game.
 SPECTATOR_IDS = []
