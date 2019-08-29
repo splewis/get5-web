@@ -420,8 +420,13 @@ class Match(db.Model):
             for map in self.veto_mappool.split():
                 d['maplist'].append(map)
 				
-        d['min_spectators_to_ready'] = 0
-        d['spectators'] = {"players": app.config['SPECTATOR_IDS']}
+                
+        if 'SPECTATOR_IDS' in app.config:
+            d['spectators'] = {"players": app.config['SPECTATOR_IDS']}
+        
+        if 'MIN_SPECTATORS_TO_READY' in app.config:
+            d['min_spectators_to_ready'] = app.config['MIN_SPECTATORS_TO_READY']
+        
 
         return d
 

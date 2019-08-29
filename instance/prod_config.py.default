@@ -57,3 +57,7 @@ ADMIN_IDS = []
 # The spectator value is for admins, observers, and other personnel (including coaches)
 # that need to be able to join the server, while the game is live or in the warmup. And would otherwise get kicked by the game.
 SPECTATOR_IDS = []
+
+# This specifies how much spectators are needed to ready up to get the match started/live
+# this is an optional configuration
+# MIN_SPECTATORS_TO_READY = 0

@@ -11,7 +11,3 @@ USER_MAX_SERVERS = 10
 USER_MAX_TEAMS = 100
 USER_MAX_MATCHES = 1000
 DEFAULT_PAGE = '/matches'
-
-# The spectator value is for admins, observers, and other personnel (including coaches)
-# that need to be able to join the server, while the game is live or in the warmup. And would otherwise get kicked by the game.
-SPECTATOR_IDS = []
