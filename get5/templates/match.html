@@ -116,6 +116,7 @@
     {% else %}
     <div class="panel panel-default" role="alert">
       <div class="panel-body">
+        <a class="btn btn-primary btn-xs" href="steam://connect/{{ match.get_server().get_hostport() }}">Join the server</a> <a class="btn btn-primary btn-xs" href="steam://connect/{{ match.get_server().get_hostportgotv() }}">Spectate on GOTV</a>
         This match is pending start.
       </div>
     </div>
