@@ -23,6 +23,9 @@ class ServerForm(Form):
 
     port = IntegerField('Server port', default=27015,
                         validators=[validators.required()])
+     
+        portgotv = IntegerField('GOTV Server port', default=27020,
+                                validators=[validators.optional()])
 
     rcon_password = StringField('RCON password',
                                 validators=[
@@ -52,7 +55,7 @@ def server_create():
             data = form.data
             server = GameServer.create(g.user,
                                        data['display_name'],
-                                       data['ip_string'], data['port'],
+                                       data['ip_string'], data['port'], data['portgotv'],
                                        data['rcon_password'],
                                        data['public_server'] and g.user.admin)
 
@@ -83,6 +86,7 @@ def server_edit(serverid):
                       display_name=server.display_name,
                       ip_string=server.ip_string,
                       port=server.port,
+                      portgotv=server.portgotv,
                       rcon_password=server.rcon_password,
                       public_server=server.public_server)
 
@@ -94,6 +98,7 @@ def server_edit(serverid):
             server.display_name = data['display_name']
             server.ip_string = data['ip_string']
             server.port = data['port']
+            server.portgotv = data['portgotv']
             server.rcon_password = data['rcon_password']
             server.public_server = (data['public_server'] and g.user.admin)
 
