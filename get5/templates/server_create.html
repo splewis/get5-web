@@ -47,6 +47,14 @@
           <p class="help-block">Your server information will not be exposed to other users.</p>
         </div>
       </div>
+   
+       <div class="form-group">
+       {{ form.portgotv.label(class="col-sm-2 control-label") }}
+        <div class="col-sm-7">
+          {{ form.portgotv(class="form-control", placeholder="27020") }}
+         </div>
+        </div>
+
 
       {% if is_admin %}
       <div class="form-group">
