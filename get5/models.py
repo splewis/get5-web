@@ -53,17 +53,19 @@ class GameServer(db.Model):
     display_name = db.Column(db.String(32), default='')
     ip_string = db.Column(db.String(32))
     port = db.Column(db.Integer)
+    portgotv = db.Column(db.Integer, default='')
     rcon_password = db.Column(db.String(32))
     in_use = db.Column(db.Boolean, default=False)
     public_server = db.Column(db.Boolean, default=False, index=True)
 
     @staticmethod
-    def create(user, display_name, ip_string, port, rcon_password, public_server):
+    def create(user, display_name, ip_string, port, portgotv, rcon_password, public_server):
         rv = GameServer()
         rv.user_id = user.id
         rv.display_name = display_name
         rv.ip_string = ip_string
         rv.port = port
+        rv.portgotv = portgotv
         rv.rcon_password = rcon_password
         rv.public_server = public_server
         db.session.add(rv)
@@ -76,6 +78,10 @@ class GameServer(db.Model):
 
     def get_hostport(self):
         return '{}:{}'.format(self.ip_string, self.port)
+    
+    def get_hostportgotv(self):
+        return '{}:{}'.format(self.ip_string, self.portgotv)
+    
 
     def get_display(self):
         if self.display_name:
