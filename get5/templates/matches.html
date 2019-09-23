@@ -28,6 +28,11 @@
         {% else %}
         <th>Owner</th>
         {% endif %}
+        
+        {% if all_matches %}
+        <th>GOTV</th>
+        {% endif %}
+
       </tr>
     </thead>
     <tbody>
@@ -59,6 +64,10 @@
         </td>
         {% else %}
         <td> <a href="{{ match.get_user().get_url() }}"> {{ match.get_user().name }} </a> </td>
+        {% endif %}
+        
+        {% if all_matches %}
+          <td><a class="btn btn-primary btn-xs" href="steam://connect/{{ match.get_server().get_hostport() }}">Join as Player<a><a class="btn btn-primary btn-xs" href="steam://connect/{{ match.get_server().get_hostportgotv() }}">Watch on GOTV<a></td>
         {% endif %}
 
       </tr>
