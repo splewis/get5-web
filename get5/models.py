@@ -338,7 +338,7 @@ class Match(db.Model):
         get5UrlOverride = app.config['GET5_URL_OVERRIDE'];
 
         if get5UrlOverride:
-            url = get5UrlOverride + '/match/' + self.id + '/config';
+            url = get5UrlOverride + '/match/' + str(self.id) + '/config';
 
         # If no URL Override is set in the config, use the serverName the server was called with
         if not url:
