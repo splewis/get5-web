@@ -335,7 +335,14 @@ class Match(db.Model):
         if not server:
             return False
 
-        url = url_for('match.match_config', matchid=self.id,
+        get5UrlOverride = app.config['GET5_URL_OVERRIDE'];
+
+        if get5UrlOverride:
+            url = get5UrlOverride + '/match/' + str(self.id) + '/config';
+
+        # If no URL Override is set in the config, use the serverName the server was called with
+        if not url:
+            url = url_for('match.match_config', matchid=self.id,
                       _external=True, _scheme='http')
         # Remove http protocal since the get5 plugin can't parse args with the
         # : in them.
