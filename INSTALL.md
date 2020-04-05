@@ -63,6 +63,7 @@ cd get5-web
 ```sh
 virtualenv venv
 source venv/bin/activate
+pip install --upgrade 'setuptools==44.1.0'
 pip install -r requirements.txt
 ```
 
