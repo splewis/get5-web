@@ -33,6 +33,7 @@ MAPLIST = [
     'de_season',
     'de_cbble',
     'de_cache',
+    'de_ancient',
 ]
 
 # Maps whose checkbox is selected (in the mappool) by default in the "create a match" page
@@ -42,7 +43,7 @@ DEFAULT_MAPLIST = [
     'de_mirage',
     'de_nuke',
     'de_overpass',
-    'de_train',
+    'de_ancient',
     'de_vertigo',
 ]
 
