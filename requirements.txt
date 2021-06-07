@@ -22,7 +22,7 @@ Flask-Testing==0.4.2
 Flask-Uploads==0.2.1
 Flask-WTF==0.12
 itsdangerous==0.24
-Jinja2==2.10.1
+Jinja2==2.11.3
 lazy-object-proxy==1.2.2
 limits==1.1.1
 Mako==1.0.4
