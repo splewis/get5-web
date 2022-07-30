@@ -43,7 +43,7 @@ Please see the [installation instructions](INSTALL.md) for Ubuntu 16.04 with apa
 
 ## How do the game server and web panel communicate?
 
-1. When a server is added the web server will send ``get5_web_avaliable`` command through rcon that will check for the appropriate get5 plugins to be installed on the server
+1. When a server is added the web server will send ``get5_web_available`` command through rcon that will check for the appropriate get5 plugins to be installed on the server
 2. When a match is assigned to a server, the ``get5_loadmatch_url`` command  is used through rcon to tell the websever a file to download the get5 match config from
 3. When stats begin to update (map start, round end, map end, series end), the game server plugins will send HTTP requests to the web server, using a per-match API token set in the ``get5_web_api_key`` cvar when the match was assigned to the server
 

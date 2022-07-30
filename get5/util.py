@@ -40,7 +40,7 @@ def check_server_avaliability(server):
         return None, 'Server not found'
 
     response = send_rcon_command(
-        server.ip_string, server.port, server.rcon_password, 'get5_web_avaliable')
+        server.ip_string, server.port, server.rcon_password, 'get5_web_available')
 
     if response:
         json_error = False
@@ -61,7 +61,7 @@ def check_server_avaliability(server):
         return None, 'Server already has a get5 match setup'
 
     elif json_error:
-        return None, 'Error reading get5_web_avaliable response'
+        return None, 'Error reading get5_web_available response'
 
     else:
         return json_reply, ''
