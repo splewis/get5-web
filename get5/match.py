@@ -409,6 +409,36 @@ def matches():
                            my_matches=False, all_matches=True, page=page)
 
 
+def process_SdrCancelPending(stu):
+    page = util.as_int(request.values.get('page'), on_fail=1)
+    matches = Match.query.order_by(-Match.id).filter_by(cancelled=False).paginate(page, 200000)
+    for match in matches.items:
+        if match.pending():
+            if match.id not in stu:
+                stu[match.id] = time.time()
+            else:
+                if time.time() - stu[match.id] >= 1800:
+                    try:
+                        matchi = Match.query.get_or_404(match.id)
+                        matchi.cancelled = True
+                        server = GameServer.query.get(matchi.server_id)
+                        if server:
+                            server.in_use = False
+                        db.session.commit()
+                        server.send_rcon_command('get5_endmatch', raise_errors=True)
+                        del stu[match.id]
+                    except:
+                        flash('[get5] Cant auto cancel this match')
+def SdrCancelPending():
+    stu={}
+    while True:
+       process_SdrCancelPending(stu)
+       time.sleep(30)
+       t = multiprocessing.Process(target=SdrCancelPending,)
+       t.start()
+       t.deamon = True
+
+
 @match_blueprint.route("/matches/<int:userid>")
 def matches_user(userid):
     user = User.query.get_or_404(userid)
