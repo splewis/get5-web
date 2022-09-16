@@ -25,7 +25,7 @@ itsdangerous==0.24
 Jinja2==2.11.3
 lazy-object-proxy==1.2.2
 limits==1.1.1
-Mako==1.0.4
+Mako==1.2.2
 MarkupSafe==0.23
 mccabe==0.5.2
 monotonic==1.1
