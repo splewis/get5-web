@@ -36,11 +36,11 @@ class Get5Test(unittest.TestCase):
         team2 = Team.create(user, 'Fnatic', 'Fnatic', 'se', 'fntc',
                             ['76561198053858673'])
         server = GameServer.create(
-            user, 'myserver1', '127.0.0.1', '27015', 'password', False)
+            user, 'myserver1', '127.0.0.1', '27015', '27020','password', False)
         server.in_use = True
 
         GameServer.create(
-            user, 'myserver2', '127.0.0.1', '27016', 'password', True)
+            user, 'myserver2', '127.0.0.1', '27016', '27020','password', True)
         db.session.commit()
 
         Match.create(user, team1.id, team2.id, '', '', 1, False,
