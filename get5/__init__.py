@@ -43,6 +43,9 @@ sys.setdefaultencoding('utf-8')
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_pyfile('prod_config.py')
 
+# Using match config of utf-8.
+app.config['JSON_AS_ASCII'] = False
+
 # Setup caching
 cache = flask.ext.cache.Cache(app, config={
     'CACHE_TYPE': 'filesystem',
