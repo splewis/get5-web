@@ -575,7 +575,7 @@ class PlayerStats(db.Model):
 def get_steam_name(steam64):
     url = 'http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={}&steamids={}'
     url = url.format(app.config['STEAM_API_KEY'], steam64)
-    response = requests.get(url)
+    response = requests.get(url, timeout=30)
     if response.status_code == 200:
         try:
             player_list = response.json()['response']['players']
